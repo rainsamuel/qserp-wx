@@ -4,18 +4,15 @@ spring:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
         druid:
-            # 主库数据源
+
             master:
-                url: jdbc:mysql://localhost:3306/ry-vue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                url: jdbc:mysql://192.168.9.14:3306/qssystem?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
                 username: root
-                password: password
-            # 从库数据源
-            slave:
-                # 从数据源开关/默认关闭
-                enabled: false
-                url: 
-                username: 
-                password: 
+                password: 3e858e32a077a594
+            #        master:
+            #                url: jdbc:mysql://1103.xb24h.com:5904/qssystem?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+            #                username: wenuan100
+            #                password: s70h19267vx1fdk05w06U04l9uhgS286
             # 初始连接数
             initialSize: 5
             # 最小连接池数量
@@ -39,7 +36,7 @@ spring:
             testWhileIdle: true
             testOnBorrow: false
             testOnReturn: false
-            webStatFilter: 
+            webStatFilter:
                 enabled: true
             statViewServlet:
                 enabled: true
@@ -59,3 +56,11 @@ spring:
                 wall:
                     config:
                         multi-statement-allow: true
+
+    redis:
+        # 地址
+        #        host : docker_redis
+        #        port: 6379
+        host : 192.168.9.21
+        port: 6379
+        password: Wzq!19601001

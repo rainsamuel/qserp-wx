@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizAssetRecordMapper">
+
+	<resultMap type="BizAssetRecord" id="BizAssetRecordResult">
+		<id     property="recordId"         column="record_id"         />
+		<result property="materialId"       column="material_id"       />
+		<result property="assetCode"        column="asset_code"        />
+		<result property="recordType"       column="record_type"       />
+		<result property="quantity"         column="quantity"          />
+		<result property="operator"         column="operator"          />
+		<result property="operateTime"      column="operate_time"      />
+		<result property="fromWarehouseId"  column="from_warehouse_id" />
+		<result property="toWarehouseId"    column="to_warehouse_id"   />
+		<result property="targetPerson"     column="target_person"     />
+		<result property="reason"           column="reason"            />
+		<result property="status"           column="status"            />
+		<result property="createBy"         column="create_by"         />
+		<result property="createTime"       column="create_time"       />
+		<result property="updateBy"         column="update_by"         />
+		<result property="updateTime"       column="update_time"       />
+		<result property="remark"           column="remark"            />
+		<result property="materialName"     column="material_name"     />
+		<result property="materialCode"     column="material_code"     />
+		<result property="unit"             column="unit"              />
+		<result property="fromWarehouseName" column="from_warehouse_name" />
+		<result property="toWarehouseName"  column="to_warehouse_name" />
+	</resultMap>
+
+	<sql id="selectAssetRecordVo">
+		select r.record_id, r.material_id, r.asset_code, r.record_type, r.quantity,
+		       r.operator, r.operate_time, r.from_warehouse_id, r.to_warehouse_id,
+		       r.target_person, r.reason, r.status, r.create_by, r.create_time,
+		       r.update_by, r.update_time, r.remark,
+		       m.material_name, m.material_code, m.unit,
+		       w1.warehouse_name as from_warehouse_name,
+		       w2.warehouse_name as to_warehouse_name
+		from biz_asset_record r
+		left join biz_material m on r.material_id = m.material_id
+		left join biz_warehouse w1 on r.from_warehouse_id = w1.warehouse_id
+		left join biz_warehouse w2 on r.to_warehouse_id = w2.warehouse_id
+	</sql>
+
+	<select id="selectAssetRecordList" parameterType="BizAssetRecord" resultMap="BizAssetRecordResult">
+		<include refid="selectAssetRecordVo"/>
+		<where>
+			<if test="materialId != null">
+				AND r.material_id = #{materialId}
+			</if>
+			<if test="assetCode != null and assetCode != ''">
+				AND r.asset_code like concat('%', #{assetCode}, '%')
+			</if>
+			<if test="recordType != null and recordType != ''">
+				AND r.record_type = #{recordType}
+			</if>
+			<if test="operator != null and operator != ''">
+				AND r.operator like concat('%', #{operator}, '%')
+			</if>
+			<if test="targetPerson != null and targetPerson != ''">
+				AND r.target_person like concat('%', #{targetPerson}, '%')
+			</if>
+			<if test="status != null and status != ''">
+				AND r.status = #{status}
+			</if>
+			<if test="beginTime != null and beginTime != ''">
+				AND r.operate_time &gt;= #{beginTime}
+			</if>
+			<if test="endTime != null and endTime != ''">
+				AND r.operate_time &lt;= #{endTime}
+			</if>
+			<if test="params.materialName != null and params.materialName != ''">
+				AND m.material_name like concat('%', #{params.materialName}, '%')
+			</if>
+		</where>
+		order by r.operate_time desc
+	</select>
+
+	<select id="selectAssetRecordById" parameterType="Long" resultMap="BizAssetRecordResult">
+		<include refid="selectAssetRecordVo"/>
+		where r.record_id = #{recordId}
+	</select>
+
+	<select id="selectAssetRecordByMaterialId" parameterType="Long" resultMap="BizAssetRecordResult">
+		<include refid="selectAssetRecordVo"/>
+		where r.material_id = #{materialId}
+		order by r.operate_time desc
+	</select>
+
+	<insert id="insertAssetRecord" parameterType="BizAssetRecord" useGeneratedKeys="true" keyProperty="recordId">
+		insert into biz_asset_record(
+			material_id, asset_code, record_type, quantity, operator, operate_time,
+			from_warehouse_id, to_warehouse_id, target_person, reason, status,
+			<if test="remark != null and remark != ''">remark,</if>
+			create_by, create_time
+		)values(
+			#{materialId}, #{assetCode}, #{recordType}, #{quantity}, #{operator}, #{operateTime},
+			#{fromWarehouseId}, #{toWarehouseId}, #{targetPerson}, #{reason}, #{status},
+			<if test="remark != null and remark != ''">#{remark},</if>
+			#{createBy}, sysdate()
+		)
+	</insert>
+
+	<update id="updateAssetRecord" parameterType="BizAssetRecord">
+		update biz_asset_record
+		<set>
+			<if test="recordType != null and recordType != ''">record_type = #{recordType},</if>
+			<if test="quantity != null">quantity = #{quantity},</if>
+			<if test="operator != null">operator = #{operator},</if>
+			<if test="operateTime != null">operate_time = #{operateTime},</if>
+			<if test="fromWarehouseId != null">from_warehouse_id = #{fromWarehouseId},</if>
+			<if test="toWarehouseId != null">to_warehouse_id = #{toWarehouseId},</if>
+			<if test="targetPerson != null">target_person = #{targetPerson},</if>
+			<if test="reason != null">reason = #{reason},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="remark != null">remark = #{remark},</if>
+			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+			update_time = sysdate()
+		</set>
+		where record_id = #{recordId}
+	</update>
+
+	<delete id="deleteAssetRecordById" parameterType="Long">
+		delete from biz_asset_record where record_id = #{recordId}
+	</delete>
+
+	<delete id="deleteAssetRecordByIds" parameterType="Long">
+		delete from biz_asset_record where record_id in
+		<foreach collection="array" item="recordId" open="(" separator="," close=")">
+			#{recordId}
+		</foreach>
+	</delete>
+
+	<select id="selectRecordTypeStats" parameterType="BizAssetRecord" resultType="BizAssetRecord">
+		select record_type, count(*) as quantity
+		from biz_asset_record
+		<where>
+			<if test="materialId != null">
+				AND material_id = #{materialId}
+			</if>
+		</where>
+		group by record_type
+	</select>
+
+	<select id="selectRecentRecords" resultType="BizAssetRecord">
+		select r.record_id, r.material_id, r.record_type, r.quantity, r.operator, r.operate_time,
+		       m.material_name, m.material_code
+		from biz_asset_record r
+		left join biz_material m on r.material_id = m.material_id
+		order by r.operate_time desc
+		limit #{limit}
+	</select>
+
+</mapper>

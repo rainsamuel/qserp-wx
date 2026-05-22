@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizManualMapper">
+
+	<resultMap type="BizManual" id="BizManualResult">
+		<id     property="manualId"      column="manual_id"      />
+		<result property="manualName"    column="manual_name"    />
+		<result property="manualType"    column="manual_type"    />
+		<result property="refId"         column="ref_id"         />
+		<result property="fileName"      column="file_name"      />
+		<result property="originalName"  column="original_name"  />
+		<result property="filePath"      column="file_path"      />
+		<result property="fileSize"      column="file_size"      />
+		<result property="fileExt"       column="file_ext"       />
+		<result property="version"       column="version"        />
+		<result property="status"        column="status"         />
+		<result property="createBy"      column="create_by"      />
+		<result property="createTime"    column="create_time"    />
+		<result property="updateBy"      column="update_by"      />
+		<result property="updateTime"    column="update_time"    />
+		<result property="remark"        column="remark"         />
+		<result property="refName"       column="ref_name"       />
+	</resultMap>
+
+	<sql id="selectManualVo">
+        select m.manual_id, m.manual_name, m.manual_type, m.ref_id,
+               m.file_name, m.original_name, m.file_path, m.file_size, m.file_ext,
+               m.version, m.status, m.create_by, m.create_time, m.update_by,
+               m.update_time, m.remark,
+               case m.manual_type
+                   when 'warehouse' then (select w.warehouse_name from biz_warehouse w where w.warehouse_id = m.ref_id)
+                   when 'material' then (select mt.material_name from biz_material mt where mt.material_id = m.ref_id)
+               end as ref_name
+        from biz_manual m
+    </sql>
+
+	<select id="selectManualList" parameterType="BizManual" resultMap="BizManualResult">
+	    <include refid="selectManualVo"/>
+		<where>
+			<if test="manualName != null and manualName != ''">
+				AND m.manual_name like concat('%', #{manualName}, '%')
+			</if>
+			<if test="manualType != null and manualType != ''">
+				AND m.manual_type = #{manualType}
+			</if>
+			<if test="refId != null">
+				AND m.ref_id = #{refId}
+			</if>
+			<if test="status != null and status != ''">
+				AND m.status = #{status}
+			</if>
+		</where>
+		order by m.create_time desc
+	</select>
+
+	<select id="selectManualById" parameterType="Long" resultMap="BizManualResult">
+		<include refid="selectManualVo"/>
+		where m.manual_id = #{manualId}
+	</select>
+
+	<insert id="insertManual" parameterType="BizManual" useGeneratedKeys="true" keyProperty="manualId">
+		insert into biz_manual(
+			<if test="manualName != null and manualName != ''">manual_name,</if>
+			<if test="manualType != null and manualType != ''">manual_type,</if>
+			<if test="refId != null">ref_id,</if>
+			<if test="fileName != null and fileName != ''">file_name,</if>
+			<if test="originalName != null and originalName != ''">original_name,</if>
+			<if test="filePath != null and filePath != ''">file_path,</if>
+			<if test="fileSize != null">file_size,</if>
+			<if test="fileExt != null and fileExt != ''">file_ext,</if>
+			<if test="version != null and version != ''">version,</if>
+			<if test="status != null and status != ''">status,</if>
+			<if test="remark != null and remark != ''">remark,</if>
+			<if test="createBy != null and createBy != ''">create_by,</if>
+			create_time
+		)values(
+			<if test="manualName != null and manualName != ''">#{manualName},</if>
+			<if test="manualType != null and manualType != ''">#{manualType},</if>
+			<if test="refId != null">#{refId},</if>
+			<if test="fileName != null and fileName != ''">#{fileName},</if>
+			<if test="originalName != null and originalName != ''">#{originalName},</if>
+			<if test="filePath != null and filePath != ''">#{filePath},</if>
+			<if test="fileSize != null">#{fileSize},</if>
+			<if test="fileExt != null and fileExt != ''">#{fileExt},</if>
+			<if test="version != null and version != ''">#{version},</if>
+			<if test="status != null and status != ''">#{status},</if>
+			<if test="remark != null and remark != ''">#{remark},</if>
+			<if test="createBy != null and createBy != ''">#{createBy},</if>
+			sysdate()
+		)
+	</insert>
+
+	<update id="updateManual" parameterType="BizManual">
+ 		update biz_manual
+ 		<set>
+ 			<if test="manualName != null and manualName != ''">manual_name = #{manualName},</if>
+ 			<if test="manualType != null and manualType != ''">manual_type = #{manualType},</if>
+ 			<if test="refId != null">ref_id = #{refId},</if>
+ 			<if test="fileName != null">file_name = #{fileName},</if>
+ 			<if test="originalName != null">original_name = #{originalName},</if>
+ 			<if test="filePath != null">file_path = #{filePath},</if>
+ 			<if test="fileSize != null">file_size = #{fileSize},</if>
+ 			<if test="fileExt != null">file_ext = #{fileExt},</if>
+ 			<if test="version != null and version != ''">version = #{version},</if>
+ 			<if test="status != null and status != ''">status = #{status},</if>
+ 			<if test="remark != null">remark = #{remark},</if>
+ 			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+ 			update_time = sysdate()
+ 		</set>
+ 		where manual_id = #{manualId}
+	</update>
+
+	<delete id="deleteManualById" parameterType="Long">
+		delete from biz_manual where manual_id = #{manualId}
+	</delete>
+
+	<delete id="deleteManualByIds" parameterType="Long">
+ 		delete from biz_manual where manual_id in
+ 		<foreach collection="array" item="manualId" open="(" separator="," close=")">
+ 			#{manualId}
+        </foreach>
+ 	</delete>
+
+</mapper>

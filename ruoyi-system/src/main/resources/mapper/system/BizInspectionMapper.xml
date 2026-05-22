@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizInspectionMapper">
+
+	<resultMap type="BizInspection" id="BizInspectionResult">
+		<id     property="inspectionId"    column="inspection_id"    />
+		<result property="materialId"      column="material_id"      />
+		<result property="inspector"       column="inspector"        />
+		<result property="inspectionTime"  column="inspection_time"  />
+		<result property="result"          column="result"           />
+		<result property="status"          column="status"           />
+		<result property="createBy"        column="create_by"        />
+		<result property="createTime"      column="create_time"      />
+		<result property="updateBy"        column="update_by"        />
+		<result property="updateTime"      column="update_time"      />
+		<result property="remark"          column="remark"           />
+		<result property="materialName"    column="material_name"    />
+		<result property="materialCode"    column="material_code"    />
+	</resultMap>
+
+	<sql id="selectInspectionVo">
+        select i.inspection_id, i.material_id, i.inspector, i.inspection_time,
+               i.result, i.status, i.create_by, i.create_time, i.update_by,
+               i.update_time, i.remark,
+               m.material_name, m.material_code
+        from biz_inspection i
+        left join biz_material m on i.material_id = m.material_id
+    </sql>
+
+	<select id="selectInspectionList" parameterType="BizInspection" resultMap="BizInspectionResult">
+	    <include refid="selectInspectionVo"/>
+		<where>
+			<if test="materialId != null">
+				AND i.material_id = #{materialId}
+			</if>
+			<if test="inspector != null and inspector != ''">
+				AND i.inspector like concat('%', #{inspector}, '%')
+			</if>
+			<if test="result != null and result != ''">
+				AND i.result = #{result}
+			</if>
+			<if test="status != null and status != ''">
+				AND i.status = #{status}
+			</if>
+			<if test="params.beginTime != null and params.beginTime != ''">
+				AND i.inspection_time &gt;= #{params.beginTime}
+			</if>
+			<if test="params.endTime != null and params.endTime != ''">
+				AND i.inspection_time &lt;= #{params.endTime}
+			</if>
+		</where>
+		order by i.inspection_time desc
+	</select>
+
+	<select id="selectInspectionById" parameterType="Long" resultMap="BizInspectionResult">
+		<include refid="selectInspectionVo"/>
+		where i.inspection_id = #{inspectionId}
+	</select>
+
+	<insert id="insertInspection" parameterType="BizInspection" useGeneratedKeys="true" keyProperty="inspectionId">
+		insert into biz_inspection(
+			<if test="materialId != null">material_id,</if>
+			<if test="inspector != null and inspector != ''">inspector,</if>
+			<if test="inspectionTime != null">inspection_time,</if>
+			<if test="result != null and result != ''">result,</if>
+			<if test="status != null and status != ''">status,</if>
+			<if test="remark != null and remark != ''">remark,</if>
+			<if test="createBy != null and createBy != ''">create_by,</if>
+			create_time
+		)values(
+			<if test="materialId != null">#{materialId},</if>
+			<if test="inspector != null and inspector != ''">#{inspector},</if>
+			<if test="inspectionTime != null">#{inspectionTime},</if>
+			<if test="result != null and result != ''">#{result},</if>
+			<if test="status != null and status != ''">#{status},</if>
+			<if test="remark != null and remark != ''">#{remark},</if>
+			<if test="createBy != null and createBy != ''">#{createBy},</if>
+			sysdate()
+		)
+	</insert>
+
+	<update id="updateInspection" parameterType="BizInspection">
+ 		update biz_inspection
+ 		<set>
+ 			<if test="materialId != null">material_id = #{materialId},</if>
+ 			<if test="inspector != null and inspector != ''">inspector = #{inspector},</if>
+ 			<if test="inspectionTime != null">inspection_time = #{inspectionTime},</if>
+ 			<if test="result != null and result != ''">result = #{result},</if>
+ 			<if test="status != null and status != ''">status = #{status},</if>
+ 			<if test="remark != null">remark = #{remark},</if>
+ 			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+ 			update_time = sysdate()
+ 		</set>
+ 		where inspection_id = #{inspectionId}
+	</update>
+
+	<delete id="deleteInspectionById" parameterType="Long">
+		delete from biz_inspection where inspection_id = #{inspectionId}
+	</delete>
+
+	<delete id="deleteInspectionByIds" parameterType="Long">
+ 		delete from biz_inspection where inspection_id in
+ 		<foreach collection="array" item="inspectionId" open="(" separator="," close=")">
+ 			#{inspectionId}
+        </foreach>
+ 	</delete>
+
+</mapper>

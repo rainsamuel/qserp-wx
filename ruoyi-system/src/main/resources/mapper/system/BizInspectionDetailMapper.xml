@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizInspectionDetailMapper">
+
+	<resultMap type="BizInspectionDetail" id="BizInspectionDetailResult">
+		<id     property="detailId"     column="detail_id"      />
+		<result property="inspectionId" column="inspection_id"  />
+		<result property="itemId"       column="item_id"        />
+		<result property="checkResult"  column="check_result"   />
+		<result property="checkRemark"  column="check_remark"   />
+		<result property="itemName"     column="item_name"      />
+		<result property="itemGroup"    column="item_group"     />
+	</resultMap>
+
+	<select id="selectDetailByInspectionId" parameterType="Long" resultMap="BizInspectionDetailResult">
+        select d.detail_id, d.inspection_id, d.item_id, d.check_result, d.check_remark,
+               i.item_name, i.item_group
+        from biz_inspection_detail d
+        left join biz_inspection_item i on d.item_id = i.item_id
+        where d.inspection_id = #{inspectionId}
+        order by i.sort_order
+	</select>
+
+	<insert id="insertDetail" parameterType="BizInspectionDetail" useGeneratedKeys="true" keyProperty="detailId">
+		insert into biz_inspection_detail(inspection_id, item_id, check_result, check_remark)
+		values(#{inspectionId}, #{itemId}, #{checkResult}, #{checkRemark})
+	</insert>
+
+	<insert id="batchInsertDetail" parameterType="java.util.List">
+		insert into biz_inspection_detail(inspection_id, item_id, check_result, check_remark) values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.inspectionId}, #{item.itemId}, #{item.checkResult}, #{item.checkRemark})
+		</foreach>
+	</insert>
+
+	<delete id="deleteDetailByInspectionId" parameterType="Long">
+		delete from biz_inspection_detail where inspection_id = #{inspectionId}
+	</delete>
+
+</mapper>

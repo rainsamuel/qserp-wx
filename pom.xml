@@ -104,7 +104,7 @@
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid.version}</version>
+                <version>1.2.23</version>
             </dependency>
 
             <!-- 解析客户端操作系统、浏览器等 -->
