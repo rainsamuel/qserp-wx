@@ -6,7 +6,7 @@ spring:
         druid:
 
             master:
-                url: jdbc:mysql://192.168.9.14:3306/qssystem?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+                url: jdbc:mysql://192.168.9.14:3306/qserp?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
                 username: root
                 password: 3e858e32a077a594
             #        master:
