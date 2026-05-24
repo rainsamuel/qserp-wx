@@ -1,0 +1,24 @@
+<view class="container">
+  <view class="card">
+    <view class="title">资产管理系统</view>
+    <view class="desc">扫码查询资产信息或进行PM维护上报</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">资产查询</view>
+    <view class="input-group">
+      <input class="input" placeholder="输入资产编码" bindinput="onCodeInput" value="{{assetCode}}" />
+      <button class="btn-sm" bindtap="queryByCode">查询</button>
+    </view>
+    <button class="btn-primary" bindtap="scanAssetQuery" style="margin-top: 20rpx;">扫码查询</button>
+  </view>
+
+  <view class="card">
+    <view class="card-title">PM维护上报</view>
+    <view class="input-group">
+      <input class="input" placeholder="输入资产编码" bindinput="onPmCodeInput" value="{{pmCode}}" />
+      <button class="btn-sm" bindtap="pmByCode">上报</button>
+    </view>
+    <button class="btn-success" bindtap="scanPmReport" style="margin-top: 20rpx;">扫码上报</button>
+  </view>
+</view>

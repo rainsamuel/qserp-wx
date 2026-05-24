@@ -1,0 +1,77 @@
+<view class="container">
+  <view class="card">
+    <view class="card-title">资产信息</view>
+    <view class="info-row">
+      <text class="label">物资名称</text>
+      <text class="value">{{materialName}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">资产编码</text>
+      <text class="value">{{assetCode}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">巡检时间</text>
+      <text class="value">{{inspectionTime}}</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">巡检信息</view>
+    <view class="form-item">
+      <text class="form-label">巡检人 *</text>
+      <input class="form-input input" placeholder="请输入巡检人姓名" bindinput="onInspectorInput" value="{{inspector}}" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">巡检周期</text>
+      <picker bindchange="onCycleChange" range="{{cycleOptions}}" range-key="label" value="{{cycleIndex}}">
+        <view class="picker-input">
+          {{cycleOptions[cycleIndex].label || '请选择巡检周期'}}
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <text class="form-label">总体结果</text>
+      <radio-group bindchange="onResultGlobalChange" class="form-input">
+        <radio value="normal" checked="{{result === 'normal'}}" color="#1890ff">正常</radio>
+        <radio value="abnormal" checked="{{result === 'abnormal'}}" color="#ff4d4f" style="margin-left: 40rpx;">异常</radio>
+      </radio-group>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">检查项目 (已选 {{selectedItems.length}} 项)</view>
+    <view wx:if="{{inspectionItems.length === 0}}" class="empty">暂无检查项</view>
+    <view wx:for="{{inspectionItems}}" wx:key="itemId" class="check-item">
+      <view class="check-header" bindtap="toggleItem" data-id="{{item.itemId}}">
+        <checkbox checked="{{selectedItems.indexOf(item.itemId) > -1}}" color="#1890ff" />
+        <view class="check-info">
+          <text class="check-name">{{item.itemName}}</text>
+          <text class="check-group">{{item.itemGroup}}</text>
+        </view>
+      </view>
+      <view wx:if="{{selectedItems.indexOf(item.itemId) > -1}}" class="check-detail">
+        <view class="detail-row">
+          <text class="detail-label">检查结果</text>
+          <radio-group bindchange="onResultChange" data-id="{{item.itemId}}" class="detail-radio">
+            <radio value="normal" checked="{{!details[item.itemId] || details[item.itemId].checkResult === 'normal'}}" color="#52c41a" size="24rpx">正常</radio>
+            <radio value="abnormal" checked="{{details[item.itemId] && details[item.itemId].checkResult === 'abnormal'}}" color="#ff4d4f" size="24rpx" style="margin-left: 30rpx;">异常</radio>
+          </radio-group>
+        </view>
+        <view class="detail-row">
+          <text class="detail-label">备注</text>
+          <input class="detail-input input" placeholder="选填" bindinput="onRemarkInput" data-id="{{item.itemId}}" value="{{details[item.itemId].checkRemark || ''}}" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">整体备注</view>
+    <textarea class="textarea" placeholder="请输入备注信息（选填）" bindinput="onRemarkGlobalInput" value="{{remark}}" />
+  </view>
+
+  <view class="bottom-bar">
+    <button class="btn-primary submit-btn" bindtap="submitReport">提交上报</button>
+  </view>
+</view>

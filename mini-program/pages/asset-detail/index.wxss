@@ -1,0 +1,83 @@
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  padding-bottom: 15rpx;
+  border-bottom: 1rpx solid #eee;
+}
+.info-row {
+  display: flex;
+  padding: 15rpx 0;
+  border-bottom: 1rpx dashed #f0f0f0;
+}
+.info-row:last-child {
+  border-bottom: none;
+}
+.label {
+  width: 160rpx;
+  color: #999;
+  flex-shrink: 0;
+}
+.value {
+  flex: 1;
+  color: #333;
+}
+.status-normal {
+  color: #52c41a;
+}
+.status-disabled {
+  color: #ff4d4f;
+}
+.remark {
+  color: #666;
+  line-height: 1.6;
+}
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 40rpx;
+}
+.manual-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+.manual-item:last-child {
+  border-bottom: none;
+}
+.manual-icon {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+}
+.manual-info {
+  flex: 1;
+}
+.manual-name {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+.manual-meta {
+  font-size: 22rpx;
+  color: #999;
+}
+.manual-arrow {
+  font-size: 32rpx;
+  color: #ccc;
+}
+.loading {
+  text-align: center;
+  padding: 40rpx;
+  color: #999;
+}
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx 30rpx;
+  background: #fff;
+  box-shadow: 0 -2rpx 8rpx rgba(0,0,0,0.1);
+}

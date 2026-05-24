@@ -1,0 +1,91 @@
+<view class="container" wx:if="{{asset}}">
+  <view class="card">
+    <view class="card-title">基本信息</view>
+    <view class="info-row">
+      <text class="label">物资编码</text>
+      <text class="value">{{asset.materialCode}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">资产编码</text>
+      <text class="value">{{asset.assetCode || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">物资名称</text>
+      <text class="value">{{asset.materialName}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">规格型号</text>
+      <text class="value">{{asset.spec || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">计量单位</text>
+      <text class="value">{{asset.unit || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">库存数量</text>
+      <text class="value">{{asset.stockQuantity}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">所在仓库</text>
+      <text class="value">{{asset.warehouseName || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">物资分类</text>
+      <text class="value">{{asset.categoryName || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">使用科室</text>
+      <text class="value">{{asset.useDepartment || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">位置</text>
+      <text class="value">{{asset.location || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">管理科室</text>
+      <text class="value">{{asset.manageDepartment || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">单价</text>
+      <text class="value">{{asset.unitPrice ? '¥' + asset.unitPrice : '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">供应商</text>
+      <text class="value">{{asset.supplier || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">状态</text>
+      <text class="value {{asset.status === '0' ? 'status-normal' : 'status-disabled'}}">
+        {{asset.status === '0' ? '正常' : '停用'}}
+      </text>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{asset.remark}}">
+    <view class="card-title">备注</view>
+    <view class="remark">{{asset.remark}}</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">使用说明书 ({{manuals.length}})</view>
+    <view wx:if="{{manuals.length === 0}}" class="empty">暂无说明书</view>
+    <view wx:for="{{manuals}}" wx:key="manualId" class="manual-item" bindtap="previewManual" data-id="{{item.manualId}}">
+      <view class="manual-icon"> </view>
+      <view class="manual-info">
+        <view class="manual-name">{{item.manualName}}</view>
+        <view class="manual-meta">版本: {{item.version}} | {{item.originalName}}</view>
+      </view>
+      <view class="manual-arrow">›</view>
+    </view>
+  </view>
+
+  <view class="bottom-bar">
+    <button class="btn-primary" bindtap="scanAgain">重新扫码</button>
+  </view>
+</view>
+
+<view class="container" wx:if="{{!asset}}">
+  <view class="card">
+    <view class="loading">加载中...</view>
+  </view>
+</view>
