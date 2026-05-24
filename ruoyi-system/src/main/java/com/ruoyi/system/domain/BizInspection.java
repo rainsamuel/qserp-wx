@@ -43,6 +43,11 @@ public class BizInspection extends BaseEntity
     @Excel(name = "巡检结果", readConverterExp = "normal=正常,abnormal=异常")
     private String result;
 
+    /** 巡检周期（daily每周 monthly每季度 yearly每年） */
+    @ApiModelProperty("巡检周期")
+    @Excel(name = "巡检周期", readConverterExp = "daily=每日,weekly=每周,monthly=每月,quarterly=每季度,yearly=每年")
+    private String inspectionCycle;
+
     /** 状态（0正常 1停用） */
     @ApiModelProperty("状态（0正常 1停用）")
     @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
@@ -115,6 +120,16 @@ public class BizInspection extends BaseEntity
     public void setResult(String result)
     {
         this.result = result;
+    }
+
+    public String getInspectionCycle()
+    {
+        return inspectionCycle;
+    }
+
+    public void setInspectionCycle(String inspectionCycle)
+    {
+        this.inspectionCycle = inspectionCycle;
     }
 
     public String getStatus()

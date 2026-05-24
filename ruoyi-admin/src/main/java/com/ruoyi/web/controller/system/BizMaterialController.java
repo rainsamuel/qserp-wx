@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -48,7 +49,7 @@ public class BizMaterialController extends BaseController
         @ApiImplicitParam(name = "warehouseId", value = "所在仓库ID", dataType = "Long", dataTypeClass = Long.class),
         @ApiImplicitParam(name = "status", value = "状态（0正常 1停用）", dataType = "String", dataTypeClass = String.class)
     })
-    @PreAuthorize("@ss.hasPermi('material:info:list')")
+    @Anonymous
     @GetMapping("/list")
     public TableDataInfo list(BizMaterial material)
     {
@@ -76,7 +77,7 @@ public class BizMaterialController extends BaseController
      */
     @ApiOperation("获取物资详细信息")
     @ApiImplicitParam(name = "materialId", value = "物资ID", required = true, dataType = "Long", dataTypeClass = Long.class)
-    @PreAuthorize("@ss.hasPermi('material:info:query')")
+    @Anonymous
     @GetMapping(value = "/{materialId}")
     public AjaxResult getInfo(@PathVariable Long materialId)
     {

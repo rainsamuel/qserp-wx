@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.core.controller.BaseController;
@@ -53,7 +54,7 @@ public class BizManualController extends BaseController
         @ApiImplicitParam(name = "refId", value = "关联ID", dataType = "Long", dataTypeClass = Long.class),
         @ApiImplicitParam(name = "status", value = "状态（0正常 1停用）", dataType = "String", dataTypeClass = String.class)
     })
-    @PreAuthorize("@ss.hasPermi('manual:info:list')")
+    @Anonymous
     @GetMapping("/list")
     public TableDataInfo list(BizManual manual)
     {
@@ -146,7 +147,7 @@ public class BizManualController extends BaseController
      */
     @ApiOperation("下载说明书文件")
     @ApiImplicitParam(name = "manualId", value = "说明书ID", required = true, dataType = "Long", dataTypeClass = Long.class)
-    @PreAuthorize("@ss.hasPermi('manual:info:query')")
+    @Anonymous
     @GetMapping("/download/{manualId}")
     public void download(@PathVariable Long manualId, HttpServletResponse response, HttpServletRequest request)
     {
@@ -170,7 +171,7 @@ public class BizManualController extends BaseController
      */
     @ApiOperation("预览说明书文件")
     @ApiImplicitParam(name = "manualId", value = "说明书ID", required = true, dataType = "Long", dataTypeClass = Long.class)
-    @PreAuthorize("@ss.hasPermi('manual:info:query')")
+    @Anonymous
     @GetMapping("/preview/{manualId}")
     public AjaxResult preview(@PathVariable Long manualId)
     {

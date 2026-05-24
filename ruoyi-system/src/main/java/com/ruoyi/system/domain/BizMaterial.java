@@ -56,6 +56,31 @@ public class BizMaterial extends BaseEntity
     @Excel(name = "库存数量")
     private Integer stockQuantity;
 
+    /** 使用科室 */
+    @ApiModelProperty("使用科室")
+    @Excel(name = "使用科室")
+    private String useDepartment;
+
+    /** 位置 */
+    @ApiModelProperty("位置")
+    @Excel(name = "位置")
+    private String location;
+
+    /** 管理科室 */
+    @ApiModelProperty("管理科室")
+    @Excel(name = "管理科室")
+    private String manageDepartment;
+
+    /** 单价 */
+    @ApiModelProperty("单价")
+    @Excel(name = "单价")
+    private java.math.BigDecimal unitPrice;
+
+    /** 供应商 */
+    @ApiModelProperty("供应商")
+    @Excel(name = "供应商")
+    private String supplier;
+
     /** 所在仓库ID */
     @ApiModelProperty("所在仓库ID")
     @Excel(name = "所在仓库ID")
@@ -156,6 +181,56 @@ public class BizMaterial extends BaseEntity
     public void setStockQuantity(Integer stockQuantity)
     {
         this.stockQuantity = stockQuantity;
+    }
+
+    public String getUseDepartment()
+    {
+        return useDepartment;
+    }
+
+    public void setUseDepartment(String useDepartment)
+    {
+        this.useDepartment = useDepartment;
+    }
+
+    public String getLocation()
+    {
+        return location;
+    }
+
+    public void setLocation(String location)
+    {
+        this.location = location;
+    }
+
+    public String getManageDepartment()
+    {
+        return manageDepartment;
+    }
+
+    public void setManageDepartment(String manageDepartment)
+    {
+        this.manageDepartment = manageDepartment;
+    }
+
+    public java.math.BigDecimal getUnitPrice()
+    {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(java.math.BigDecimal unitPrice)
+    {
+        this.unitPrice = unitPrice;
+    }
+
+    public String getSupplier()
+    {
+        return supplier;
+    }
+
+    public void setSupplier(String supplier)
+    {
+        this.supplier = supplier;
     }
 
     public Long getWarehouseId()

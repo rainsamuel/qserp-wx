@@ -55,6 +55,15 @@
       <el-table-column label="单位" align="center" prop="unit" width="60" />
       <el-table-column label="库存" align="center" prop="stockQuantity" width="80" />
       <el-table-column label="所在仓库" align="center" prop="warehouseName" />
+      <el-table-column label="使用科室" align="center" prop="useDepartment" show-overflow-tooltip />
+      <el-table-column label="位置" align="center" prop="location" show-overflow-tooltip />
+      <el-table-column label="管理科室" align="center" prop="manageDepartment" show-overflow-tooltip />
+      <el-table-column label="单价" align="center" prop="unitPrice" width="80">
+        <template slot-scope="scope">
+          <span>{{ scope.row.unitPrice ? '¥' + scope.row.unitPrice : '-' }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="供应商" align="center" prop="supplier" show-overflow-tooltip />
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status" />
@@ -103,6 +112,21 @@
           <el-select v-model="form.warehouseId" placeholder="请选择仓库" clearable>
             <el-option v-for="item in warehouseOptions" :key="item.warehouseId" :label="item.warehouseName" :value="item.warehouseId" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="使用科室" prop="useDepartment">
+          <el-input v-model="form.useDepartment" placeholder="请输入使用科室" />
+        </el-form-item>
+        <el-form-item label="位置" prop="location">
+          <el-input v-model="form.location" placeholder="请输入位置" />
+        </el-form-item>
+        <el-form-item label="管理科室" prop="manageDepartment">
+          <el-input v-model="form.manageDepartment" placeholder="请输入管理科室" />
+        </el-form-item>
+        <el-form-item label="单价" prop="unitPrice">
+          <el-input-number v-model="form.unitPrice" :min="0" :precision="2" controls-position="right" placeholder="请输入单价" />
+        </el-form-item>
+        <el-form-item label="供应商" prop="supplier">
+          <el-input v-model="form.supplier" placeholder="请输入供应商" />
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
@@ -223,6 +247,11 @@ export default {
         unit: undefined,
         stockQuantity: 0,
         warehouseId: undefined,
+        useDepartment: undefined,
+        location: undefined,
+        manageDepartment: undefined,
+        unitPrice: undefined,
+        supplier: undefined,
         status: "0",
         remark: undefined
       }
@@ -303,8 +332,15 @@ export default {
     },
     doPrintLabel() {
       const content = this.$refs.qrcodeEl.parentElement.innerHTML
-      const printWindow = window.open('', '_blank')
-      printWindow.document.write(`
+      const iframe = document.createElement('iframe')
+      iframe.style.position = 'absolute'
+      iframe.style.width = '0'
+      iframe.style.height = '0'
+      iframe.style.border = 'none'
+      document.body.appendChild(iframe)
+      const doc = iframe.contentDocument || iframe.contentWindow.document
+      doc.open()
+      doc.write(`
         <html><head><title>资产标签</title>
         <style>
           body { margin: 0; padding: 20px; font-family: 'Microsoft YaHei', sans-serif; text-align: center; }
@@ -316,8 +352,10 @@ export default {
         </style></head>
         <body><div class="label-box">${content}</div></body></html>
       `)
-      printWindow.document.close()
-      printWindow.onload = function() { printWindow.print(); printWindow.close() }
+      doc.close()
+      iframe.contentWindow.focus()
+      iframe.contentWindow.print()
+      setTimeout(() => document.body.removeChild(iframe), 1000)
     }
   }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -45,6 +46,7 @@ public class BizInspectionController extends BaseController
         @ApiImplicitParam(name = "materialId", value = "物资ID", dataType = "Long", dataTypeClass = Long.class),
         @ApiImplicitParam(name = "inspector", value = "巡检人", dataType = "String", dataTypeClass = String.class),
         @ApiImplicitParam(name = "result", value = "巡检结果（normal正常 abnormal异常）", dataType = "String", dataTypeClass = String.class),
+        @ApiImplicitParam(name = "inspectionCycle", value = "巡检周期（daily weekly monthly quarterly yearly）", dataType = "String", dataTypeClass = String.class),
         @ApiImplicitParam(name = "status", value = "状态", dataType = "String", dataTypeClass = String.class)
     })
     @PreAuthorize("@ss.hasPermi('inspection:info:list')")
@@ -86,7 +88,7 @@ public class BizInspectionController extends BaseController
      * 新增巡检记录
      */
     @ApiOperation("新增巡检记录")
-    @PreAuthorize("@ss.hasPermi('inspection:info:add')")
+    @Anonymous
     @Log(title = "物资巡检", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody BizInspection inspection)
