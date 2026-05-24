@@ -1,9 +1,17 @@
 const { get } = require('../../utils/request')
+const app = getApp()
 
 Page({
   data: {
     assetCode: '',
-    pmCode: ''
+    pmCode: '',
+    repairCode: '',
+    isLogin: false
+  },
+  onShow() {
+    this.setData({
+      isLogin: !!app.globalData.token
+    })
   },
   onCodeInput(e) {
     this.setData({ assetCode: e.detail.value })
@@ -11,13 +19,44 @@ Page({
   onPmCodeInput(e) {
     this.setData({ pmCode: e.detail.value })
   },
+  onRepairCodeInput(e) {
+    this.setData({ repairCode: e.detail.value })
+  },
+  checkLogin() {
+    if (!app.globalData.token) {
+      wx.showModal({
+        title: '提示',
+        content: '请先登录后再进行PM维护上报',
+        confirmText: '去登录',
+        success: (res) => {
+          if (res.confirm) {
+            wx.switchTab({ url: '/pages/mine/index' })
+          }
+        }
+      })
+      return false
+    }
+    return true
+  },
   scanAssetQuery() {
     this.setData({ mode: 'query' })
     this.scanCode()
   },
   scanPmReport() {
+    if (!this.checkLogin()) return
     this.setData({ mode: 'pm' })
     this.scanCode()
+  },
+  scanRepair() {
+    this.setData({ mode: 'repair' })
+    this.scanCode()
+  },
+  repairByCode() {
+    if (this.data.repairCode) {
+      this.queryAsset(this.data.repairCode, 'repair')
+    } else {
+      wx.navigateTo({ url: '/pages/repair/index' })
+    }
   },
   scanCode() {
     wx.scanCode({
@@ -41,6 +80,7 @@ Page({
     this.queryAsset(this.data.assetCode, 'query')
   },
   pmByCode() {
+    if (!this.checkLogin()) return
     if (!this.data.pmCode) {
       wx.showToast({ title: '请输入资产编码', icon: 'none' })
       return
@@ -62,16 +102,26 @@ Page({
           wx.navigateTo({
             url: `/pages/pm-report/index?materialId=${asset.materialId}&materialName=${encodeURIComponent(asset.materialName)}&assetCode=${asset.assetCode || assetCode}`
           })
+        } else if (mode === 'repair') {
+          wx.navigateTo({
+            url: `/pages/repair/index?assetCode=${encodeURIComponent(asset.assetCode || assetCode)}&assetName=${encodeURIComponent(asset.materialName)}`
+          })
         } else {
           wx.navigateTo({
             url: `/pages/asset-detail/index?materialId=${asset.materialId}`
           })
         }
       } else {
-        wx.showToast({
-          title: '未找到资产',
-          icon: 'none'
-        })
+        if (mode === 'repair') {
+          wx.navigateTo({
+            url: `/pages/repair/index?assetCode=${encodeURIComponent(assetCode)}`
+          })
+        } else {
+          wx.showToast({
+            title: '未找到资产',
+            icon: 'none'
+          })
+        }
       }
     } catch (e) {
       wx.hideLoading()

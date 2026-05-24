@@ -1,4 +1,5 @@
 const { get, post } = require('../../utils/request')
+const app = getApp()
 
 Page({
   data: {
@@ -20,16 +21,19 @@ Page({
     ],
     cycleIndex: 0,
     remark: '',
-    details: {}
+    details: {},
+    photos: []
   },
   onLoad(options) {
     const now = new Date()
     const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+    const username = app.globalData.userInfo ? app.globalData.userInfo.username : ''
     this.setData({
       materialId: options.materialId || '',
       materialName: decodeURIComponent(options.materialName || ''),
       assetCode: options.assetCode || '',
-      inspectionTime: timeStr
+      inspectionTime: timeStr,
+      inspector: username
     })
     this.loadInspectionItems()
     this.loadCycleDict()
@@ -109,6 +113,69 @@ Page({
   onResultGlobalChange(e) {
     this.setData({ result: e.detail.value })
   },
+  choosePhoto() {
+    const remaining = 5 - this.data.photos.length
+    if (remaining <= 0) {
+      wx.showToast({ title: '最多上传5张照片', icon: 'none' })
+      return
+    }
+    wx.chooseImage({
+      count: remaining,
+      sizeType: ['compressed'],
+      sourceType: ['album', 'camera'],
+      success: (res) => {
+        const newPhotos = [...this.data.photos, ...res.tempFilePaths]
+        this.setData({ photos: newPhotos })
+      }
+    })
+  },
+  previewPhoto(e) {
+    const index = e.currentTarget.dataset.index
+    wx.previewImage({
+      current: this.data.photos[index],
+      urls: this.data.photos
+    })
+  },
+  deletePhoto(e) {
+    const index = e.currentTarget.dataset.index
+    const photos = [...this.data.photos]
+    photos.splice(index, 1)
+    this.setData({ photos })
+  },
+  async uploadPhotos() {
+    const uploadedUrls = []
+    for (const filePath of this.data.photos) {
+      try {
+        const res = await new Promise((resolve, reject) => {
+          wx.uploadFile({
+            url: `${app.globalData.baseUrl}/common/upload`,
+            filePath: filePath,
+            name: 'file',
+            header: {
+              'Authorization': app.globalData.token ? `Bearer ${app.globalData.token}` : ''
+            },
+            success: (res) => {
+              if (res.statusCode === 200) {
+                const data = JSON.parse(res.data)
+                if (data.code === 200) {
+                  resolve(data)
+                } else {
+                  reject(new Error(data.msg))
+                }
+              } else {
+                reject(new Error('上传失败'))
+              }
+            },
+            fail: reject
+          })
+        })
+        uploadedUrls.push(res.fileName)
+      } catch (e) {
+        console.error('照片上传失败', e)
+      }
+    }
+    return uploadedUrls.join(',')
+  },
   async submitReport() {
     if (!this.data.inspector) {
       wx.showToast({ title: '请填写巡检人', icon: 'none' })
@@ -129,19 +196,27 @@ Page({
       })
     }
 
-    const postData = {
-      materialId: parseInt(this.data.materialId),
-      inspector: this.data.inspector,
-      inspectionTime: this.data.inspectionTime,
-      result: this.data.result,
-      inspectionCycle: this.data.inspectionCycle,
-      remark: this.data.remark,
-      itemIds: this.data.selectedItems.map(id => parseInt(id)),
-      details: details
-    }
-
     try {
       wx.showLoading({ title: '提交中...' })
+
+      // 上传照片
+      let photos = ''
+      if (this.data.photos.length > 0) {
+        photos = await this.uploadPhotos()
+      }
+
+      const postData = {
+        materialId: parseInt(this.data.materialId),
+        inspector: this.data.inspector,
+        inspectionTime: this.data.inspectionTime,
+        result: this.data.result,
+        inspectionCycle: this.data.inspectionCycle,
+        remark: this.data.remark,
+        photos: photos,
+        itemIds: this.data.selectedItems.map(id => parseInt(id)),
+        details: details
+      }
+
       await post('/inspection/info', postData)
       wx.hideLoading()
       wx.showToast({

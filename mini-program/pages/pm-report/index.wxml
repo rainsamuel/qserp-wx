@@ -1,77 +1,170 @@
-<view class="container">
-  <view class="card">
-    <view class="card-title">资产信息</view>
-    <view class="info-row">
-      <text class="label">物资名称</text>
-      <text class="value">{{materialName}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">资产编码</text>
-      <text class="value">{{assetCode}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">巡检时间</text>
-      <text class="value">{{inspectionTime}}</text>
+<view class="page">
+  <!-- 顶部标题栏 -->
+  <view class="page-header">
+    <view class="header-bg"></view>
+    <view class="header-content">
+      <view class="header-icon"> </view>
+      <view class="header-text">
+        <view class="header-title">PM维护上报</view>
+        <view class="header-desc">定期维护检查并记录上报</view>
+      </view>
     </view>
   </view>
 
-  <view class="card">
-    <view class="card-title">巡检信息</view>
-    <view class="form-item">
-      <text class="form-label">巡检人 *</text>
-      <input class="form-input input" placeholder="请输入巡检人姓名" bindinput="onInspectorInput" value="{{inspector}}" />
+  <!-- 资产信息 -->
+  <view class="section-card">
+    <view class="section-header">
+      <view class="section-icon asset-icon"> </view>
+      <text class="section-title">资产信息</text>
     </view>
-    <view class="form-item">
-      <text class="form-label">巡检周期</text>
-      <picker bindchange="onCycleChange" range="{{cycleOptions}}" range-key="label" value="{{cycleIndex}}">
-        <view class="picker-input">
-          {{cycleOptions[cycleIndex].label || '请选择巡检周期'}}
-          <text class="picker-arrow">▼</text>
+    <view class="asset-info-grid">
+      <view class="asset-info-item">
+        <text class="asset-info-label">物资名称</text>
+        <text class="asset-info-value">{{materialName}}</text>
+      </view>
+      <view class="asset-info-item">
+        <text class="asset-info-label">资产编码</text>
+        <text class="asset-info-value code">{{assetCode}}</text>
+      </view>
+      <view class="asset-info-item full">
+        <text class="asset-info-label">巡检时间</text>
+        <text class="asset-info-value time">
+          <text class="time-icon"> </text>
+          {{inspectionTime}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 巡检信息 -->
+  <view class="section-card">
+    <view class="section-header">
+      <view class="section-icon info-icon"> </view>
+      <text class="section-title">巡检信息</text>
+    </view>
+
+    <view class="form-group">
+      <view class="form-item">
+        <view class="form-label-wrap">
+          <text class="form-label">巡检人</text>
+          <text class="form-required">*</text>
         </view>
-      </picker>
-    </view>
-    <view class="form-item">
-      <text class="form-label">总体结果</text>
-      <radio-group bindchange="onResultGlobalChange" class="form-input">
-        <radio value="normal" checked="{{result === 'normal'}}" color="#1890ff">正常</radio>
-        <radio value="abnormal" checked="{{result === 'abnormal'}}" color="#ff4d4f" style="margin-left: 40rpx;">异常</radio>
-      </radio-group>
+        <input class="form-input" placeholder="请输入巡检人姓名" bindinput="onInspectorInput" value="{{inspector}}" />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label-wrap">
+          <text class="form-label">巡检周期</text>
+        </view>
+        <picker bindchange="onCycleChange" range="{{cycleOptions}}" range-key="label" value="{{cycleIndex}}">
+          <view class="picker-wrap">
+            <text class="picker-text {{cycleIndex >= 0 ? '' : 'placeholder'}}">{{cycleOptions[cycleIndex].label || '请选择巡检周期'}}</text>
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <view class="form-label-wrap">
+          <text class="form-label">总体结果</text>
+        </view>
+        <radio-group bindchange="onResultGlobalChange" class="radio-group">
+          <view class="radio-item {{result === 'normal' ? 'radio-active-normal' : ''}}" bindtap="selectResult" data-value="normal">
+            <radio value="normal" checked="{{result === 'normal'}}" color="#52C41A" />
+            <text>正常</text>
+          </view>
+          <view class="radio-item {{result === 'abnormal' ? 'radio-active-abnormal' : ''}}" bindtap="selectResult" data-value="abnormal">
+            <radio value="abnormal" checked="{{result === 'abnormal'}}" color="#FF4D4F" />
+            <text>异常</text>
+          </view>
+        </radio-group>
+      </view>
     </view>
   </view>
 
-  <view class="card">
-    <view class="card-title">检查项目 (已选 {{selectedItems.length}} 项)</view>
-    <view wx:if="{{inspectionItems.length === 0}}" class="empty">暂无检查项</view>
-    <view wx:for="{{inspectionItems}}" wx:key="itemId" class="check-item">
+  <!-- 检查项目 -->
+  <view class="section-card">
+    <view class="section-header">
+      <view class="section-icon check-icon"> ☑</view>
+      <text class="section-title">检查项目</text>
+      <text class="section-count">已选 {{selectedItems.length}} 项</text>
+    </view>
+
+    <view wx:if="{{inspectionItems.length === 0}}" class="empty-state">
+      <text class="empty-icon"> </text>
+      <text class="empty-text">暂无检查项</text>
+    </view>
+
+    <view wx:for="{{inspectionItems}}" wx:key="itemId" class="check-card">
       <view class="check-header" bindtap="toggleItem" data-id="{{item.itemId}}">
-        <checkbox checked="{{selectedItems.indexOf(item.itemId) > -1}}" color="#1890ff" />
+        <view class="check-checkbox {{selectedItems.indexOf(item.itemId) > -1 ? 'checked' : ''}}">
+          <text wx:if="{{selectedItems.indexOf(item.itemId) > -1}}">✓</text>
+        </view>
         <view class="check-info">
           <text class="check-name">{{item.itemName}}</text>
-          <text class="check-group">{{item.itemGroup}}</text>
+          <text class="check-group" wx:if="{{item.itemGroup}}">{{item.itemGroup}}</text>
         </view>
+        <text class="check-arrow {{selectedItems.indexOf(item.itemId) > -1 ? 'rotate' : ''}}">›</text>
       </view>
+
       <view wx:if="{{selectedItems.indexOf(item.itemId) > -1}}" class="check-detail">
         <view class="detail-row">
           <text class="detail-label">检查结果</text>
-          <radio-group bindchange="onResultChange" data-id="{{item.itemId}}" class="detail-radio">
-            <radio value="normal" checked="{{!details[item.itemId] || details[item.itemId].checkResult === 'normal'}}" color="#52c41a" size="24rpx">正常</radio>
-            <radio value="abnormal" checked="{{details[item.itemId] && details[item.itemId].checkResult === 'abnormal'}}" color="#ff4d4f" size="24rpx" style="margin-left: 30rpx;">异常</radio>
-          </radio-group>
+          <view class="detail-radio-group">
+            <view class="detail-radio {{!details[item.itemId] || details[item.itemId].checkResult === 'normal' ? 'radio-checked-normal' : ''}}" bindtap="onResultChange" data-id="{{item.itemId}}" data-value="normal">
+              <view class="radio-dot"></view>
+              <text>正常</text>
+            </view>
+            <view class="detail-radio {{details[item.itemId] && details[item.itemId].checkResult === 'abnormal' ? 'radio-checked-abnormal' : ''}}" bindtap="onResultChange" data-id="{{item.itemId}}" data-value="abnormal">
+              <view class="radio-dot"></view>
+              <text>异常</text>
+            </view>
+          </view>
         </view>
         <view class="detail-row">
           <text class="detail-label">备注</text>
-          <input class="detail-input input" placeholder="选填" bindinput="onRemarkInput" data-id="{{item.itemId}}" value="{{details[item.itemId].checkRemark || ''}}" />
+          <input class="detail-input" placeholder="选填备注信息" bindinput="onRemarkInput" data-id="{{item.itemId}}" value="{{details[item.itemId].checkRemark || ''}}" />
         </view>
       </view>
     </view>
   </view>
 
-  <view class="card">
-    <view class="card-title">整体备注</view>
-    <textarea class="textarea" placeholder="请输入备注信息（选填）" bindinput="onRemarkGlobalInput" value="{{remark}}" />
+  <!-- 巡检照片 -->
+  <view class="section-card">
+    <view class="section-header">
+      <view class="section-icon photo-icon"> </view>
+      <text class="section-title">巡检照片</text>
+      <text class="section-count">{{photos.length}}/5</text>
+    </view>
+
+    <view class="photo-grid">
+      <view wx:for="{{photos}}" wx:key="index" class="photo-item">
+        <image src="{{item}}" mode="aspectFill" class="photo-img" bindtap="previewPhoto" data-index="{{index}}" />
+        <view class="photo-delete" catchtap="deletePhoto" data-index="{{index}}">
+          <text>×</text>
+        </view>
+      </view>
+      <view wx:if="{{photos.length < 5}}" class="photo-add" bindtap="choosePhoto">
+        <text class="add-icon">+</text>
+        <text class="add-text">添加照片</text>
+      </view>
+    </view>
   </view>
 
+  <!-- 整体备注 -->
+  <view class="section-card">
+    <view class="section-header">
+      <view class="section-icon remark-icon"> </view>
+      <text class="section-title">整体备注</text>
+    </view>
+    <textarea class="remark-textarea" placeholder="请输入备注信息（选填）" bindinput="onRemarkGlobalInput" value="{{remark}}" />
+  </view>
+
+  <!-- 提交按钮 -->
   <view class="bottom-bar">
-    <button class="btn-primary submit-btn" bindtap="submitReport">提交上报</button>
+    <button class="submit-btn" bindtap="submitReport">
+      <text class="submit-icon"> </text>
+      <text>提交上报</text>
+    </button>
   </view>
 </view>

@@ -1,24 +1,111 @@
-<view class="container">
-  <view class="card">
-    <view class="title">资产管理系统</view>
-    <view class="desc">扫码查询资产信息或进行PM维护上报</view>
+<view class="page">
+  <!-- 顶部 Banner -->
+  <view class="banner">
+    <view class="banner-bg"></view>
+    <view class="banner-content">
+      <view class="banner-icon">
+        <text class="iconfont icon-asset"></text>
+      </view>
+      <view class="banner-text">
+        <view class="banner-title">资产管理系统</view>
+        <view class="banner-desc">扫码查询资产信息或进行维护上报</view>
+      </view>
+    </view>
+    <view class="banner-stats">
+      <view class="stat-item">
+        <text class="stat-icon query-icon"> </text>
+        <text class="stat-label">资产查询</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-icon pm-icon"> </text>
+        <text class="stat-label">PM维护</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-icon repair-icon"> </text>
+        <text class="stat-label">故障报修</text>
+      </view>
+    </view>
   </view>
 
-  <view class="card">
-    <view class="card-title">资产查询</view>
-    <view class="input-group">
-      <input class="input" placeholder="输入资产编码" bindinput="onCodeInput" value="{{assetCode}}" />
-      <button class="btn-sm" bindtap="queryByCode">查询</button>
+  <!-- 功能入口 -->
+  <view class="section">
+    <!-- 资产查询 -->
+    <view class="func-card">
+      <view class="func-header">
+        <view class="func-icon-wrap query-bg">
+          <text class="func-icon"> </text>
+        </view>
+        <view class="func-info">
+          <view class="func-title">资产查询</view>
+          <view class="func-desc">扫码或输入编码查询资产详情</view>
+        </view>
+      </view>
+      <view class="func-input-wrap">
+        <view class="input-box">
+          <text class="input-prefix"> </text>
+          <input class="input" placeholder="输入资产编码" bindinput="onCodeInput" value="{{assetCode}}" confirm-type="search" bindconfirm="queryByCode" />
+        </view>
+        <view class="func-btn query-btn" bindtap="queryByCode">查询</view>
+      </view>
+      <view class="scan-btn-wrap" bindtap="scanAssetQuery">
+        <text class="scan-icon"> </text>
+        <text class="scan-text">扫码查询</text>
+      </view>
     </view>
-    <button class="btn-primary" bindtap="scanAssetQuery" style="margin-top: 20rpx;">扫码查询</button>
+
+    <!-- PM维护上报 -->
+    <view class="func-card" wx:if="{{isLogin}}">
+      <view class="func-header">
+        <view class="func-icon-wrap pm-bg">
+          <text class="func-icon"> </text>
+        </view>
+        <view class="func-info">
+          <view class="func-title">PM维护上报</view>
+          <view class="func-desc">定期维护检查并记录上报</view>
+        </view>
+      </view>
+      <view class="func-input-wrap">
+        <view class="input-box">
+          <text class="input-prefix"> </text>
+          <input class="input" placeholder="输入资产编码" bindinput="onPmCodeInput" value="{{pmCode}}" confirm-type="search" bindconfirm="pmByCode" />
+        </view>
+        <view class="func-btn pm-btn" bindtap="pmByCode">上报</view>
+      </view>
+      <view class="scan-btn-wrap" bindtap="scanPmReport">
+        <text class="scan-icon"> </text>
+        <text class="scan-text">扫码上报</text>
+      </view>
+    </view>
+
+    <!-- 故障报修 -->
+    <view class="func-card">
+      <view class="func-header">
+        <view class="func-icon-wrap repair-bg">
+          <text class="func-icon"> </text>
+        </view>
+        <view class="func-info">
+          <view class="func-title">故障报修</view>
+          <view class="func-desc">设备故障快速报修处理</view>
+        </view>
+      </view>
+      <view class="func-input-wrap">
+        <view class="input-box">
+          <text class="input-prefix"> </text>
+          <input class="input" placeholder="输入资产编码（选填）" bindinput="onRepairCodeInput" value="{{repairCode}}" confirm-type="search" bindconfirm="repairByCode" />
+        </view>
+        <view class="func-btn repair-btn" bindtap="repairByCode">报修</view>
+      </view>
+      <view class="scan-btn-wrap" bindtap="scanRepair">
+        <text class="scan-icon"> </text>
+        <text class="scan-text">扫码报修</text>
+      </view>
+    </view>
   </view>
 
-  <view class="card">
-    <view class="card-title">PM维护上报</view>
-    <view class="input-group">
-      <input class="input" placeholder="输入资产编码" bindinput="onPmCodeInput" value="{{pmCode}}" />
-      <button class="btn-sm" bindtap="pmByCode">上报</button>
-    </view>
-    <button class="btn-success" bindtap="scanPmReport" style="margin-top: 20rpx;">扫码上报</button>
+  <!-- 底部提示 -->
+  <view class="footer">
+    <text class="footer-text">输入编码或扫码操作</text>
   </view>
 </view>

@@ -17,6 +17,14 @@ export function getInspection(inspectionId) {
   })
 }
 
+// 根据物资ID查询巡检记录
+export function getInspectionByMaterial(materialId) {
+  return request({
+    url: '/inspection/info/material/' + materialId,
+    method: 'get'
+  })
+}
+
 // 新增巡检记录
 export function addInspection(data) {
   return request({

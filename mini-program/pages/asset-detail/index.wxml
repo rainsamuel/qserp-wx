@@ -1,91 +1,278 @@
-<view class="container" wx:if="{{asset}}">
-  <view class="card">
-    <view class="card-title">基本信息</view>
-    <view class="info-row">
-      <text class="label">物资编码</text>
-      <text class="value">{{asset.materialCode}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">资产编码</text>
-      <text class="value">{{asset.assetCode || '-'}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">物资名称</text>
-      <text class="value">{{asset.materialName}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">规格型号</text>
-      <text class="value">{{asset.spec || '-'}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">计量单位</text>
-      <text class="value">{{asset.unit || '-'}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">库存数量</text>
-      <text class="value">{{asset.stockQuantity}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">所在仓库</text>
-      <text class="value">{{asset.warehouseName || '-'}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">物资分类</text>
-      <text class="value">{{asset.categoryName || '-'}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">使用科室</text>
-      <text class="value">{{asset.useDepartment || '-'}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">位置</text>
-      <text class="value">{{asset.location || '-'}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">管理科室</text>
-      <text class="value">{{asset.manageDepartment || '-'}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">单价</text>
-      <text class="value">{{asset.unitPrice ? '¥' + asset.unitPrice : '-'}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">供应商</text>
-      <text class="value">{{asset.supplier || '-'}}</text>
-    </view>
-    <view class="info-row">
-      <text class="label">状态</text>
-      <text class="value {{asset.status === '0' ? 'status-normal' : 'status-disabled'}}">
-        {{asset.status === '0' ? '正常' : '停用'}}
-      </text>
+<view class="page" wx:if="{{asset}}">
+  <!-- 顶部状态栏 -->
+  <view class="status-header">
+    <view class="status-bg"></view>
+    <view class="status-content">
+      <view class="asset-name">{{asset.materialName}}</view>
+      <view class="asset-code">{{asset.assetCode || asset.materialCode}}</view>
+      <view class="status-tag {{asset.status === '0' ? 'tag-normal' : 'tag-disabled'}}">
+        <view class="tag-dot"></view>
+        <text>{{asset.status === '0' ? '正常' : '停用'}}</text>
+      </view>
     </view>
   </view>
 
-  <view class="card" wx:if="{{asset.remark}}">
-    <view class="card-title">备注</view>
-    <view class="remark">{{asset.remark}}</view>
+  <!-- 基本信息 -->
+  <view class="section-card">
+    <view class="section-header">
+      <view class="section-icon info-icon"> </view>
+      <text class="section-title">基本信息</text>
+    </view>
+    <view class="info-grid">
+      <view class="info-item">
+        <text class="info-label">物资编码</text>
+        <text class="info-value">{{asset.materialCode}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">资产编码</text>
+        <text class="info-value">{{asset.assetCode || '-'}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">规格型号</text>
+        <text class="info-value">{{asset.spec || '-'}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">计量单位</text>
+        <text class="info-value">{{asset.unit || '-'}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">库存数量</text>
+        <text class="info-value highlight">{{asset.stockQuantity}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">单价</text>
+        <text class="info-value price">{{asset.unitPrice ? '¥' + asset.unitPrice : '-'}}</text>
+      </view>
+    </view>
   </view>
 
-  <view class="card">
-    <view class="card-title">使用说明书 ({{manuals.length}})</view>
-    <view wx:if="{{manuals.length === 0}}" class="empty">暂无说明书</view>
+  <!-- 位置信息 -->
+  <view class="section-card">
+    <view class="section-header">
+      <view class="section-icon location-icon"> </view>
+      <text class="section-title">位置信息</text>
+    </view>
+    <view class="info-list">
+      <view class="list-row">
+        <text class="list-label">所在仓库</text>
+        <text class="list-value">{{asset.warehouseName || '-'}}</text>
+      </view>
+      <view class="list-row">
+        <text class="list-label">物资分类</text>
+        <text class="list-value">{{asset.categoryName || '-'}}</text>
+      </view>
+      <view class="list-row">
+        <text class="list-label">使用科室</text>
+        <text class="list-value">{{asset.useDepartment || '-'}}</text>
+      </view>
+      <view class="list-row">
+        <text class="list-label">具体位置</text>
+        <text class="list-value">{{asset.location || '-'}}</text>
+      </view>
+      <view class="list-row">
+        <text class="list-label">管理科室</text>
+        <text class="list-value">{{asset.manageDepartment || '-'}}</text>
+      </view>
+      <view class="list-row">
+        <text class="list-label">供应商</text>
+        <text class="list-value">{{asset.supplier || '-'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 备注 -->
+  <view class="section-card" wx:if="{{asset.remark}}">
+    <view class="section-header">
+      <view class="section-icon remark-icon"> </view>
+      <text class="section-title">备注</text>
+    </view>
+    <view class="remark-content">{{asset.remark}}</view>
+  </view>
+
+  <!-- 使用说明书 -->
+  <view class="section-card">
+    <view class="section-header">
+      <view class="section-icon manual-icon"> </view>
+      <text class="section-title">使用说明书</text>
+      <text class="section-count">{{manuals.length}}份</text>
+    </view>
+    <view wx:if="{{manuals.length === 0}}" class="empty-state">
+      <text class="empty-icon"> </text>
+      <text class="empty-text">暂无说明书</text>
+    </view>
     <view wx:for="{{manuals}}" wx:key="manualId" class="manual-item" bindtap="previewManual" data-id="{{item.manualId}}">
-      <view class="manual-icon"> </view>
+      <view class="manual-icon-wrap">
+        <text class="manual-file-icon"> </text>
+      </view>
       <view class="manual-info">
         <view class="manual-name">{{item.manualName}}</view>
-        <view class="manual-meta">版本: {{item.version}} | {{item.originalName}}</view>
+        <view class="manual-meta">
+          <text class="manual-version">v{{item.version}}</text>
+          <text class="manual-divider">|</text>
+          <text class="manual-file">{{item.originalName}}</text>
+        </view>
       </view>
-      <view class="manual-arrow">›</view>
+      <text class="manual-arrow">›</text>
     </view>
   </view>
 
+  <!-- PM巡检记录 -->
+  <view class="section-card">
+    <view class="section-header">
+      <view class="section-icon pm-icon"> </view>
+      <text class="section-title">PM巡检记录</text>
+      <text class="section-count">{{inspections.length}}条</text>
+    </view>
+    <view wx:if="{{inspections.length === 0}}" class="empty-state">
+      <text class="empty-icon"> </text>
+      <text class="empty-text">暂无巡检记录</text>
+    </view>
+    <view wx:for="{{inspections}}" wx:key="inspectionId" class="record-card" bindtap="viewInspectionDetail" data-id="{{item.inspectionId}}">
+      <view class="record-top">
+        <view class="record-time-wrap">
+          <text class="record-time-icon"> </text>
+          <text class="record-time">{{item.inspectionTime}}</text>
+        </view>
+        <view class="record-status {{item.result === 'normal' ? 'status-normal' : 'status-abnormal'}}">
+          <view class="status-dot"></view>
+          <text>{{item.result === 'normal' ? '正常' : '异常'}}</text>
+        </view>
+      </view>
+      <view class="record-info">
+        <view class="record-info-item">
+          <text class="record-info-label">巡检人</text>
+          <text class="record-info-value">{{item.inspector}}</text>
+        </view>
+        <view class="record-info-item" wx:if="{{item.inspectionCycle}}">
+          <text class="record-info-label">周期</text>
+          <text class="record-info-value">{{item.inspectionCycle === 'daily' ? '每日' : item.inspectionCycle === 'weekly' ? '每周' : item.inspectionCycle === 'monthly' ? '每月' : item.inspectionCycle === 'quarterly' ? '每季度' : '每年'}}</text>
+        </view>
+      </view>
+      <view class="record-action">
+        <text class="action-text">查看详情</text>
+        <text class="action-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 巡检详情弹窗 -->
+  <view class="popup-mask" wx:if="{{showInspectionDetail}}" bindtap="closeInspectionDetail">
+    <view class="popup-content" catchtap="">
+      <view class="popup-header">
+        <text class="popup-title">巡检详情</text>
+        <text class="popup-close" bindtap="closeInspectionDetail">×</text>
+      </view>
+      <scroll-view scroll-y class="popup-body">
+        <view class="popup-section">
+          <view class="popup-row">
+            <text class="popup-label">巡检时间</text>
+            <text class="popup-value">{{inspectionDetail.inspectionTime}}</text>
+          </view>
+          <view class="popup-row">
+            <text class="popup-label">巡检人</text>
+            <text class="popup-value">{{inspectionDetail.inspector}}</text>
+          </view>
+          <view class="popup-row">
+            <text class="popup-label">巡检结果</text>
+            <text class="popup-value {{inspectionDetail.result === 'normal' ? 'text-success' : 'text-danger'}}">
+              {{inspectionDetail.result === 'normal' ? '正常' : '异常'}}
+            </text>
+          </view>
+          <view class="popup-row" wx:if="{{inspectionDetail.inspectionCycle}}">
+            <text class="popup-label">巡检周期</text>
+            <text class="popup-value">{{inspectionDetail.inspectionCycle === 'daily' ? '每日' : inspectionDetail.inspectionCycle === 'weekly' ? '每周' : inspectionDetail.inspectionCycle === 'monthly' ? '每月' : inspectionDetail.inspectionCycle === 'quarterly' ? '每季度' : '每年'}}</text>
+          </view>
+          <view class="popup-row" wx:if="{{inspectionDetail.remark}}">
+            <text class="popup-label">备注</text>
+            <text class="popup-value">{{inspectionDetail.remark}}</text>
+          </view>
+        </view>
+
+        <view class="popup-section-title">巡检照片</view>
+        <view wx:if="{{inspectionDetail.photoList && inspectionDetail.photoList.length > 0}}" class="photo-grid">
+          <image wx:for="{{inspectionDetail.photoList}}" wx:key="index" src="{{item}}" mode="aspectFill" class="photo-item" bindtap="previewInspectionPhoto" data-index="{{index}}" />
+        </view>
+        <view wx:else class="empty-state small">
+          <text class="empty-text">暂无照片</text>
+        </view>
+
+        <view class="popup-section-title">检查项明细</view>
+        <view wx:if="{{inspectionDetail.details && inspectionDetail.details.length > 0}}">
+          <view wx:for="{{inspectionDetail.details}}" wx:key="detailId" class="check-item-card">
+            <view class="check-item-top">
+              <text class="check-item-name">{{item.itemName}}</text>
+              <view class="check-item-status {{item.checkResult === 'normal' ? 'status-normal' : 'status-abnormal'}}">
+                <view class="status-dot"></view>
+                <text>{{item.checkResult === 'normal' ? '正常' : '异常'}}</text>
+              </view>
+            </view>
+            <view wx:if="{{item.itemGroup}}" class="check-item-group">
+              <text class="group-icon"> </text>
+              <text>{{item.itemGroup}}</text>
+            </view>
+            <view wx:if="{{item.checkRemark}}" class="check-item-remark">
+              <text class="remark-icon-small"> </text>
+              <text>{{item.checkRemark}}</text>
+            </view>
+          </view>
+        </view>
+        <view wx:else class="empty-state small">
+          <text class="empty-text">暂无检查项明细</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- 资产变更记录 -->
+  <view class="section-card">
+    <view class="section-header">
+      <view class="section-icon change-icon"> </view>
+      <text class="section-title">资产变更记录</text>
+      <text class="section-count">{{changeRecords.length}}条</text>
+    </view>
+    <view wx:if="{{changeRecords.length === 0}}" class="empty-state">
+      <text class="empty-icon"> </text>
+      <text class="empty-text">暂无变更记录</text>
+    </view>
+    <view wx:for="{{changeRecords}}" wx:key="changeId" class="change-card">
+      <view class="change-top">
+        <view class="change-time-wrap">
+          <text class="change-time-icon"> </text>
+          <text class="change-time">{{item.changeTime}}</text>
+        </view>
+        <view class="change-type-tag {{item.changeType === 'location' ? 'type-location' : item.changeType === 'department' ? 'type-department' : item.changeType === 'status' ? 'type-status' : 'type-other'}}">
+          {{item.changeType === 'location' ? '位置变更' : item.changeType === 'department' ? '科室变更' : item.changeType === 'status' ? '状态变更' : '其他'}}
+        </view>
+      </view>
+      <view class="change-content">
+        <view class="change-row" wx:if="{{item.oldValue && item.newValue}}">
+          <text class="change-from">{{item.oldValue}}</text>
+          <text class="change-arrow">→</text>
+          <text class="change-to">{{item.newValue}}</text>
+        </view>
+        <view class="change-row" wx:else>
+          <text class="change-desc">{{item.changeContent}}</text>
+        </view>
+        <view class="change-operator">
+          <text class="operator-icon"> ‍ </text>
+          <text>{{item.operator}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
   <view class="bottom-bar">
-    <button class="btn-primary" bindtap="scanAgain">重新扫码</button>
+    <button class="scan-btn" bindtap="scanAgain">
+      <text class="scan-icon"> </text>
+      <text>重新扫码</text>
+    </button>
   </view>
 </view>
 
-<view class="container" wx:if="{{!asset}}">
-  <view class="card">
-    <view class="loading">加载中...</view>
+<view class="page loading-page" wx:if="{{!asset}}">
+  <view class="loading-wrap">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
   </view>
 </view>

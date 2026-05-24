@@ -7,6 +7,7 @@ const request = (options) => {
       url: `${app.globalData.baseUrl}${options.url}`,
       method: options.method || 'GET',
       data: options.data || {},
+      timeout: 30000,
       header: {
         'Content-Type': 'application/json',
         'Authorization': token ? `Bearer ${token}` : ''
@@ -23,9 +24,6 @@ const request = (options) => {
             reject(res.data)
           }
         } else if (res.statusCode === 401) {
-          wx.navigateTo({
-            url: '/pages/index/index'
-          })
           reject(res.data)
         } else {
           wx.showToast({
@@ -37,8 +35,9 @@ const request = (options) => {
       },
       fail: (err) => {
         wx.showToast({
-          title: '网络错误',
-          icon: 'none'
+          title: '网络连接失败，请检查后端服务',
+          icon: 'none',
+          duration: 3000
         })
         reject(err)
       }

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizAssetChangeMapper">
+
+	<resultMap type="BizAssetChange" id="BizAssetChangeResult">
+		<id     property="changeId"       column="change_id"       />
+		<result property="materialId"     column="material_id"     />
+		<result property="changeType"     column="change_type"     />
+		<result property="changeContent"  column="change_content"  />
+		<result property="oldValue"       column="old_value"       />
+		<result property="newValue"       column="new_value"       />
+		<result property="operator"       column="operator"        />
+		<result property="changeTime"     column="change_time"     />
+		<result property="remark"         column="remark"          />
+		<result property="createBy"       column="create_by"       />
+		<result property="createTime"     column="create_time"     />
+		<result property="materialName"   column="material_name"   />
+		<result property="materialCode"   column="material_code"   />
+	</resultMap>
+
+	<sql id="selectAssetChangeVo">
+        select c.change_id, c.material_id, c.change_type, c.change_content,
+               c.old_value, c.new_value, c.operator, c.change_time,
+               c.remark, c.create_by, c.create_time,
+               m.material_name, m.material_code
+        from biz_asset_change c
+        left join biz_material m on c.material_id = m.material_id
+    </sql>
+
+	<select id="selectAssetChangeList" parameterType="BizAssetChange" resultMap="BizAssetChangeResult">
+	    <include refid="selectAssetChangeVo"/>
+		<where>
+			<if test="materialId != null">
+				AND c.material_id = #{materialId}
+			</if>
+			<if test="changeType != null and changeType != ''">
+				AND c.change_type = #{changeType}
+			</if>
+			<if test="operator != null and operator != ''">
+				AND c.operator like concat('%', #{operator}, '%')
+			</if>
+			<if test="params.beginTime != null and params.beginTime != ''">
+				AND c.change_time &gt;= #{params.beginTime}
+			</if>
+			<if test="params.endTime != null and params.endTime != ''">
+				AND c.change_time &lt;= #{params.endTime}
+			</if>
+		</where>
+		order by c.change_time desc
+	</select>
+
+	<select id="selectAssetChangeById" parameterType="Long" resultMap="BizAssetChangeResult">
+		<include refid="selectAssetChangeVo"/>
+		where c.change_id = #{changeId}
+	</select>
+
+	<insert id="insertAssetChange" parameterType="BizAssetChange" useGeneratedKeys="true" keyProperty="changeId">
+		insert into biz_asset_change(
+			<if test="materialId != null">material_id,</if>
+			<if test="changeType != null and changeType != ''">change_type,</if>
+			<if test="changeContent != null and changeContent != ''">change_content,</if>
+			<if test="oldValue != null and oldValue != ''">old_value,</if>
+			<if test="newValue != null and newValue != ''">new_value,</if>
+			<if test="operator != null and operator != ''">operator,</if>
+			<if test="changeTime != null">change_time,</if>
+			<if test="remark != null and remark != ''">remark,</if>
+			<if test="createBy != null and createBy != ''">create_by,</if>
+			create_time
+		)values(
+			<if test="materialId != null">#{materialId},</if>
+			<if test="changeType != null and changeType != ''">#{changeType},</if>
+			<if test="changeContent != null and changeContent != ''">#{changeContent},</if>
+			<if test="oldValue != null and oldValue != ''">#{oldValue},</if>
+			<if test="newValue != null and newValue != ''">#{newValue},</if>
+			<if test="operator != null and operator != ''">#{operator},</if>
+			<if test="changeTime != null">#{changeTime},</if>
+			<if test="remark != null and remark != ''">#{remark},</if>
+			<if test="createBy != null and createBy != ''">#{createBy},</if>
+			sysdate()
+		)
+	</insert>
+
+	<update id="updateAssetChange" parameterType="BizAssetChange">
+ 		update biz_asset_change
+ 		<set>
+ 			<if test="materialId != null">material_id = #{materialId},</if>
+ 			<if test="changeType != null and changeType != ''">change_type = #{changeType},</if>
+ 			<if test="changeContent != null and changeContent != ''">change_content = #{changeContent},</if>
+ 			<if test="oldValue != null">old_value = #{oldValue},</if>
+ 			<if test="newValue != null">new_value = #{newValue},</if>
+ 			<if test="operator != null and operator != ''">operator = #{operator},</if>
+ 			<if test="changeTime != null">change_time = #{changeTime},</if>
+ 			<if test="remark != null">remark = #{remark},</if>
+ 			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+ 			update_time = sysdate()
+ 		</set>
+ 		where change_id = #{changeId}
+	</update>
+
+	<delete id="deleteAssetChangeById" parameterType="Long">
+		delete from biz_asset_change where change_id = #{changeId}
+	</delete>
+
+	<delete id="deleteAssetChangeByIds" parameterType="Long">
+ 		delete from biz_asset_change where change_id in
+ 		<foreach collection="array" item="changeId" open="(" separator="," close=")">
+ 			#{changeId}
+        </foreach>
+ 	</delete>
+
+</mapper>

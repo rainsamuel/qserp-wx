@@ -95,6 +95,9 @@
             <el-checkbox v-for="item in inspectionItemOptions" :key="item.itemId" :label="item.itemId">{{ item.itemName }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
+        <el-form-item label="巡检照片">
+          <image-upload v-model="form.photos" :limit="5" />
+        </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio v-for="dict in dict.type.sys_normal_disable" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
@@ -126,6 +129,11 @@
           <dict-tag :options="dict.type.sys_normal_disable" :value="detailForm.status" />
         </el-descriptions-item>
       </el-descriptions>
+      <el-divider content-position="left">巡检照片</el-divider>
+      <div v-if="detailForm.photos" style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <el-image v-for="(photo, index) in detailForm.photos.split(',')" :key="index" :src="photo" :preview-src-list="detailForm.photos.split(',')" style="width: 100px; height: 100px;" fit="cover" />
+      </div>
+      <div v-else style="color: #909399;">暂无照片</div>
       <el-divider content-position="left">检查项明细</el-divider>
       <el-table :data="detailForm.details || []" border size="small">
         <el-table-column label="检查项" prop="itemName" />
@@ -147,9 +155,11 @@
 import { listInspection, getInspection, addInspection, updateInspection, delInspection } from "@/api/inspection/inspection"
 import { allItem } from "@/api/inspection/inspectionItem"
 import { listMaterial } from "@/api/warehouse/material"
+import ImageUpload from "@/components/ImageUpload"
 
 export default {
   name: "Inspection",
+  components: { ImageUpload },
   dicts: ['sys_normal_disable'],
   data() {
     return {
@@ -225,14 +235,17 @@ export default {
       this.reset()
     },
     reset() {
+      const now = new Date()
+      const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
       this.form = {
         inspectionId: undefined,
         materialId: undefined,
-        inspector: undefined,
-        inspectionTime: undefined,
+        inspector: this.$store.state.user.name,
+        inspectionTime: timeStr,
         result: "normal",
         status: "0",
         itemIds: [],
+        photos: undefined,
         remark: undefined
       }
       this.resetForm("form")

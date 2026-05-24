@@ -1,0 +1,101 @@
+<view class="page">
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <view class="user-bg"></view>
+    <view class="user-content">
+      <view class="avatar-wrap">
+        <view class="avatar">
+          <text class="avatar-icon"> </text>
+        </view>
+        <view wx:if="{{isLogin}}" class="online-dot"></view>
+      </view>
+      <view wx:if="{{isLogin}}" class="user-info">
+        <view class="username">{{username}}</view>
+        <view class="user-tag">
+          <text class="tag-dot"></text>
+          <text>已登录</text>
+        </view>
+      </view>
+      <view wx:else class="user-info" bindtap="goLogin">
+        <view class="username">点击登录</view>
+        <view class="user-hint">请使用工号登录系统</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 工作台菜单 -->
+  <view class="menu-section" wx:if="{{isLogin}}">
+    <view class="menu-title">
+      <text class="menu-title-icon"> </text>
+      <text>工作台</text>
+    </view>
+    <view class="menu-card">
+      <view class="menu-item" bindtap="goRepairHandle">
+        <view class="menu-icon-wrap repair-handle-icon">
+          <text class="menu-icon"> </text>
+        </view>
+        <view class="menu-info">
+          <text class="menu-text">报修处理</text>
+          <text class="menu-desc">处理用户提交的报修请求</text>
+        </view>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="menu-title">
+      <text class="menu-title-icon"> </text>
+      <text>账号管理</text>
+    </view>
+    <view class="menu-card">
+      <view class="menu-item" bindtap="goLogin" wx:if="{{!isLogin}}">
+        <view class="menu-icon-wrap login-icon">
+          <text class="menu-icon"> </text>
+        </view>
+        <text class="menu-text">工号登录</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" wx:if="{{isLogin}}">
+        <view class="menu-icon-wrap id-icon">
+          <text class="menu-icon"> </text>
+        </view>
+        <view class="menu-info">
+          <text class="menu-text">当前工号</text>
+          <text class="menu-value">{{username}}</text>
+        </view>
+      </view>
+      <view class="menu-item" bindtap="logout" wx:if="{{isLogin}}">
+        <view class="menu-icon-wrap logout-icon">
+          <text class="menu-icon"> </text>
+        </view>
+        <text class="menu-text logout-text">退出登录</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 关于 -->
+  <view class="menu-section">
+    <view class="menu-title">
+      <text class="menu-title-icon"> </text>
+      <text>其他</text>
+    </view>
+    <view class="menu-card">
+      <view class="menu-item">
+        <view class="menu-icon-wrap about-icon">
+          <text class="menu-icon"> </text>
+        </view>
+        <text class="menu-text">关于系统</text>
+        <text class="menu-version">v1.0.0</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部版权 -->
+  <view class="footer">
+    <text class="footer-text">资产管理系统</text>
+    <text class="footer-copyright">© 2024 All Rights Reserved</text>
+  </view>
+</view>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizRepairMapper">
+
+	<resultMap type="BizRepair" id="BizRepairResult">
+		<id     property="repairId"       column="repair_id"       />
+		<result property="materialId"     column="material_id"     />
+		<result property="assetCode"      column="asset_code"      />
+		<result property="assetName"      column="asset_name"      />
+		<result property="faultDesc"      column="fault_desc"      />
+		<result property="faultTime"      column="fault_time"      />
+		<result property="reporter"       column="reporter"        />
+		<result property="reporterPhone"  column="reporter_phone"  />
+		<result property="location"       column="location"        />
+		<result property="priority"       column="priority"        />
+		<result property="status"         column="status"          />
+		<result property="handler"        column="handler"         />
+		<result property="handleTime"     column="handle_time"     />
+		<result property="handleResult"   column="handle_result"   />
+		<result property="photos"         column="photos"          />
+		<result property="createBy"       column="create_by"       />
+		<result property="createTime"     column="create_time"     />
+		<result property="updateBy"       column="update_by"       />
+		<result property="updateTime"     column="update_time"     />
+		<result property="remark"         column="remark"          />
+	</resultMap>
+
+	<sql id="selectRepairVo">
+        select repair_id, material_id, asset_code, asset_name, fault_desc, fault_time,
+               reporter, reporter_phone, location, priority, status, handler,
+               handle_time, handle_result, photos, create_by, create_time,
+               update_by, update_time, remark
+        from biz_repair
+    </sql>
+
+	<select id="selectRepairList" parameterType="BizRepair" resultMap="BizRepairResult">
+	    <include refid="selectRepairVo"/>
+		<where>
+			<if test="assetCode != null and assetCode != ''">
+				AND asset_code like concat('%', #{assetCode}, '%')
+			</if>
+			<if test="assetName != null and assetName != ''">
+				AND asset_name like concat('%', #{assetName}, '%')
+			</if>
+			<if test="reporter != null and reporter != ''">
+				AND reporter like concat('%', #{reporter}, '%')
+			</if>
+			<if test="status != null and status != ''">
+				AND status = #{status}
+			</if>
+			<if test="priority != null and priority != ''">
+				AND priority = #{priority}
+			</if>
+			<if test="handler != null and handler != ''">
+				AND handler like concat('%', #{handler}, '%')
+			</if>
+			<if test="params.beginTime != null and params.beginTime != ''">
+				AND fault_time &gt;= #{params.beginTime}
+			</if>
+			<if test="params.endTime != null and params.endTime != ''">
+				AND fault_time &lt;= #{params.endTime}
+			</if>
+		</where>
+		order by create_time desc
+	</select>
+
+	<select id="selectRepairById" parameterType="Long" resultMap="BizRepairResult">
+		<include refid="selectRepairVo"/>
+		where repair_id = #{repairId}
+	</select>
+
+	<insert id="insertRepair" parameterType="BizRepair" useGeneratedKeys="true" keyProperty="repairId">
+		insert into biz_repair(
+			<if test="materialId != null">material_id,</if>
+			<if test="assetCode != null and assetCode != ''">asset_code,</if>
+			<if test="assetName != null and assetName != ''">asset_name,</if>
+			<if test="faultDesc != null and faultDesc != ''">fault_desc,</if>
+			<if test="faultTime != null">fault_time,</if>
+			<if test="reporter != null and reporter != ''">reporter,</if>
+			<if test="reporterPhone != null and reporterPhone != ''">reporter_phone,</if>
+			<if test="location != null and location != ''">location,</if>
+			<if test="priority != null and priority != ''">priority,</if>
+			<if test="status != null and status != ''">status,</if>
+			<if test="photos != null and photos != ''">photos,</if>
+			<if test="remark != null and remark != ''">remark,</if>
+			<if test="createBy != null and createBy != ''">create_by,</if>
+			create_time
+		)values(
+			<if test="materialId != null">#{materialId},</if>
+			<if test="assetCode != null and assetCode != ''">#{assetCode},</if>
+			<if test="assetName != null and assetName != ''">#{assetName},</if>
+			<if test="faultDesc != null and faultDesc != ''">#{faultDesc},</if>
+			<if test="faultTime != null">#{faultTime},</if>
+			<if test="reporter != null and reporter != ''">#{reporter},</if>
+			<if test="reporterPhone != null and reporterPhone != ''">#{reporterPhone},</if>
+			<if test="location != null and location != ''">#{location},</if>
+			<if test="priority != null and priority != ''">#{priority},</if>
+			<if test="status != null and status != ''">#{status},</if>
+			<if test="photos != null and photos != ''">#{photos},</if>
+			<if test="remark != null and remark != ''">#{remark},</if>
+			<if test="createBy != null and createBy != ''">#{createBy},</if>
+			sysdate()
+		)
+	</insert>
+
+	<update id="updateRepair" parameterType="BizRepair">
+ 		update biz_repair
+ 		<set>
+ 			<if test="materialId != null">material_id = #{materialId},</if>
+ 			<if test="assetCode != null">asset_code = #{assetCode},</if>
+ 			<if test="assetName != null and assetName != ''">asset_name = #{assetName},</if>
+ 			<if test="faultDesc != null and faultDesc != ''">fault_desc = #{faultDesc},</if>
+ 			<if test="faultTime != null">fault_time = #{faultTime},</if>
+ 			<if test="reporter != null and reporter != ''">reporter = #{reporter},</if>
+ 			<if test="reporterPhone != null">reporter_phone = #{reporterPhone},</if>
+ 			<if test="location != null">location = #{location},</if>
+ 			<if test="priority != null and priority != ''">priority = #{priority},</if>
+ 			<if test="status != null and status != ''">status = #{status},</if>
+ 			<if test="handler != null">handler = #{handler},</if>
+ 			<if test="handleTime != null">handle_time = #{handleTime},</if>
+ 			<if test="handleResult != null">handle_result = #{handleResult},</if>
+ 			<if test="photos != null">photos = #{photos},</if>
+ 			<if test="remark != null">remark = #{remark},</if>
+ 			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+ 			update_time = sysdate()
+ 		</set>
+ 		where repair_id = #{repairId}
+	</update>
+
+	<delete id="deleteRepairById" parameterType="Long">
+		delete from biz_repair where repair_id = #{repairId}
+	</delete>
+
+	<delete id="deleteRepairByIds" parameterType="Long">
+ 		delete from biz_repair where repair_id in
+ 		<foreach collection="array" item="repairId" open="(" separator="," close=")">
+ 			#{repairId}
+        </foreach>
+ 	</delete>
+
+</mapper>

@@ -12,5 +12,10 @@ App({
     if (token) {
       this.globalData.token = token
     }
+  },
+  logout() {
+    wx.removeStorageSync('token')
+    this.globalData.token = null
+    this.globalData.userInfo = null
   }
 })

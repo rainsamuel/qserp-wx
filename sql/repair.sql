@@ -1,0 +1,27 @@
+-- 报修记录表
+CREATE TABLE IF NOT EXISTS `biz_repair` (
+  `repair_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '报修ID',
+  `material_id` bigint(20) DEFAULT NULL COMMENT '关联物资ID',
+  `asset_code` varchar(128) DEFAULT NULL COMMENT '资产编码',
+  `asset_name` varchar(200) NOT NULL COMMENT '资产名称',
+  `fault_desc` varchar(1000) NOT NULL COMMENT '故障描述',
+  `fault_time` datetime NOT NULL COMMENT '故障发生时间',
+  `reporter` varchar(50) NOT NULL COMMENT '报修人',
+  `reporter_phone` varchar(20) DEFAULT NULL COMMENT '联系电话',
+  `location` varchar(200) DEFAULT NULL COMMENT '故障位置',
+  `priority` varchar(20) DEFAULT 'normal' COMMENT '优先级（low低 normal普通 high高 urgent紧急）',
+  `status` varchar(20) DEFAULT 'pending' COMMENT '状态（pending待处理 processing处理中 completed已完成 rejected已驳回 cancelled已取消）',
+  `handler` varchar(50) DEFAULT NULL COMMENT '处理人',
+  `handle_time` datetime DEFAULT NULL COMMENT '处理时间',
+  `handle_result` varchar(1000) DEFAULT NULL COMMENT '处理结果',
+  `photos` varchar(2000) DEFAULT NULL COMMENT '故障照片（逗号分隔）',
+  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`repair_id`),
+  KEY `idx_material_id` (`material_id`),
+  KEY `idx_status` (`status`),
+  KEY `idx_reporter` (`reporter`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='报修记录表';

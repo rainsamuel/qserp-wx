@@ -73,6 +73,21 @@ public class BizInspectionController extends BaseController
     }
 
     /**
+     * 根据物资ID查询巡检记录（小程序专用，匿名访问）
+     */
+    @ApiOperation("根据物资ID查询巡检记录")
+    @ApiImplicitParam(name = "materialId", value = "物资ID", required = true, dataType = "Long", dataTypeClass = Long.class)
+    @Anonymous
+    @GetMapping("/material/{materialId}")
+    public AjaxResult listByMaterialId(@PathVariable Long materialId)
+    {
+        BizInspection query = new BizInspection();
+        query.setMaterialId(materialId);
+        List<BizInspection> list = inspectionService.selectInspectionList(query);
+        return success(list);
+    }
+
+    /**
      * 根据ID获取巡检记录详细信息（含明细）
      */
     @ApiOperation("获取巡检记录详细信息")

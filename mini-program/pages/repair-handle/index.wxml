@@ -1,0 +1,193 @@
+<view class="page">
+  <!-- 顶部标题栏 -->
+  <view class="page-header">
+    <view class="header-bg"></view>
+    <view class="header-content">
+      <view class="header-icon"> </view>
+      <view class="header-text">
+        <view class="header-title">报修处理</view>
+        <view class="header-desc">处理用户提交的报修请求</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 标签页 -->
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab === 'pending' ? 'active' : ''}}" bindtap="switchTab" data-tab="pending">
+      <text class="tab-text">待处理</text>
+      <view class="tab-badge" wx:if="{{pendingList.length > 0}}">{{pendingList.length}}</view>
+    </view>
+    <view class="tab-item {{activeTab === 'processing' ? 'active' : ''}}" bindtap="switchTab" data-tab="processing">
+      <text class="tab-text">处理中</text>
+      <view class="tab-badge" wx:if="{{processingList.length > 0}}">{{processingList.length}}</view>
+    </view>
+  </view>
+
+  <!-- 待处理列表 -->
+  <view class="list-wrap" wx:if="{{activeTab === 'pending'}}">
+    <view wx:if="{{pendingList.length === 0}}" class="empty-state">
+      <text class="empty-icon"> </text>
+      <text class="empty-text">暂无待处理报修</text>
+    </view>
+    <view wx:for="{{pendingList}}" wx:key="repairId" class="repair-card" bindtap="viewDetail" data-id="{{item.repairId}}">
+      <view class="card-top">
+        <view class="card-priority priority-{{item.priority}}">
+          {{item.priority === 'urgent' ? '紧急' : item.priority === 'high' ? '高' : item.priority === 'normal' ? '普通' : '低'}}
+        </view>
+        <view class="card-time">
+          <text class="time-icon"> </text>
+          <text>{{item.faultTime}}</text>
+        </view>
+      </view>
+      <view class="card-title">{{item.assetName}}</view>
+      <view class="card-desc">{{item.faultDesc}}</view>
+      <view class="card-footer">
+        <view class="card-reporter">
+          <text class="reporter-icon"> ‍ </text>
+          <text>{{item.reporter}}</text>
+        </view>
+        <view class="card-action">
+          <text class="action-text">立即处理</text>
+          <text class="action-arrow">›</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 处理中列表 -->
+  <view class="list-wrap" wx:if="{{activeTab === 'processing'}}">
+    <view wx:if="{{processingList.length === 0}}" class="empty-state">
+      <text class="empty-icon"> </text>
+      <text class="empty-text">暂无处理中的报修</text>
+    </view>
+    <view wx:for="{{processingList}}" wx:key="repairId" class="repair-card" bindtap="viewDetail" data-id="{{item.repairId}}">
+      <view class="card-top">
+        <view class="card-priority priority-{{item.priority}}">
+          {{item.priority === 'urgent' ? '紧急' : item.priority === 'high' ? '高' : item.priority === 'normal' ? '普通' : '低'}}
+        </view>
+        <view class="card-status processing">
+          <text class="status-dot"></text>
+          <text>处理中</text>
+        </view>
+      </view>
+      <view class="card-title">{{item.assetName}}</view>
+      <view class="card-desc">{{item.faultDesc}}</view>
+      <view class="card-info">
+        <view class="info-item">
+          <text class="info-label">处理人</text>
+          <text class="info-value">{{item.handler}}</text>
+        </view>
+      </view>
+      <view class="card-footer">
+        <view class="card-reporter">
+          <text class="reporter-icon"> ‍ </text>
+          <text>{{item.reporter}}</text>
+        </view>
+        <view class="card-action">
+          <text class="action-text">完成处理</text>
+          <text class="action-arrow">›</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 报修详情弹窗 -->
+  <view class="popup-mask" wx:if="{{showDetail}}" bindtap="closeDetail">
+    <view class="popup-content" catchtap="">
+      <view class="popup-header">
+        <view class="popup-title-wrap">
+          <text class="popup-icon"> </text>
+          <text class="popup-title">报修详情</text>
+        </view>
+        <text class="popup-close" bindtap="closeDetail">×</text>
+      </view>
+      <scroll-view scroll-y class="popup-body">
+        <!-- 资产信息 -->
+        <view class="detail-section">
+          <view class="section-title">资产信息</view>
+          <view class="detail-row">
+            <text class="detail-label">资产名称</text>
+            <text class="detail-value">{{currentRepair.assetName}}</text>
+          </view>
+          <view class="detail-row" wx:if="{{currentRepair.assetCode}}">
+            <text class="detail-label">资产编码</text>
+            <text class="detail-value code">{{currentRepair.assetCode}}</text>
+          </view>
+          <view class="detail-row" wx:if="{{currentRepair.location}}">
+            <text class="detail-label">故障位置</text>
+            <text class="detail-value">{{currentRepair.location}}</text>
+          </view>
+        </view>
+
+        <!-- 故障信息 -->
+        <view class="detail-section">
+          <view class="section-title">故障信息</view>
+          <view class="detail-row">
+            <text class="detail-label">优先级</text>
+            <view class="detail-value">
+              <view class="priority-tag priority-{{currentRepair.priority}}">
+                {{currentRepair.priority === 'urgent' ? '紧急' : currentRepair.priority === 'high' ? '高' : currentRepair.priority === 'normal' ? '普通' : '低'}}
+              </view>
+            </view>
+          </view>
+          <view class="detail-row column">
+            <text class="detail-label">故障描述</text>
+            <text class="detail-value desc">{{currentRepair.faultDesc}}</text>
+          </view>
+          <view class="detail-row">
+            <text class="detail-label">报修时间</text>
+            <text class="detail-value">{{currentRepair.faultTime}}</text>
+          </view>
+        </view>
+
+        <!-- 报修人信息 -->
+        <view class="detail-section">
+          <view class="section-title">报修人信息</view>
+          <view class="detail-row">
+            <text class="detail-label">报修人</text>
+            <text class="detail-value">{{currentRepair.reporter}}</text>
+          </view>
+          <view class="detail-row" wx:if="{{currentRepair.reporterPhone}}">
+            <text class="detail-label">联系电话</text>
+            <text class="detail-value phone" bindtap="callPhone">{{currentRepair.reporterPhone}}</text>
+          </view>
+        </view>
+
+        <!-- 故障照片 -->
+        <view class="detail-section" wx:if="{{currentRepair.photoList && currentRepair.photoList.length > 0}}">
+          <view class="section-title">故障照片</view>
+          <view class="photo-grid">
+            <image wx:for="{{currentRepair.photoList}}" wx:key="index" src="{{item}}" mode="aspectFill" class="photo-item" bindtap="previewPhoto" data-index="{{index}}" />
+          </view>
+        </view>
+
+        <!-- 处理操作 -->
+        <view class="handle-section">
+          <view class="section-title">处理操作</view>
+
+          <!-- 状态选择 -->
+          <view class="status-options">
+            <view wx:for="{{statusOptions}}" wx:key="value" wx:if="{{currentRepair.status === 'pending' ? item.value !== 'completed' : item.value !== 'processing'}}">
+              <view class="status-option {{selectedStatus === item.value ? 'selected' : ''}} status-{{item.value}}" bindtap="selectStatus" data-status="{{item.value}}">
+                <view class="option-dot"></view>
+                <text>{{item.label}}</text>
+              </view>
+            </view>
+          </view>
+
+          <!-- 处理结果 -->
+          <view class="handle-input-wrap" catchtap="noop">
+            <text class="handle-label">处理说明</text>
+            <input class="handle-input" placeholder="{{selectedStatus === 'rejected' ? '请填写驳回原因（必填）' : '请填写处理说明（选填）'}}" bindinput="onHandleResultInput" value="{{handleResult}}" />
+          </view>
+        </view>
+      </scroll-view>
+
+      <!-- 底部按钮 -->
+      <view class="popup-footer">
+        <button class="cancel-btn" bindtap="closeDetail">取消</button>
+        <button class="submit-btn" bindtap="submitHandle">确认提交</button>
+      </view>
+    </view>
+  </view>
+</view>

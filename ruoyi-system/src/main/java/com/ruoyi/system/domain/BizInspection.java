@@ -61,6 +61,11 @@ public class BizInspection extends BaseEntity
     @ApiModelProperty("物资编码（查询返回）")
     private String materialCode;
 
+    /** 巡检照片（逗号分隔的文件路径） */
+    @ApiModelProperty("巡检照片")
+    @Excel(name = "巡检照片")
+    private String photos;
+
     /** 巡检明细列表 */
     @ApiModelProperty("巡检明细列表")
     private List<BizInspectionDetail> details;
@@ -160,6 +165,16 @@ public class BizInspection extends BaseEntity
     public void setMaterialCode(String materialCode)
     {
         this.materialCode = materialCode;
+    }
+
+    public String getPhotos()
+    {
+        return photos;
+    }
+
+    public void setPhotos(String photos)
+    {
+        this.photos = photos;
     }
 
     public List<BizInspectionDetail> getDetails()

@@ -74,8 +74,9 @@
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="220">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="280">
         <template slot-scope="scope">
+          <el-button size="mini" type="text" icon="el-icon-view" @click="handleDetail(scope.row)">详情</el-button>
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['material:info:edit']">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-printer" @click="handleQRCode(scope.row)">标签</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['material:info:remove']">删除</el-button>
@@ -162,6 +163,121 @@
         <el-button @click="qrcodeOpen = false">关 闭</el-button>
       </div>
     </el-dialog>
+
+    <!-- 物资详情对话框 -->
+    <el-dialog title="物资详情" :visible.sync="detailOpen" width="900px" append-to-body>
+      <el-tabs v-model="detailTab">
+        <el-tab-pane label="基本信息" name="info">
+          <el-descriptions :column="2" border>
+            <el-descriptions-item label="物资编码">{{ detailData.materialCode }}</el-descriptions-item>
+            <el-descriptions-item label="资产编码">{{ detailData.assetCode || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="物资名称">{{ detailData.materialName }}</el-descriptions-item>
+            <el-descriptions-item label="物资分类">{{ detailData.categoryName || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="规格型号">{{ detailData.spec || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="计量单位">{{ detailData.unit || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="库存数量">{{ detailData.stockQuantity }}</el-descriptions-item>
+            <el-descriptions-item label="所在仓库">{{ detailData.warehouseName || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="使用科室">{{ detailData.useDepartment || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="位置">{{ detailData.location || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="管理科室">{{ detailData.manageDepartment || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="单价">{{ detailData.unitPrice ? '¥' + detailData.unitPrice : '-' }}</el-descriptions-item>
+            <el-descriptions-item label="供应商">{{ detailData.supplier || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="状态">
+              <dict-tag :options="dict.type.sys_normal_disable" :value="detailData.status" />
+            </el-descriptions-item>
+            <el-descriptions-item label="备注" :span="2">{{ detailData.remark || '-' }}</el-descriptions-item>
+          </el-descriptions>
+        </el-tab-pane>
+        <el-tab-pane label="PM巡检记录" name="inspection">
+          <el-table :data="inspectionRecords" border size="small" max-height="400">
+            <el-table-column label="巡检时间" prop="inspectionTime" width="180" />
+            <el-table-column label="巡检人" prop="inspector" width="100" />
+            <el-table-column label="巡检结果" width="100">
+              <template slot-scope="scope">
+                <el-tag :type="scope.row.result === 'normal' ? 'success' : 'danger'" size="small">
+                  {{ scope.row.result === 'normal' ? '正常' : '异常' }}
+                </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="巡检周期" width="100">
+              <template slot-scope="scope">
+                {{ scope.row.inspectionCycle === 'daily' ? '每日' : scope.row.inspectionCycle === 'weekly' ? '每周' : scope.row.inspectionCycle === 'monthly' ? '每月' : scope.row.inspectionCycle === 'quarterly' ? '每季度' : scope.row.inspectionCycle === 'yearly' ? '每年' : '-' }}
+              </template>
+            </el-table-column>
+            <el-table-column label="备注" prop="remark" show-overflow-tooltip />
+            <el-table-column label="操作" width="80" align="center">
+              <template slot-scope="scope">
+                <el-button size="mini" type="text" icon="el-icon-view" @click="handleInspectionDetail(scope.row)">详情</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <div v-if="inspectionRecords.length === 0" style="text-align: center; padding: 20px; color: #909399;">暂无巡检记录</div>
+        </el-tab-pane>
+        <el-tab-pane label="资产变更记录" name="change">
+          <el-table :data="changeRecords" border size="small" max-height="400">
+            <el-table-column label="变更时间" prop="changeTime" width="180" />
+            <el-table-column label="变更类型" width="100">
+              <template slot-scope="scope">
+                <el-tag :type="scope.row.changeType === 'location' ? '' : scope.row.changeType === 'department' ? 'warning' : scope.row.changeType === 'status' ? 'danger' : 'info'" size="small">
+                  {{ scope.row.changeType === 'location' ? '位置变更' : scope.row.changeType === 'department' ? '科室变更' : scope.row.changeType === 'status' ? '状态变更' : '其他' }}
+                </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="变更内容" prop="changeContent" show-overflow-tooltip />
+            <el-table-column label="变更前" prop="oldValue" width="120" />
+            <el-table-column label="变更后" prop="newValue" width="120" />
+            <el-table-column label="操作人" prop="operator" width="100" />
+          </el-table>
+          <div v-if="changeRecords.length === 0" style="text-align: center; padding: 20px; color: #909399;">暂无变更记录</div>
+        </el-tab-pane>
+      </el-tabs>
+      <div slot="footer">
+        <el-button @click="detailOpen = false">关 闭</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 巡检详情对话框 -->
+    <el-dialog title="巡检详情" :visible.sync="inspectionDetailOpen" width="600px" append-to-body>
+      <el-descriptions :column="2" border>
+        <el-descriptions-item label="物资名称">{{ inspectionDetailData.materialName }}</el-descriptions-item>
+        <el-descriptions-item label="物资编码">{{ inspectionDetailData.materialCode }}</el-descriptions-item>
+        <el-descriptions-item label="巡检人">{{ inspectionDetailData.inspector }}</el-descriptions-item>
+        <el-descriptions-item label="巡检时间">{{ inspectionDetailData.inspectionTime }}</el-descriptions-item>
+        <el-descriptions-item label="巡检结果">
+          <el-tag :type="inspectionDetailData.result === 'normal' ? 'success' : 'danger'" size="small">
+            {{ inspectionDetailData.result === 'normal' ? '正常' : '异常' }}
+          </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="巡检周期">
+          {{ inspectionDetailData.inspectionCycle === 'daily' ? '每日' : inspectionDetailData.inspectionCycle === 'weekly' ? '每周' : inspectionDetailData.inspectionCycle === 'monthly' ? '每月' : inspectionDetailData.inspectionCycle === 'quarterly' ? '每季度' : inspectionDetailData.inspectionCycle === 'yearly' ? '每年' : '-' }}
+        </el-descriptions-item>
+        <el-descriptions-item label="状态">
+          <dict-tag :options="dict.type.sys_normal_disable" :value="inspectionDetailData.status" />
+        </el-descriptions-item>
+        <el-descriptions-item label="备注">{{ inspectionDetailData.remark || '-' }}</el-descriptions-item>
+      </el-descriptions>
+      <el-divider content-position="left">巡检照片</el-divider>
+      <div v-if="inspectionDetailData.photos" style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <el-image v-for="(photo, index) in inspectionDetailData.photos.split(',')" :key="index" :src="photo" :preview-src-list="inspectionDetailData.photos.split(',')" style="width: 100px; height: 100px;" fit="cover" />
+      </div>
+      <div v-else style="color: #909399;">暂无照片</div>
+      <el-divider content-position="left">检查项明细</el-divider>
+      <el-table :data="inspectionDetailData.details || []" border size="small">
+        <el-table-column label="检查项" prop="itemName" />
+        <el-table-column label="检查分组" prop="itemGroup" />
+        <el-table-column label="检查结果" prop="checkResult">
+          <template slot-scope="scope">
+            <el-tag :type="scope.row.checkResult === 'normal' ? 'success' : 'danger'" size="small">
+              {{ scope.row.checkResult === 'normal' ? '正常' : '异常' }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="备注" prop="checkRemark" show-overflow-tooltip />
+      </el-table>
+      <div slot="footer">
+        <el-button @click="inspectionDetailOpen = false">关 闭</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -169,6 +285,8 @@
 import { listMaterial, getMaterial, delMaterial, addMaterial, updateMaterial } from "@/api/warehouse/material"
 import { allCategory } from "@/api/warehouse/materialCategory"
 import { optionselectWarehouse } from "@/api/warehouse/warehouse"
+import { getInspection, getInspectionByMaterial } from "@/api/inspection/inspection"
+import { getChangeByMaterial } from "@/api/asset/assetChange"
 import QRCode from 'qrcodejs2'
 
 export default {
@@ -189,6 +307,13 @@ export default {
       open: false,
       qrcodeOpen: false,
       qrcodeData: {},
+      detailOpen: false,
+      detailTab: "info",
+      detailData: {},
+      inspectionRecords: [],
+      changeRecords: [],
+      inspectionDetailOpen: false,
+      inspectionDetailData: {},
       queryParams: {
         pageNum: 1,
         pageSize: 10,
@@ -282,6 +407,29 @@ export default {
         this.form = response.data
         this.open = true
         this.title = "修改物资"
+      })
+    },
+    handleDetail(row) {
+      this.detailData = row
+      this.detailTab = "info"
+      this.detailOpen = true
+      this.loadInspectionRecords(row.materialId)
+      this.loadChangeRecords(row.materialId)
+    },
+    loadInspectionRecords(materialId) {
+      getInspectionByMaterial(materialId).then(response => {
+        this.inspectionRecords = response.data || []
+      })
+    },
+    loadChangeRecords(materialId) {
+      getChangeByMaterial(materialId).then(response => {
+        this.changeRecords = response.data || []
+      })
+    },
+    handleInspectionDetail(row) {
+      getInspection(row.inspectionId).then(response => {
+        this.inspectionDetailData = response.data
+        this.inspectionDetailOpen = true
       })
     },
     submitForm() {
