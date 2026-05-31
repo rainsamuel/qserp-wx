@@ -167,9 +167,28 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="检查项">
-          <el-checkbox-group v-model="form.itemIds">
-            <el-checkbox v-for="item in inspectionItemOptions" :key="item.itemId" :label="item.itemId">{{ item.itemName }}</el-checkbox>
-          </el-checkbox-group>
+          <div v-if="pmTemplateContents.length > 0">
+            <div v-for="(group, groupName) in groupedPmContents" :key="groupName" style="margin-bottom: 10px;">
+              <div style="font-weight: bold; color: #409eff; margin-bottom: 5px;">{{ groupName }}</div>
+              <div v-for="item in group" :key="item.contentId" style="margin-bottom: 5px; padding: 5px 10px; background: #f5f7fa; border-radius: 4px;">
+                <el-checkbox v-model="item.checked" :label="item.contentId">
+                  {{ item.contentName }}
+                </el-checkbox>
+                <span v-if="item.needValue === '1'" style="margin-left: 10px;">
+                  <el-select v-if="item.valueType === 'dropdown'" v-model="item.actualValue" size="mini" style="width: 150px;" placeholder="请选择">
+                    <el-option v-for="opt in parseOptions(item.valueOptions)" :key="opt.value" :label="opt.label" :value="opt.value" />
+                  </el-select>
+                  <el-input v-else v-model="item.actualValue" size="mini" style="width: 150px;" :placeholder="'请输入' + (item.unit || '')" />
+                </span>
+                <span v-if="item.unit" style="margin-left: 5px; color: #909399; font-size: 12px;">{{ item.unit }}</span>
+              </div>
+            </div>
+          </div>
+          <div v-else>
+            <el-checkbox-group v-model="form.itemIds">
+              <el-checkbox v-for="item in inspectionItemOptions" :key="item.itemId" :label="item.itemId">{{ item.itemName }}</el-checkbox>
+            </el-checkbox-group>
+          </div>
         </el-form-item>
         <el-form-item label="巡检照片">
           <image-upload v-model="form.photos" :limit="5" />
@@ -194,13 +213,34 @@
 <script>
 import { listInspection, getInspection, addInspection, updateInspection, delInspection } from "@/api/inspection/inspection"
 import { allItem } from "@/api/inspection/inspectionItem"
-import { listMaterial } from "@/api/warehouse/material"
+import { listMaterial, getMaterial } from "@/api/warehouse/material"
+import { getContentList } from "@/api/asset/pmTemplate"
 import ImageUpload from "@/components/ImageUpload"
 
 export default {
   name: "PmInspection",
   components: { ImageUpload },
   dicts: ['sys_normal_disable'],
+  computed: {
+    groupedPmContents() {
+      const groups = {}
+      this.pmTemplateContents.forEach(item => {
+        const group = item.itemName || '其他'
+        if (!groups[group]) groups[group] = []
+        groups[group].push(item)
+      })
+      return groups
+    }
+  },
+  watch: {
+    'form.materialId'(val) {
+      if (val) {
+        this.loadPmTemplateContents(val)
+      } else {
+        this.pmTemplateContents = []
+      }
+    }
+  },
   data() {
     return {
       loading: true,
@@ -212,6 +252,7 @@ export default {
       inspectionList: [],
       materialOptions: [],
       inspectionItemOptions: [],
+      pmTemplateContents: [],
       dateRange: [],
       title: "",
       open: false,
@@ -284,6 +325,33 @@ export default {
         this.inspectionItemOptions = response.data
       })
     },
+    loadPmTemplateContents(materialId) {
+      // 先获取物资信息，找到绑定的PM模板
+      getMaterial(materialId).then(res => {
+        const material = res.data
+        if (material && material.pmTemplateId) {
+          // 加载PM模板内容
+          getContentList(material.pmTemplateId).then(contentRes => {
+            this.pmTemplateContents = (contentRes.data || []).map(item => ({
+              ...item,
+              checked: true,  // 默认全部选中
+              actualValue: item.defaultValue || '0'
+            }))
+          })
+        } else {
+          this.pmTemplateContents = []
+        }
+      }).catch(() => {
+        this.pmTemplateContents = []
+      })
+    },
+    parseOptions(optionsStr) {
+      if (!optionsStr) return []
+      return optionsStr.split('|').map(opt => {
+        const parts = opt.split('-')
+        return { value: parts[0], label: parts.slice(1).join('-') || parts[0] }
+      })
+    },
     cancel() {
       this.open = false
       this.reset()
@@ -300,9 +368,11 @@ export default {
         result: "normal",
         status: "0",
         itemIds: [],
+        details: [],
         photos: undefined,
         remark: undefined
       }
+      this.pmTemplateContents = []
       this.resetForm("form")
     },
     handleQuery() {
@@ -339,6 +409,17 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          // 如果有PM模板检查项，将其转换为details格式（全部提交）
+          if (this.pmTemplateContents.length > 0) {
+            this.form.details = this.pmTemplateContents.map(item => ({
+              itemId: item.contentId,
+              checkResult: item.actualValue === '1' ? 'abnormal' : 'normal',
+              checkRemark: ''  // PM模板不存备注，只存结果
+            }))
+            // 根据检查项结果自动判断总体结果
+            const hasAbnormal = this.pmTemplateContents.some(item => item.actualValue === '1')
+            this.form.result = hasAbnormal ? 'abnormal' : 'normal'
+          }
           if (this.form.inspectionId != undefined) {
             updateInspection(this.form).then(() => {
               this.$modal.msgSuccess("修改成功")

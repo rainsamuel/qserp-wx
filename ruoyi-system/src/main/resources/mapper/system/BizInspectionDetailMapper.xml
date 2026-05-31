@@ -16,11 +16,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="selectDetailByInspectionId" parameterType="Long" resultMap="BizInspectionDetailResult">
         select d.detail_id, d.inspection_id, d.item_id, d.check_result, d.check_remark,
-               i.item_name, i.item_group
+               COALESCE(i.item_name, p.content_name, '检查项') as item_name,
+               COALESCE(i.item_group, p.item_name, '') as item_group
         from biz_inspection_detail d
         left join biz_inspection_item i on d.item_id = i.item_id
+        left join biz_pm_template_content p on d.item_id = p.content_id
         where d.inspection_id = #{inspectionId}
-        order by i.sort_order
+        order by d.detail_id
 	</select>
 
 	<insert id="insertDetail" parameterType="BizInspectionDetail" useGeneratedKeys="true" keyProperty="detailId">

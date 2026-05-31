@@ -111,6 +111,14 @@ public class BizMaterial extends BaseEntity
     @Excel(name = "保修期限(天)")
     private Integer warrantyPeriod;
 
+    /** PM模板ID */
+    @ApiModelProperty("PM模板ID")
+    private Long pmTemplateId;
+
+    /** PM模板名称（关联查询） */
+    @ApiModelProperty("PM模板名称（关联查询）")
+    private String pmTemplateName;
+
     /** 状态（0正常 1停用） */
     @ApiModelProperty("状态（0正常 1停用）")
     @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
@@ -316,6 +324,26 @@ public class BizMaterial extends BaseEntity
     public void setWarrantyPeriod(Integer warrantyPeriod)
     {
         this.warrantyPeriod = warrantyPeriod;
+    }
+
+    public Long getPmTemplateId()
+    {
+        return pmTemplateId;
+    }
+
+    public void setPmTemplateId(Long pmTemplateId)
+    {
+        this.pmTemplateId = pmTemplateId;
+    }
+
+    public String getPmTemplateName()
+    {
+        return pmTemplateName;
+    }
+
+    public void setPmTemplateName(String pmTemplateName)
+    {
+        this.pmTemplateName = pmTemplateName;
     }
 
     public String getStatus()

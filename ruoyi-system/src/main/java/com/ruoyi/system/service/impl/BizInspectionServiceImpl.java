@@ -55,31 +55,33 @@ public class BizInspectionServiceImpl implements IBizInspectionService
         // 插入巡检记录
         int rows = inspectionMapper.insertInspection(inspection);
 
-        // 插入巡检明细
-        List<Long> itemIds = inspection.getItemIds();
-        if (itemIds != null && !itemIds.isEmpty())
+        // 插入巡检明细（优先使用details，其次使用itemIds）
+        if (inspection.getDetails() != null && !inspection.getDetails().isEmpty())
         {
-            List<BizInspectionDetail> details = new ArrayList<>();
-            for (Long itemId : itemIds)
-            {
-                BizInspectionDetail detail = new BizInspectionDetail();
-                detail.setInspectionId(inspection.getInspectionId());
-                detail.setItemId(itemId);
-                detail.setCheckResult("normal");
-                details.add(detail);
-            }
-            detailMapper.batchInsertDetail(details);
-        }
-
-        // 处理明细中的检查结果和备注
-        if (inspection.getDetails() != null)
-        {
+            // 直接使用details（PM模板或带结果的明细）
             for (BizInspectionDetail detail : inspection.getDetails())
             {
                 detail.setInspectionId(inspection.getInspectionId());
             }
-            // 如果有详细结果，更新明细
-            updateDetailResults(inspection);
+            detailMapper.batchInsertDetail(inspection.getDetails());
+        }
+        else
+        {
+            // 使用itemIds创建明细（通用检查项）
+            List<Long> itemIds = inspection.getItemIds();
+            if (itemIds != null && !itemIds.isEmpty())
+            {
+                List<BizInspectionDetail> details = new ArrayList<>();
+                for (Long itemId : itemIds)
+                {
+                    BizInspectionDetail detail = new BizInspectionDetail();
+                    detail.setInspectionId(inspection.getInspectionId());
+                    detail.setItemId(itemId);
+                    detail.setCheckResult("normal");
+                    details.add(detail);
+                }
+                detailMapper.batchInsertDetail(details);
+            }
         }
 
         return rows;
@@ -95,19 +97,32 @@ public class BizInspectionServiceImpl implements IBizInspectionService
         // 删除旧明细，插入新明细
         detailMapper.deleteDetailByInspectionId(inspection.getInspectionId());
 
-        List<Long> itemIds = inspection.getItemIds();
-        if (itemIds != null && !itemIds.isEmpty())
+        if (inspection.getDetails() != null && !inspection.getDetails().isEmpty())
         {
-            List<BizInspectionDetail> details = new ArrayList<>();
-            for (Long itemId : itemIds)
+            // 直接使用details（PM模板或带结果的明细）
+            for (BizInspectionDetail detail : inspection.getDetails())
             {
-                BizInspectionDetail detail = new BizInspectionDetail();
                 detail.setInspectionId(inspection.getInspectionId());
-                detail.setItemId(itemId);
-                detail.setCheckResult("normal");
-                details.add(detail);
             }
-            detailMapper.batchInsertDetail(details);
+            detailMapper.batchInsertDetail(inspection.getDetails());
+        }
+        else
+        {
+            // 使用itemIds创建明细（通用检查项）
+            List<Long> itemIds = inspection.getItemIds();
+            if (itemIds != null && !itemIds.isEmpty())
+            {
+                List<BizInspectionDetail> details = new ArrayList<>();
+                for (Long itemId : itemIds)
+                {
+                    BizInspectionDetail detail = new BizInspectionDetail();
+                    detail.setInspectionId(inspection.getInspectionId());
+                    detail.setItemId(itemId);
+                    detail.setCheckResult("normal");
+                    details.add(detail);
+                }
+                detailMapper.batchInsertDetail(details);
+            }
         }
 
         if (inspection.getDetails() != null)

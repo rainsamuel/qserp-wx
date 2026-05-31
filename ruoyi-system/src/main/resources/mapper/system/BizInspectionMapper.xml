@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="inspector"       column="inspector"        />
 		<result property="inspectionTime"  column="inspection_time"  />
 		<result property="result"          column="result"           />
+		<result property="inspectionCycle" column="inspection_cycle" />
 		<result property="photos"          column="photos"           />
 		<result property="status"          column="status"           />
 		<result property="createBy"        column="create_by"        />
@@ -23,8 +24,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<sql id="selectInspectionVo">
         select i.inspection_id, i.material_id, i.inspector, i.inspection_time,
-               i.result, i.photos, i.status, i.create_by, i.create_time, i.update_by,
-               i.update_time, i.remark,
+               i.result, i.inspection_cycle, i.photos, i.status, i.create_by, i.create_time,
+               i.update_by, i.update_time, i.remark,
                m.material_name, m.material_code
         from biz_inspection i
         left join biz_material m on i.material_id = m.material_id
@@ -66,6 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="inspector != null and inspector != ''">inspector,</if>
 			<if test="inspectionTime != null">inspection_time,</if>
 			<if test="result != null and result != ''">result,</if>
+			<if test="inspectionCycle != null and inspectionCycle != ''">inspection_cycle,</if>
 			<if test="photos != null and photos != ''">photos,</if>
 			<if test="status != null and status != ''">status,</if>
 			<if test="remark != null and remark != ''">remark,</if>
@@ -76,6 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="inspector != null and inspector != ''">#{inspector},</if>
 			<if test="inspectionTime != null">#{inspectionTime},</if>
 			<if test="result != null and result != ''">#{result},</if>
+			<if test="inspectionCycle != null and inspectionCycle != ''">#{inspectionCycle},</if>
 			<if test="photos != null and photos != ''">#{photos},</if>
 			<if test="status != null and status != ''">#{status},</if>
 			<if test="remark != null and remark != ''">#{remark},</if>
@@ -91,6 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="inspector != null and inspector != ''">inspector = #{inspector},</if>
  			<if test="inspectionTime != null">inspection_time = #{inspectionTime},</if>
  			<if test="result != null and result != ''">result = #{result},</if>
+ 			<if test="inspectionCycle != null">inspection_cycle = #{inspectionCycle},</if>
  			<if test="photos != null">photos = #{photos},</if>
  			<if test="status != null and status != ''">status = #{status},</if>
  			<if test="remark != null">remark = #{remark},</if>

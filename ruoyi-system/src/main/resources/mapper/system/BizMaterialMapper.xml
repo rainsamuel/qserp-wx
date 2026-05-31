@@ -24,6 +24,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="unitPrice"       column="unit_price"       />
 		<result property="supplier"        column="supplier"         />
 		<result property="warrantyPeriod"  column="warranty_period"  />
+		<result property="pmTemplateId"    column="pm_template_id"   />
+		<result property="pmTemplateName"  column="pm_template_name" />
 		<result property="status"          column="status"           />
 		<result property="createBy"        column="create_by"        />
 		<result property="createTime"      column="create_time"      />
@@ -37,13 +39,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<sql id="selectMaterialVo">
         select m.material_id, m.material_code, m.asset_code, m.sync_id, m.kpbh, m.sync_org_code,
                m.data_source, m.material_name, m.category_id, m.spec, m.unit, m.stock_quantity,
-               m.warehouse_id, m.warranty_period, m.status, m.use_department, m.location,
+               m.warehouse_id, m.warranty_period, m.pm_template_id, m.status, m.use_department, m.location,
                m.manage_department, m.unit_price, m.supplier,
                m.create_by, m.create_time, m.update_by, m.update_time, m.remark,
-               c.category_name, w.warehouse_name
+               c.category_name, w.warehouse_name, t.template_name as pm_template_name
         from biz_material m
         left join biz_material_category c on m.category_id = c.category_id
         left join biz_warehouse w on m.warehouse_id = w.warehouse_id
+        left join biz_pm_template t on m.pm_template_id = t.template_id
     </sql>
 
 	<select id="selectMaterialList" parameterType="com.ruoyi.system.domain.BizMaterial" resultMap="BizMaterialResult">
@@ -151,6 +154,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="stockQuantity != null">stock_quantity,</if>
 			<if test="warehouseId != null">warehouse_id,</if>
 			<if test="warrantyPeriod != null">warranty_period,</if>
+			<if test="pmTemplateId != null">pm_template_id,</if>
 			<if test="useDepartment != null and useDepartment != ''">use_department,</if>
 			<if test="location != null and location != ''">location,</if>
 			<if test="manageDepartment != null and manageDepartment != ''">manage_department,</if>
@@ -174,6 +178,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="stockQuantity != null">#{stockQuantity},</if>
 			<if test="warehouseId != null">#{warehouseId},</if>
 			<if test="warrantyPeriod != null">#{warrantyPeriod},</if>
+			<if test="pmTemplateId != null">#{pmTemplateId},</if>
 			<if test="useDepartment != null and useDepartment != ''">#{useDepartment},</if>
 			<if test="location != null and location != ''">#{location},</if>
 			<if test="manageDepartment != null and manageDepartment != ''">#{manageDepartment},</if>
@@ -202,6 +207,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="stockQuantity != null">stock_quantity = #{stockQuantity},</if>
  			<if test="warehouseId != null">warehouse_id = #{warehouseId},</if>
  			<if test="warrantyPeriod != null">warranty_period = #{warrantyPeriod},</if>
+ 			<if test="pmTemplateId != null">pm_template_id = #{pmTemplateId},</if>
  			<if test="useDepartment != null">use_department = #{useDepartment},</if>
  			<if test="location != null">location = #{location},</if>
  			<if test="manageDepartment != null">manage_department = #{manageDepartment},</if>

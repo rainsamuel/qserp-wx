@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizPmTemplateContentMapper">
+
+    <resultMap type="com.ruoyi.system.domain.BizPmTemplateContent" id="BizPmTemplateContentResult">
+        <id     property="contentId"      column="content_id"      />
+        <result property="templateId"     column="template_id"     />
+        <result property="itemName"       column="item_name"       />
+        <result property="contentName"    column="content_name"    />
+        <result property="needValue"      column="need_value"      />
+        <result property="valueType"      column="value_type"      />
+        <result property="valueOptions"   column="value_options"   />
+        <result property="defaultValue"   column="default_value"   />
+        <result property="unit"           column="unit"            />
+        <result property="sortOrder"      column="sort_order"      />
+        <result property="status"         column="status"          />
+        <result property="createBy"       column="create_by"       />
+        <result property="createTime"     column="create_time"     />
+    </resultMap>
+
+    <sql id="selectContentVo">
+        select content_id, template_id, item_name, content_name, need_value,
+               value_type, value_options, default_value, unit, sort_order,
+               status, create_by, create_time
+        from biz_pm_template_content
+    </sql>
+
+    <select id="selectBizPmTemplateContentById" parameterType="Long" resultMap="BizPmTemplateContentResult">
+        <include refid="selectContentVo"/>
+        where content_id = #{contentId}
+    </select>
+
+    <select id="selectBizPmTemplateContentList" parameterType="com.ruoyi.system.domain.BizPmTemplateContent" resultMap="BizPmTemplateContentResult">
+        <include refid="selectContentVo"/>
+        <where>
+            <if test="templateId != null">
+                AND template_id = #{templateId}
+            </if>
+            <if test="itemName != null and itemName != ''">
+                AND item_name like concat('%', #{itemName}, '%')
+            </if>
+        </where>
+        order by sort_order, content_id
+    </select>
+
+    <select id="selectContentByTemplateId" parameterType="Long" resultMap="BizPmTemplateContentResult">
+        <include refid="selectContentVo"/>
+        where template_id = #{templateId}
+        order by sort_order, content_id
+    </select>
+
+    <insert id="insertBizPmTemplateContent" parameterType="com.ruoyi.system.domain.BizPmTemplateContent" useGeneratedKeys="true" keyProperty="contentId">
+        insert into biz_pm_template_content(
+            template_id,
+            <if test="itemName != null and itemName != ''">item_name,</if>
+            content_name,
+            <if test="needValue != null and needValue != ''">need_value,</if>
+            <if test="valueType != null and valueType != ''">value_type,</if>
+            <if test="valueOptions != null and valueOptions != ''">value_options,</if>
+            <if test="defaultValue != null and defaultValue != ''">default_value,</if>
+            <if test="unit != null and unit != ''">unit,</if>
+            sort_order,
+            <if test="status != null and status != ''">status,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        )values(
+            #{templateId},
+            <if test="itemName != null and itemName != ''">#{itemName},</if>
+            #{contentName},
+            <if test="needValue != null and needValue != ''">#{needValue},</if>
+            <if test="valueType != null and valueType != ''">#{valueType},</if>
+            <if test="valueOptions != null and valueOptions != ''">#{valueOptions},</if>
+            <if test="defaultValue != null and defaultValue != ''">#{defaultValue},</if>
+            <if test="unit != null and unit != ''">#{unit},</if>
+            #{sortOrder},
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        )
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into biz_pm_template_content(
+            template_id, item_name, content_name, need_value, value_type,
+            value_options, default_value, unit, sort_order, status, create_by, create_time
+        )values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.templateId}, #{item.itemName}, #{item.contentName}, #{item.needValue},
+             #{item.valueType}, #{item.valueOptions}, #{item.defaultValue}, #{item.unit},
+             #{item.sortOrder}, #{item.status}, #{item.createBy}, sysdate())
+        </foreach>
+    </insert>
+
+    <update id="updateBizPmTemplateContent" parameterType="com.ruoyi.system.domain.BizPmTemplateContent">
+        update biz_pm_template_content
+        <set>
+            <if test="itemName != null">item_name = #{itemName},</if>
+            <if test="contentName != null">content_name = #{contentName},</if>
+            <if test="needValue != null">need_value = #{needValue},</if>
+            <if test="valueType != null">value_type = #{valueType},</if>
+            <if test="valueOptions != null">value_options = #{valueOptions},</if>
+            <if test="defaultValue != null">default_value = #{defaultValue},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="sortOrder != null">sort_order = #{sortOrder},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where content_id = #{contentId}
+    </update>
+
+    <delete id="deleteBizPmTemplateContentById" parameterType="Long">
+        delete from biz_pm_template_content where content_id = #{contentId}
+    </delete>
+
+    <delete id="deleteContentByTemplateId" parameterType="Long">
+        delete from biz_pm_template_content where template_id = #{templateId}
+    </delete>
+
+    <delete id="deleteBizPmTemplateContentByIds">
+        delete from biz_pm_template_content where content_id in
+        <foreach collection="array" item="contentId" open="(" separator="," close=")">
+            #{contentId}
+        </foreach>
+    </delete>
+
+</mapper>

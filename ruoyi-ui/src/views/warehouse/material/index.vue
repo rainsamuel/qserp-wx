@@ -65,6 +65,7 @@
         </template>
       </el-table-column>
       <el-table-column label="供应商" align="center" prop="supplier" show-overflow-tooltip />
+      <el-table-column label="PM模板" align="center" prop="pmTemplateName" show-overflow-tooltip />
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status" />
@@ -130,6 +131,11 @@
         <el-form-item label="保修期限(天)" prop="warrantyPeriod">
           <el-input-number v-model="form.warrantyPeriod" :min="0" controls-position="right" placeholder="请输入保修期限" />
         </el-form-item>
+        <el-form-item label="PM模板" prop="pmTemplateId">
+          <el-select v-model="form.pmTemplateId" placeholder="请选择PM巡检模板" clearable filterable>
+            <el-option v-for="item in pmTemplateOptions" :key="item.templateId" :label="item.templateType + ' - ' + item.templateName" :value="item.templateId" />
+          </el-select>
+        </el-form-item>
         <el-form-item label="供应商" prop="supplier">
           <el-input v-model="form.supplier" placeholder="请输入供应商" />
         </el-form-item>
@@ -186,6 +192,7 @@
             <el-descriptions-item label="管理科室">{{ detailData.manageDepartment || '-' }}</el-descriptions-item>
             <el-descriptions-item label="单价">{{ detailData.unitPrice ? '¥' + detailData.unitPrice : '-' }}</el-descriptions-item>
             <el-descriptions-item label="保修期限">{{ detailData.warrantyPeriod ? detailData.warrantyPeriod + '天' : '-' }}</el-descriptions-item>
+            <el-descriptions-item label="PM模板">{{ detailData.pmTemplateName || '未绑定' }}</el-descriptions-item>
             <el-descriptions-item label="供应商">{{ detailData.supplier || '-' }}</el-descriptions-item>
             <el-descriptions-item label="状态">
               <dict-tag :options="dict.type.sys_normal_disable" :value="detailData.status" />
@@ -290,6 +297,7 @@
 import { listMaterial, getMaterial, delMaterial, addMaterial, updateMaterial } from "@/api/warehouse/material"
 import { allCategory } from "@/api/warehouse/materialCategory"
 import { optionselectWarehouse } from "@/api/warehouse/warehouse"
+import { listPmTemplate } from "@/api/asset/pmTemplate"
 import { getInspection, getInspectionByMaterial } from "@/api/inspection/inspection"
 import { getChangeByMaterial } from "@/api/asset/assetChange"
 import QRCode from 'qrcodejs2'
@@ -308,6 +316,7 @@ export default {
       materialList: [],
       categoryOptions: [],
       warehouseOptions: [],
+      pmTemplateOptions: [],
       title: "",
       open: false,
       qrcodeOpen: false,
@@ -343,6 +352,7 @@ export default {
     this.getList()
     this.getCategoryOptions()
     this.getWarehouseOptions()
+    this.getPmTemplateOptions()
   },
   methods: {
     getList() {
@@ -361,6 +371,11 @@ export default {
     getWarehouseOptions() {
       optionselectWarehouse().then(response => {
         this.warehouseOptions = response.data
+      })
+    },
+    getPmTemplateOptions() {
+      listPmTemplate({ pageSize: 1000, status: '0' }).then(response => {
+        this.pmTemplateOptions = response.rows || []
       })
     },
     cancel() {
