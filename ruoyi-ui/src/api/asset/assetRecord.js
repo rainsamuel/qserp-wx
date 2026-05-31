@@ -80,8 +80,14 @@ export function delRecord(recordIds) {
 
 // 获取物资流转统计
 export function getRecordStats(materialId) {
+  if (materialId) {
+    return request({
+      url: '/asset/record/stats/' + materialId,
+      method: 'get'
+    })
+  }
   return request({
-    url: '/asset/record/stats/' + materialId,
+    url: '/asset/record/stats',
     method: 'get'
   })
 }

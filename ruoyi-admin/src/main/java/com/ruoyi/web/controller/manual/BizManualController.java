@@ -143,26 +143,67 @@ public class BizManualController extends BaseController
     }
 
     /**
-     * 下载说明书文件
+     * 下载/预览说明书文件
      */
-    @ApiOperation("下载说明书文件")
+    @ApiOperation("下载/预览说明书文件")
     @ApiImplicitParam(name = "manualId", value = "说明书ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     @Anonymous
     @GetMapping("/download/{manualId}")
-    public void download(@PathVariable Long manualId, HttpServletResponse response, HttpServletRequest request)
+    public void download(@PathVariable Long manualId,
+                         @RequestParam(value = "attachment", required = false, defaultValue = "false") boolean attachment,
+                         HttpServletResponse response, HttpServletRequest request)
     {
         try
         {
             BizManual manual = manualService.downloadManual(manualId);
-            String filePath = RuoYiConfig.getProfile() + FileUtils.stripPrefix(manual.getFilePath());
-            String downloadName = StringUtils.substringAfterLast(filePath, "/");
-            response.setContentType("application/octet-stream");
-            FileUtils.setAttachmentResponseHeader(response, manual.getOriginalName());
+            String storedPath = manual.getFilePath();
+            String strippedPath = FileUtils.stripPrefix(storedPath);
+            // 规范化路径，修复双斜杠问题
+            strippedPath = strippedPath.replace("//", "/");
+            String filePath = RuoYiConfig.getProfile() + strippedPath;
+            logger.info("下载说明书 - manualId={}, storedPath={}, strippedPath={}, profile={}, finalPath={}",
+                    manualId, storedPath, strippedPath, RuoYiConfig.getProfile(), filePath);
+            java.io.File file = new java.io.File(filePath);
+            if (!file.exists())
+            {
+                logger.error("说明书文件不存在: {}", filePath);
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write("{\"code\":404,\"msg\":\"文件不存在: " + filePath + "\"}");
+                return;
+            }
+            // 根据文件扩展名设置Content-Type
+            String contentType = request.getServletContext().getMimeType(filePath);
+            if (contentType == null)
+            {
+                contentType = "application/octet-stream";
+            }
+            response.setContentType(contentType);
+            response.setContentLengthLong(file.length());
+            // attachment=true 强制下载，否则内联显示（支持浏览器预览）
+            if (attachment)
+            {
+                FileUtils.setAttachmentResponseHeader(response, manual.getOriginalName());
+            }
+            else
+            {
+                response.setHeader("Content-Disposition", "inline; filename=" + java.net.URLEncoder.encode(manual.getOriginalName(), "UTF-8"));
+            }
             FileUtils.writeBytes(filePath, response.getOutputStream());
         }
         catch (Exception e)
         {
             logger.error("下载说明书文件失败", e);
+            try
+            {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write("{\"code\":500,\"msg\":\"下载失败: " + e.getMessage() + "\"}");
+            }
+            catch (Exception ex)
+            {
+                // ignore
+            }
         }
     }
 

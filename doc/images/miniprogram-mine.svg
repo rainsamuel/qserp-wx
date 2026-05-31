@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="750" viewBox="0 0 400 750">
+  <!-- Background -->
+  <rect width="400" height="750" fill="#f5f6fa"/>
+
+  <!-- Status Bar -->
+  <rect width="400" height="44" fill="#ffffff"/>
+  <text x="20" y="30" font-family="-apple-system, Arial" font-size="14" font-weight="600" fill="#1a1a1a">9:41</text>
+  <text x="320" y="30" font-family="Arial" font-size="11" fill="#1a1a1a">●●●●●</text>
+  <text x="365" y="30" font-family="Arial" font-size="12" fill="#1a1a1a">WiFi</text>
+  <rect x="380" y="18" width="10" height="12" rx="2" fill="#1a1a1a"/>
+  <rect x="392" y="20" width="2" height="8" rx="1" fill="#1a1a1a"/>
+
+  <!-- User Card Background -->
+  <defs>
+    <linearGradient id="userCardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+  </defs>
+  <rect y="44" width="400" height="180" fill="url(#userCardGradient)"/>
+
+  <!-- Decorative elements -->
+  <circle cx="50" cy="80" r="60" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="360" cy="160" r="80" fill="rgba(255,255,255,0.06)"/>
+
+  <!-- User Avatar -->
+  <rect x="148" y="70" width="104" height="104" rx="52" fill="#ffffff"/>
+  <rect x="152" y="74" width="96" height="96" rx="48" fill="#f0f0f0"/>
+  <text x="200" y="135" text-anchor="middle" font-family="Arial" font-size="40" fill="#667eea"> </text>
+
+  <!-- Online Status Dot -->
+  <circle cx="240" cy="158" r="10" fill="#52c41a"/>
+  <circle cx="240" cy="158" r="6" fill="#ffffff"/>
+
+  <!-- Username -->
+  <text x="200" y="200" text-anchor="middle" font-family="-apple-system, Microsoft YaHei, Arial" font-size="20" font-weight="600" fill="#ffffff">管理员</text>
+
+  <!-- User Tag -->
+  <rect x="165" y="210" width="70" height="24" rx="12" fill="rgba(255,255,255,0.25)"/>
+  <circle cx="178" cy="222" r="4" fill="#52c41a"/>
+  <text x="200" y="226" text-anchor="middle" font-family="-apple-system, Microsoft YaHei, Arial" font-size="11" fill="#ffffff">已登录</text>
+
+  <!-- Content Area -->
+  <rect y="224" width="400" height="526" fill="#f5f6fa"/>
+
+  <!-- Workspace Section -->
+  <rect x="20" y="240" width="360" height="32" fill="transparent"/>
+  <text x="36" y="262" font-family="Arial" font-size="14" fill="#667eea"> </text>
+  <text x="56" y="262" font-family="-apple-system, Microsoft YaHei, Arial" font-size="14" font-weight="500" fill="#333333">工作台</text>
+
+  <!-- Workspace Menu Card -->
+  <rect x="20" y="280" width="360" height="80" rx="16" fill="#ffffff"/>
+  <rect x="36" y="296" width="48" height="48" rx="12" fill="#fff7e6"/>
+  <text x="60" y="326" text-anchor="middle" font-family="Arial" font-size="20" fill="#fa8c16"> </text>
+  <text x="96" y="316" font-family="-apple-system, Microsoft YaHei, Arial" font-size="15" font-weight="500" fill="#333333">报修处理</text>
+  <text x="96" y="336" font-family="-apple-system, Microsoft YaHei, Arial" font-size="12" fill="#999999">处理用户提交的报修请求</text>
+  <text x="356" y="326" font-family="Arial" font-size="20" fill="#cccccc">›</text>
+
+  <!-- Account Management Section -->
+  <rect x="20" y="375" width="360" height="32" fill="transparent"/>
+  <text x="36" y="397" font-family="Arial" font-size="14" fill="#667eea"> </text>
+  <text x="56" y="397" font-family="-apple-system, Microsoft YaHei, Arial" font-size="14" font-weight="500" fill="#333333">账号管理</text>
+
+  <!-- Account Menu Card -->
+  <rect x="20" y="415" width="360" height="170" rx="16" fill="#ffffff"/>
+
+  <!-- Current User -->
+  <rect x="36" y="431" width="48" height="48" rx="12" fill="#e6f7ff"/>
+  <text x="60" y="461" text-anchor="middle" font-family="Arial" font-size="20" fill="#1890ff"> </text>
+  <text x="96" y="451" font-family="-apple-system, Microsoft YaHei, Arial" font-size="15" font-weight="500" fill="#333333">当前工号</text>
+  <text x="320" y="451" font-family="-apple-system, Microsoft YaHei, Arial" font-size="14" fill="#999999">admin</text>
+
+  <!-- Divider -->
+  <rect x="96" y="485" width="268" height="1" fill="#f0f0f0"/>
+
+  <!-- Logout -->
+  <rect x="36" y="499" width="48" height="48" rx="12" fill="#fff1f0"/>
+  <text x="60" y="529" text-anchor="middle" font-family="Arial" font-size="20" fill="#ff4d4f"> </text>
+  <text x="96" y="527" font-family="-apple-system, Microsoft YaHei, Arial" font-size="15" font-weight="500" fill="#ff4d4f">退出登录</text>
+  <text x="356" y="527" font-family="Arial" font-size="20" fill="#cccccc">›</text>
+
+  <!-- About Section -->
+  <rect x="20" y="600" width="360" height="32" fill="transparent"/>
+  <text x="36" y="622" font-family="Arial" font-size="14" fill="#667eea"> </text>
+  <text x="56" y="622" font-family="-apple-system, Microsoft YaHei, Arial" font-size="14" font-weight="500" fill="#333333">其他</text>
+
+  <!-- About Menu Card -->
+  <rect x="20" y="640" width="360" height="70" rx="16" fill="#ffffff"/>
+  <rect x="36" y="656" width="48" height="48" rx="12" fill="#f6ffed"/>
+  <text x="60" y="686" text-anchor="middle" font-family="Arial" font-size="20" fill="#52c41a"> </text>
+  <text x="96" y="684" font-family="-apple-system, Microsoft YaHei, Arial" font-size="15" font-weight="500" fill="#333333">关于系统</text>
+  <text x="320" y="684" font-family="-apple-system, Microsoft YaHei, Arial" font-size="13" fill="#999999">v1.0.0</text>
+
+  <!-- Footer -->
+  <text x="200" y="735" text-anchor="middle" font-family="-apple-system, Microsoft YaHei, Arial" font-size="12" fill="#cccccc">资产管理系统</text>
+  <text x="200" y="748" text-anchor="middle" font-family="-apple-system, Microsoft YaHei, Arial" font-size="11" fill="#e0e0e0">© 2026 All Rights Reserved</text>
+</svg>

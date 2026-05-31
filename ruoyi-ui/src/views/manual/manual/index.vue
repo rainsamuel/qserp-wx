@@ -296,8 +296,22 @@ export default {
       document.body.removeChild(link)
     },
     handlePreview(row) {
-      const url = process.env.VUE_APP_BASE_API + '/manual/info/preview/' + row.manualId
-      window.open(url, '_blank')
+      const ext = (row.fileExt || '').toLowerCase()
+      const imageExts = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp']
+      const url = process.env.VUE_APP_BASE_API + '/manual/info/download/' + row.manualId
+      if (imageExts.includes(ext)) {
+        // 图片：在新窗口中显示
+        const win = window.open('', '_blank')
+        win.document.write('<html><head><title>' + (row.originalName || '图片预览') + '</title></head><body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#f0f0f0"><img src="' + url + '" style="max-width:100%;max-height:100vh;object-fit:contain" /></body></html>')
+      } else if (ext === 'pdf') {
+        // PDF：在新窗口中用iframe嵌入
+        window.open(url, '_blank')
+      } else {
+        // 其他文件：提示下载
+        this.$modal.confirm('该文件类型不支持在线预览，是否下载查看？').then(() => {
+          this.handleDownload(row)
+        }).catch(() => {})
+      }
     },
     handleExport() {
       this.download('manual/info/export', { ...this.queryParams }, `manual_${new Date().getTime()}.xlsx`)

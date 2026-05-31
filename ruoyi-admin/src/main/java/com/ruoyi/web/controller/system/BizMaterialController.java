@@ -85,6 +85,40 @@ public class BizMaterialController extends BaseController
     }
 
     /**
+     * 根据二维码查询物资（支持URL格式、资产编码、卡片编号等多种格式）
+     */
+    @ApiOperation("根据二维码查询物资")
+    @ApiImplicitParam(name = "qrCode", value = "二维码内容", required = true, dataType = "String", dataTypeClass = String.class)
+    @Anonymous
+    @GetMapping("/qrcode/{qrCode}")
+    public AjaxResult getByQRCode(@PathVariable String qrCode)
+    {
+        BizMaterial material = materialService.selectMaterialByQRCode(qrCode);
+        if (material == null)
+        {
+            return error("未找到对应的物资信息");
+        }
+        return success(material);
+    }
+
+    /**
+     * 根据卡片编号查询物资
+     */
+    @ApiOperation("根据卡片编号查询物资")
+    @ApiImplicitParam(name = "kpbh", value = "卡片编号", required = true, dataType = "String", dataTypeClass = String.class)
+    @Anonymous
+    @GetMapping("/kpbh/{kpbh}")
+    public AjaxResult getByKpbh(@PathVariable String kpbh)
+    {
+        BizMaterial material = materialService.selectMaterialByKpbh(kpbh);
+        if (material == null)
+        {
+            return error("未找到对应的物资信息");
+        }
+        return success(material);
+    }
+
+    /**
      * 新增物资
      */
     @ApiOperation("新增物资")
@@ -129,5 +163,25 @@ public class BizMaterialController extends BaseController
     public AjaxResult remove(@PathVariable Long[] materialIds)
     {
         return toAjax(materialService.deleteMaterialByIds(materialIds));
+    }
+
+    /**
+     * 从Oracle数据库同步资产数据
+     */
+    @ApiOperation("从Oracle数据库同步资产数据")
+    @PreAuthorize("@ss.hasPermi('material:info:sync')")
+    @Log(title = "物资同步", businessType = BusinessType.IMPORT)
+    @PostMapping("/sync")
+    public AjaxResult sync()
+    {
+        try
+        {
+            int count = materialService.syncMaterialFromOracle();
+            return success("同步成功，共同步" + count + "条资产数据");
+        }
+        catch (Exception e)
+        {
+            return error(e.getMessage());
+        }
     }
 }

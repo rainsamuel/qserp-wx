@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="850" viewBox="0 0 400 850">
+  <!-- Background -->
+  <rect width="400" height="850" fill="#f5f6fa"/>
+
+  <!-- Status Bar -->
+  <rect width="400" height="44" fill="#ffffff"/>
+  <text x="20" y="30" font-family="-apple-system, Arial" font-size="14" font-weight="600" fill="#1a1a1a">9:41</text>
+  <text x="320" y="30" font-family="Arial" font-size="11" fill="#1a1a1a">●●●●●</text>
+  <text x="365" y="30" font-family="Arial" font-size="12" fill="#1a1a1a">WiFi</text>
+  <rect x="380" y="18" width="10" height="12" rx="2" fill="#1a1a1a"/>
+  <rect x="392" y="20" width="2" height="8" rx="1" fill="#1a1a1a"/>
+
+  <!-- Header -->
+  <defs>
+    <linearGradient id="headerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+  </defs>
+  <rect y="44" width="400" height="100" fill="url(#headerGradient)"/>
+
+  <!-- Decorative elements -->
+  <circle cx="350" cy="70" r="60" fill="rgba(255,255,255,0.08)"/>
+
+  <!-- Header Content -->
+  <rect x="20" y="60" width="360" height="70" rx="16" fill="rgba(255,255,255,0.95)"/>
+  <rect x="36" y="76" width="48" height="48" rx="12" fill="#fa8c16"/>
+  <text x="60" y="108" text-anchor="middle" font-family="Arial" font-size="20" fill="#ffffff"> </text>
+  <text x="96" y="96" font-family="-apple-system, Microsoft YaHei, Arial" font-size="17" font-weight="600" fill="#333333">故障报修</text>
+  <text x="96" y="116" font-family="-apple-system, Microsoft YaHei, Arial" font-size="12" fill="#999999">设备故障快速报修处理</text>
+
+  <!-- Content Area -->
+  <rect y="144" width="400" height="706" fill="#f5f6fa"/>
+
+  <!-- Asset Info Card -->
+  <rect x="20" y="160" width="360" height="180" rx="16" fill="#ffffff"/>
+  <rect x="36" y="176" width="28" height="28" rx="8" fill="#e6f7ff"/>
+  <text x="50" y="195" text-anchor="middle" font-family="Arial" font-size="14" fill="#1890ff"> </text>
+  <text x="72" y="195" font-family="-apple-system, Microsoft YaHei, Arial" font-size="15" font-weight="500" fill="#333333">资产信息</text>
+
+  <!-- Asset Code Input -->
+  <rect x="36" y="216" width="280" height="44" rx="10" fill="#f5f6fa"/>
+  <text x="56" y="244" font-family="-apple-system, Microsoft YaHei, Arial" font-size="13" fill="#999999">资产编码</text>
+  <rect x="328" y="216" width="44" height="44" rx="10" fill="#e6f7ff"/>
+  <text x="350" y="244" text-anchor="middle" font-family="Arial" font-size="18" fill="#1890ff"> </text>
+
+  <!-- Asset Name Input -->
+  <rect x="36" y="268" width="328" height="44" rx="10" fill="#f5f6fa"/>
+  <text x="56" y="296" font-family="-apple-system, Microsoft YaHei, Arial" font-size="13" fill="#999999">资产名称</text>
+  <text x="124" y="296" font-family="Arial" font-size="12" fill="#ff4d4f">*</text>
+
+  <!-- Location Input -->
+  <rect x="36" y="320" width="328" height="44" rx="10" fill="#f5f6fa"/>
+  <text x="56" y="348" font-family="-apple-system, Microsoft YaHei, Arial" font-size="13" fill="#999999">故障位置</text>
+
+  <!-- Fault Info Card -->
+  <rect x="20" y="360" width="360" height="180" rx="16" fill="#ffffff"/>
+  <rect x="36" y="376" width="28" height="28" rx="8" fill="#fff7e6"/>
+  <text x="50" y="395" text-anchor="middle" font-family="Arial" font-size="14" fill="#fa8c16">⚠️</text>
+  <text x="72" y="395" font-family="-apple-system, Microsoft YaHei, Arial" font-size="15" font-weight="500" fill="#333333">故障信息</text>
+
+  <!-- Priority Selector -->
+  <rect x="36" y="416" width="328" height="44" rx="10" fill="#f5f6fa"/>
+  <text x="56" y="444" font-family="-apple-system, Microsoft YaHei, Arial" font-size="13" fill="#999999">优先级</text>
+  <text x="340" y="444" font-family="Arial" font-size="12" fill="#999999">▼</text>
+
+  <!-- Fault Description -->
+  <rect x="36" y="468" width="328" height="80" rx="10" fill="#f5f6fa"/>
+  <text x="56" y="492" font-family="-apple-system, Microsoft YaHei, Arial" font-size="13" fill="#999999">故障描述</text>
+  <text x="112" y="492" font-family="Arial" font-size="12" fill="#ff4d4f">*</text>
+
+  <!-- Photo Card -->
+  <rect x="20" y="555" width="360" height="120" rx="16" fill="#ffffff"/>
+  <rect x="36" y="571" width="28" height="28" rx="8" fill="#f6ffed"/>
+  <text x="50" y="590" text-anchor="middle" font-family="Arial" font-size="14" fill="#52c41a"> </text>
+  <text x="72" y="590" font-family="-apple-system, Microsoft YaHei, Arial" font-size="15" font-weight="500" fill="#333333">故障照片</text>
+  <text x="320" y="590" font-family="-apple-system, Microsoft YaHei, Arial" font-size="12" fill="#999999">0/5</text>
+
+  <!-- Photo Grid -->
+  <rect x="36" y="608" width="80" height="80" rx="10" fill="#f5f6fa" stroke="#d9d9d9" stroke-width="1" stroke-dasharray="6,4"/>
+  <text x="76" y="648" text-anchor="middle" font-family="Arial" font-size="24" fill="#d9d9d9">+</text>
+  <text x="76" y="670" text-anchor="middle" font-family="-apple-system, Microsoft YaHei, Arial" font-size="11" fill="#999999">添加照片</text>
+
+  <!-- Reporter Info Card -->
+  <rect x="20" y="690" width="360" height="130" rx="16" fill="#ffffff"/>
+  <rect x="36" y="706" width="28" height="28" rx="8" fill="#e6f7ff"/>
+  <text x="50" y="725" text-anchor="middle" font-family="Arial" font-size="14" fill="#1890ff"> </text>
+  <text x="72" y="725" font-family="-apple-system, Microsoft YaHei, Arial" font-size="15" font-weight="500" fill="#333333">报修人信息</text>
+
+  <!-- Reporter Input -->
+  <rect x="36" y="746" width="160" height="44" rx="10" fill="#f5f6fa"/>
+  <text x="56" y="774" font-family="-apple-system, Microsoft YaHei, Arial" font-size="13" fill="#999999">报修人</text>
+  <text x="90" y="774" font-family="Arial" font-size="12" fill="#ff4d4f">*</text>
+
+  <!-- Phone Input -->
+  <rect x="204" y="746" width="160" height="44" rx="10" fill="#f5f6fa"/>
+  <text x="224" y="774" font-family="-apple-system, Microsoft YaHei, Arial" font-size="13" fill="#999999">联系电话</text>
+
+  <!-- Bottom Bar -->
+  <rect y="790" width="400" height="60" fill="#ffffff"/>
+  <rect x="20" y="800" width="150" height="40" rx="20" fill="#f5f6fa" stroke="#d9d9d9" stroke-width="1"/>
+  <text x="95" y="826" text-anchor="middle" font-family="-apple-system, Microsoft YaHei, Arial" font-size="14" fill="#666666">  我的报修</text>
+  <rect x="180" y="800" width="200" height="40" rx="20" fill="url(#headerGradient)"/>
+  <text x="280" y="826" text-anchor="middle" font-family="-apple-system, Microsoft YaHei, Arial" font-size="14" font-weight="500" fill="#ffffff">  提交报修</text>
+</svg>

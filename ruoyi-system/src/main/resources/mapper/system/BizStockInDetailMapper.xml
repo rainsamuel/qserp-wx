@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizStockInDetailMapper">
+
+    <resultMap type="com.ruoyi.system.domain.BizStockInDetail" id="BizStockInDetailResult">
+        <result property="detailId" column="detail_id"/>
+        <result property="stockInId" column="stock_in_id"/>
+        <result property="materialId" column="material_id"/>
+        <result property="materialCode" column="material_code"/>
+        <result property="materialName" column="material_name"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="spec" column="spec"/>
+        <result property="unit" column="unit"/>
+        <result property="quantity" column="quantity"/>
+        <result property="unitPrice" column="unit_price"/>
+        <result property="amount" column="amount"/>
+        <result property="batchNo" column="batch_no"/>
+        <result property="productionDate" column="production_date"/>
+        <result property="expiryDate" column="expiry_date"/>
+        <result property="warrantyPeriod" column="warranty_period"/>
+        <result property="assetCode" column="asset_code"/>
+        <result property="remark" column="remark"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="selectBizStockInDetailById" parameterType="Long" resultMap="BizStockInDetailResult">
+        select detail_id, stock_in_id, material_id, material_code, material_name, category_id,
+               category_name, spec, unit, quantity, unit_price, amount, batch_no,
+               production_date, expiry_date, warranty_period, asset_code, remark, create_by, create_time
+        from biz_stock_in_detail
+        where detail_id = #{detailId}
+    </select>
+
+    <select id="selectBizStockInDetailByStockInId" parameterType="Long" resultMap="BizStockInDetailResult">
+        select detail_id, stock_in_id, material_id, material_code, material_name, category_id,
+               category_name, spec, unit, quantity, unit_price, amount, batch_no,
+               production_date, expiry_date, warranty_period, asset_code, remark, create_by, create_time
+        from biz_stock_in_detail
+        where stock_in_id = #{stockInId}
+        order by detail_id
+    </select>
+
+    <insert id="insertBizStockInDetail" parameterType="com.ruoyi.system.domain.BizStockInDetail" useGeneratedKeys="true" keyProperty="detailId">
+        insert into biz_stock_in_detail (
+            stock_in_id, material_id, material_code, material_name, category_id,
+            category_name, spec, unit, quantity, unit_price, amount, batch_no,
+            production_date, expiry_date, warranty_period, asset_code, remark, create_by, create_time
+        ) values (
+            #{stockInId}, #{materialId}, #{materialCode}, #{materialName}, #{categoryId},
+            #{categoryName}, #{spec}, #{unit}, #{quantity}, #{unitPrice}, #{amount}, #{batchNo},
+            #{productionDate}, #{expiryDate}, #{warrantyPeriod}, #{assetCode}, #{remark}, #{createBy}, sysdate()
+        )
+    </insert>
+
+    <insert id="batchInsertBizStockInDetail" parameterType="java.util.List">
+        insert into biz_stock_in_detail (
+            stock_in_id, material_id, material_code, material_name, category_id,
+            category_name, spec, unit, quantity, unit_price, amount, batch_no,
+            production_date, expiry_date, warranty_period, asset_code, remark, create_by, create_time
+        ) values
+        <foreach item="item" collection="list" separator=",">
+            (
+                #{item.stockInId}, #{item.materialId}, #{item.materialCode}, #{item.materialName}, #{item.categoryId},
+                #{item.categoryName}, #{item.spec}, #{item.unit}, #{item.quantity}, #{item.unitPrice}, #{item.amount},
+                #{item.batchNo}, #{item.productionDate}, #{item.expiryDate}, #{item.warrantyPeriod}, #{item.assetCode},
+                #{item.remark}, #{item.createBy}, sysdate()
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateBizStockInDetail" parameterType="com.ruoyi.system.domain.BizStockInDetail">
+        update biz_stock_in_detail
+        <set>
+            <if test="materialId != null">material_id = #{materialId},</if>
+            <if test="materialCode != null and materialCode != ''">material_code = #{materialCode},</if>
+            <if test="materialName != null and materialName != ''">material_name = #{materialName},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="categoryName != null and categoryName != ''">category_name = #{categoryName},</if>
+            <if test="spec != null and spec != ''">spec = #{spec},</if>
+            <if test="unit != null and unit != ''">unit = #{unit},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+            <if test="unitPrice != null">unit_price = #{unitPrice},</if>
+            <if test="amount != null">amount = #{amount},</if>
+            <if test="batchNo != null and batchNo != ''">batch_no = #{batchNo},</if>
+            <if test="productionDate != null">production_date = #{productionDate},</if>
+            <if test="expiryDate != null">expiry_date = #{expiryDate},</if>
+            <if test="warrantyPeriod != null">warranty_period = #{warrantyPeriod},</if>
+            <if test="assetCode != null and assetCode != ''">asset_code = #{assetCode},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where detail_id = #{detailId}
+    </update>
+
+    <delete id="deleteBizStockInDetailById" parameterType="Long">
+        delete from biz_stock_in_detail where detail_id = #{detailId}
+    </delete>
+
+    <delete id="deleteBizStockInDetailByIds" parameterType="String">
+        delete from biz_stock_in_detail where detail_id in
+        <foreach item="detailId" collection="array" open="(" separator="," close=")">
+            #{detailId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteBizStockInDetailByStockInId" parameterType="Long">
+        delete from biz_stock_in_detail where stock_in_id = #{stockInId}
+    </delete>
+
+</mapper>

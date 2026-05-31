@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#2d3a4b"/>
+
+  <!-- Login Card -->
+  <rect x="250" y="100" width="300" height="380" rx="6" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="400" y="150" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="18" fill="#707070">企业资产与物资管理系统</text>
+
+  <!-- Username Field -->
+  <rect x="280" y="180" width="240" height="38" rx="4" fill="#ffffff" stroke="#dcdfe6"/>
+  <text x="290" y="195" font-family="Arial" font-size="12" fill="#c0c4cc">👤</text>
+  <text x="310" y="205" font-family="Microsoft YaHei, Arial" font-size="14" fill="#c0c4cc">账号</text>
+
+  <!-- Password Field -->
+  <rect x="280" y="230" width="240" height="38" rx="4" fill="#ffffff" stroke="#dcdfe6"/>
+  <text x="290" y="245" font-family="Arial" font-size="12" fill="#c0c4cc">🔒</text>
+  <text x="310" y="255" font-family="Microsoft YaHei, Arial" font-size="14" fill="#c0c4cc">密码</text>
+
+  <!-- Captcha Field -->
+  <rect x="280" y="280" width="150" height="38" rx="4" fill="#ffffff" stroke="#dcdfe6"/>
+  <text x="290" y="305" font-family="Microsoft YaHei, Arial" font-size="14" fill="#c0c4cc">验证码</text>
+
+  <!-- Captcha Image -->
+  <rect x="440" y="280" width="80" height="38" rx="4" fill="#e8e8e8"/>
+  <text x="480" y="305" text-anchor="middle" font-family="Arial" font-size="16" fill="#333333">3+5=?</text>
+
+  <!-- Remember Me Checkbox -->
+  <rect x="280" y="335" width="16" height="16" fill="#ffffff" stroke="#dcdfe6"/>
+  <text x="302" y="348" font-family="Microsoft YaHei, Arial" font-size="13" fill="#606266">记住密码</text>
+
+  <!-- Login Button -->
+  <rect x="280" y="380" width="240" height="40" rx="4" fill="#409eff"/>
+  <text x="400" y="405" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="14" fill="#ffffff">登 录</text>
+
+  <!-- Footer -->
+  <text x="400" y="540" text-anchor="middle" font-family="Arial" font-size="12" fill="#ffffff">Copyright © 2026 企业资产与物资管理系统</text>
+</svg>

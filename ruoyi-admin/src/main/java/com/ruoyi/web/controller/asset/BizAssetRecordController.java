@@ -210,11 +210,22 @@ public class BizAssetRecordController extends BaseController
      * 获取物资流转统计
      */
     @ApiOperation("获取物资流转统计")
-    @ApiImplicitParam(name = "materialId", value = "物资ID", required = true, dataType = "Long", dataTypeClass = Long.class)
+    @ApiImplicitParam(name = "materialId", value = "物资ID（可选，不传则查询所有）", dataType = "Long", dataTypeClass = Long.class)
     @PreAuthorize("@ss.hasPermi('asset:record:list')")
     @GetMapping("/stats/{materialId}")
-    public AjaxResult stats(@PathVariable Long materialId)
+    public AjaxResult stats(@PathVariable(required = false) Long materialId)
     {
         return success(assetRecordService.selectRecordTypeStats(materialId));
+    }
+
+    /**
+     * 获取所有物资流转统计
+     */
+    @ApiOperation("获取所有物资流转统计")
+    @PreAuthorize("@ss.hasPermi('asset:record:list')")
+    @GetMapping("/stats")
+    public AjaxResult allStats()
+    {
+        return success(assetRecordService.selectRecordTypeStats(null));
     }
 }

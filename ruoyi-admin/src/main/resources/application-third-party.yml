@@ -15,3 +15,19 @@ third-party:
       SELECT id, code, name, address, contact_person, contact_phone, status
       FROM warehouse
       WHERE status = '0'
+
+  # Oracle数据库配置（用于资产数据同步）
+  oracle:
+    # Oracle JDBC连接地址
+    url: jdbc:oracle:thin:@192.200.45.173:1521:orcl
+    # 数据库用户名
+    username: IWELL_HZQS
+    # 数据库密码
+    password: your_password
+    # 驱动类名
+    driver-class-name: oracle.jdbc.OracleDriver
+    # 资产同步SQL
+    asset-sql: >
+      SELECT ID, KPBH, WZMC, GGXH, DJ, KSMC, ZT, BAR_CODE, PPMC, BZ, BGRXM, GRRQ, FLID
+      FROM IN_ASSET
+      WHERE ZFBZ = 0

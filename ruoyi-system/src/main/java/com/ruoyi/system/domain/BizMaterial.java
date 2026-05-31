@@ -31,6 +31,26 @@ public class BizMaterial extends BaseEntity
     @Excel(name = "资产编码")
     private String assetCode;
 
+    /** 第三方同步ID（用于URL二维码解析） */
+    @ApiModelProperty("第三方同步ID")
+    @Excel(name = "同步ID")
+    private String syncId;
+
+    /** 卡片编号（KPBH） */
+    @ApiModelProperty("卡片编号")
+    @Excel(name = "卡片编号")
+    private String kpbh;
+
+    /** 第三方组织编码 */
+    @ApiModelProperty("第三方组织编码")
+    @Excel(name = "组织编码")
+    private String syncOrgCode;
+
+    /** 数据来源（manual手动 sync同步） */
+    @ApiModelProperty("数据来源")
+    @Excel(name = "数据来源", readConverterExp = "manual=手动录入,sync=第三方同步")
+    private String dataSource;
+
     /** 物资名称 */
     @ApiModelProperty("物资名称")
     @Excel(name = "物资名称")
@@ -86,6 +106,11 @@ public class BizMaterial extends BaseEntity
     @Excel(name = "所在仓库ID")
     private Long warehouseId;
 
+    /** 保修期限（天） */
+    @ApiModelProperty("保修期限（天）")
+    @Excel(name = "保修期限(天)")
+    private Integer warrantyPeriod;
+
     /** 状态（0正常 1停用） */
     @ApiModelProperty("状态（0正常 1停用）")
     @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
@@ -129,6 +154,46 @@ public class BizMaterial extends BaseEntity
     public void setAssetCode(String assetCode)
     {
         this.assetCode = assetCode;
+    }
+
+    public String getSyncId()
+    {
+        return syncId;
+    }
+
+    public void setSyncId(String syncId)
+    {
+        this.syncId = syncId;
+    }
+
+    public String getKpbh()
+    {
+        return kpbh;
+    }
+
+    public void setKpbh(String kpbh)
+    {
+        this.kpbh = kpbh;
+    }
+
+    public String getSyncOrgCode()
+    {
+        return syncOrgCode;
+    }
+
+    public void setSyncOrgCode(String syncOrgCode)
+    {
+        this.syncOrgCode = syncOrgCode;
+    }
+
+    public String getDataSource()
+    {
+        return dataSource;
+    }
+
+    public void setDataSource(String dataSource)
+    {
+        this.dataSource = dataSource;
     }
 
     @NotBlank(message = "物资名称不能为空")
@@ -241,6 +306,16 @@ public class BizMaterial extends BaseEntity
     public void setWarehouseId(Long warehouseId)
     {
         this.warehouseId = warehouseId;
+    }
+
+    public Integer getWarrantyPeriod()
+    {
+        return warrantyPeriod;
+    }
+
+    public void setWarrantyPeriod(Integer warrantyPeriod)
+    {
+        this.warrantyPeriod = warrantyPeriod;
     }
 
     public String getStatus()

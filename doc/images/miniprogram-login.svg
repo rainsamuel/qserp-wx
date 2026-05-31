@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="750" viewBox="0 0 400 750">
+  <!-- Background -->
+  <rect width="400" height="750" fill="#f5f6fa"/>
+
+  <!-- Status Bar -->
+  <rect width="400" height="44" fill="#ffffff"/>
+  <text x="20" y="30" font-family="-apple-system, Arial" font-size="14" font-weight="600" fill="#1a1a1a">9:41</text>
+  <text x="320" y="30" font-family="Arial" font-size="11" fill="#1a1a1a">●●●●●</text>
+  <text x="365" y="30" font-family="Arial" font-size="12" fill="#1a1a1a">WiFi</text>
+  <rect x="380" y="18" width="10" height="12" rx="2" fill="#1a1a1a"/>
+  <rect x="392" y="20" width="2" height="8" rx="1" fill="#1a1a1a"/>
+
+  <!-- Login Container -->
+  <rect y="44" width="400" height="706" fill="#f5f6fa"/>
+
+  <!-- Header Section with Gradient Background -->
+  <defs>
+    <linearGradient id="headerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+  </defs>
+  <rect y="44" width="400" height="280" fill="url(#headerGradient)"/>
+
+  <!-- Decorative circles -->
+  <circle cx="50" cy="100" r="60" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="350" cy="200" r="80" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="300" cy="80" r="40" fill="rgba(255,255,255,0.06)"/>
+
+  <!-- Logo -->
+  <rect x="150" y="100" width="100" height="100" rx="24" fill="rgba(255,255,255,0.95)"/>
+  <rect x="170" y="120" width="60" height="60" rx="12" fill="#667eea"/>
+  <text x="200" y="160" text-anchor="middle" font-family="Arial" font-size="32" fill="#ffffff"> </text>
+
+  <!-- Title -->
+  <text x="200" y="240" text-anchor="middle" font-family="-apple-system, Microsoft YaHei, Arial" font-size="24" font-weight="600" fill="#ffffff">资产管理系统</text>
+  <text x="200" y="268" text-anchor="middle" font-family="-apple-system, Microsoft YaHei, Arial" font-size="14" fill="rgba(255,255,255,0.8)">请使用工号登录</text>
+
+  <!-- Login Form Card -->
+  <rect x="24" y="310" width="352" height="280" rx="16" fill="#ffffff"/>
+  <rect x="24" y="310" width="352" height="8" rx="4" fill="#667eea"/>
+
+  <!-- Username Input -->
+  <rect x="48" y="345" width="304" height="56" rx="12" fill="#f5f6fa"/>
+  <text x="72" y="378" font-family="Arial" font-size="18" fill="#667eea"> </text>
+  <text x="100" y="378" font-family="-apple-system, Microsoft YaHei, Arial" font-size="15" fill="#999999">请输入工号</text>
+
+  <!-- Password Input -->
+  <rect x="48" y="415" width="304" height="56" rx="12" fill="#f5f6fa"/>
+  <text x="72" y="448" font-family="Arial" font-size="18" fill="#667eea"> </text>
+  <text x="100" y="448" font-family="-apple-system, Microsoft YaHei, Arial" font-size="15" fill="#999999">请输入密码</text>
+
+  <!-- Login Button -->
+  <defs>
+    <linearGradient id="btnGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+    <filter id="btnShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#667eea" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <rect x="48" y="495" width="304" height="52" rx="26" fill="url(#btnGradient)" filter="url(#btnShadow)"/>
+  <text x="200" y="527" text-anchor="middle" font-family="-apple-system, Microsoft YaHei, Arial" font-size="17" font-weight="500" fill="#ffffff">登 录</text>
+
+  <!-- Footer -->
+  <text x="200" y="640" text-anchor="middle" font-family="-apple-system, Microsoft YaHei, Arial" font-size="12" fill="#cccccc">© 2026 企业资产与物资管理系统</text>
+
+  <!-- Home Indicator -->
+  <rect x="150" y="720" width="100" height="5" rx="2.5" fill="#1a1a1a"/>
+</svg>

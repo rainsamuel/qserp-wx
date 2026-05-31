@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <!-- Background -->
+  <rect width="1200" height="700" fill="#f0f2f5"/>
+
+  <!-- Top Navigation Bar -->
+  <rect width="1200" height="50" fill="#1d1d1d"/>
+  <text x="20" y="32" font-family="Microsoft YaHei, Arial" font-size="16" fill="#ffffff">企业资产与物资管理系统</text>
+  <text x="1130" y="32" font-family="Arial" font-size="14" fill="#ffffff">admin</text>
+  <circle cx="1170" cy="28" r="14" fill="#409eff"/>
+  <text x="1170" y="33" text-anchor="middle" font-family="Arial" font-size="11" fill="#ffffff">A</text>
+
+  <!-- Left Sidebar -->
+  <rect y="50" width="200" height="650" fill="#1d1d1d"/>
+  <rect x="0" y="50" width="200" height="45" fill="#409eff"/>
+  <text x="60" y="78" font-family="Microsoft YaHei, Arial" font-size="14" fill="#ffffff">📁 首页</text>
+  <text x="20" y="118" font-family="Microsoft YaHei, Arial" font-size="14" fill="#bfcbd9">📋 系统管理</text>
+  <text x="20" y="158" font-family="Microsoft YaHei, Arial" font-size="14" fill="#409eff">📦 仓库管理</text>
+  <rect x="0" y="165" width="200" height="35" fill="#2d2d2d"/>
+  <text x="40" y="188" font-family="Microsoft YaHei, Arial" font-size="13" fill="#409eff">仓库信息管理</text>
+  <text x="20" y="228" font-family="Microsoft YaHei, Arial" font-size="14" fill="#bfcbd9">📊 物资管理</text>
+  <text x="20" y="268" font-family="Microsoft YaHei, Arial" font-size="14" fill="#bfcbd9">💰 资产管理</text>
+  <text x="20" y="308" font-family="Microsoft YaHei, Arial" font-size="14" fill="#bfcbd9">🔍 巡检管理</text>
+  <text x="20" y="348" font-family="Microsoft YaHei, Arial" font-size="14" fill="#bfcbd9">🔧 报修管理</text>
+
+  <!-- Main Content Area -->
+  <rect x="200" y="50" width="1000" height="650" fill="#ffffff"/>
+
+  <!-- Page Title -->
+  <text x="220" y="85" font-family="Microsoft YaHei, Arial" font-size="16" fill="#303133">仓库信息管理</text>
+
+  <!-- Search Form -->
+  <rect x="210" y="100" width="980" height="60" fill="#f5f7fa" rx="4"/>
+  <text x="220" y="125" font-family="Microsoft YaHei, Arial" font-size="13" fill="#606266">仓库编码</text>
+  <rect x="290" y="110" width="150" height="32" rx="4" fill="#ffffff" stroke="#dcdfe6"/>
+  <text x="300" y="132" font-family="Microsoft YaHei, Arial" font-size="12" fill="#c0c4cc">请输入仓库编码</text>
+
+  <text x="460" y="125" font-family="Microsoft YaHei, Arial" font-size="13" fill="#606266">仓库名称</text>
+  <rect x="530" y="110" width="150" height="32" rx="4" fill="#ffffff" stroke="#dcdfe6"/>
+  <text x="540" y="132" font-family="Microsoft YaHei, Arial" font-size="12" fill="#c0c4cc">请输入仓库名称</text>
+
+  <text x="700" y="125" font-family="Microsoft YaHei, Arial" font-size="13" fill="#606266">状态</text>
+  <rect x="740" y="110" width="100" height="32" rx="4" fill="#ffffff" stroke="#dcdfe6"/>
+  <text x="750" y="132" font-family="Microsoft YaHei, Arial" font-size="12" fill="#c0c4cc">全部 ▼</text>
+
+  <rect x="870" y="110" width="60" height="32" rx="4" fill="#409eff"/>
+  <text x="900" y="132" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#ffffff">搜索</text>
+  <rect x="940" y="110" width="60" height="32" rx="4" fill="#ffffff" stroke="#dcdfe6"/>
+  <text x="970" y="132" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#606266">重置</text>
+
+  <!-- Action Buttons -->
+  <rect x="210" y="175" width="60" height="32" rx="4" fill="#409eff"/>
+  <text x="240" y="196" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#ffffff">+ 新增</text>
+  <rect x="280" y="175" width="60" height="32" rx="4" fill="#67c23a"/>
+  <text x="310" y="196" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#ffffff">修改</text>
+  <rect x="350" y="175" width="60" height="32" rx="4" fill="#f56c6c"/>
+  <text x="380" y="196" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#ffffff">删除</text>
+  <rect x="420" y="175" width="60" height="32" rx="4" fill="#e6a23c"/>
+  <text x="450" y="196" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#ffffff">导出</text>
+
+  <!-- Data Table -->
+  <rect x="210" y="220" width="980" height="30" fill="#f5f7fa"/>
+  <rect x="210" y="220" width="50" height="30" fill="#f5f7fa" stroke="#ebeef5"/>
+  <text x="235" y="240" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#909399">选择</text>
+  <rect x="260" y="220" width="120" height="30" fill="#f5f7fa" stroke="#ebeef5"/>
+  <text x="320" y="240" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#909399">仓库编码</text>
+  <rect x="380" y="220" width="150" height="30" fill="#f5f7fa" stroke="#ebeef5"/>
+  <text x="455" y="240" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#909399">仓库名称</text>
+  <rect x="530" y="220" width="200" height="30" fill="#f5f7fa" stroke="#ebeef5"/>
+  <text x="630" y="240" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#909399">仓库地址</text>
+  <rect x="730" y="220" width="100" height="30" fill="#f5f7fa" stroke="#ebeef5"/>
+  <text x="780" y="240" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#909399">联系人</text>
+  <rect x="830" y="220" width="120" height="30" fill="#f5f7fa" stroke="#ebeef5"/>
+  <text x="890" y="240" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#909399">联系电话</text>
+  <rect x="950" y="220" width="80" height="30" fill="#f5f7fa" stroke="#ebeef5"/>
+  <text x="990" y="240" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#909399">状态</text>
+  <rect x="1030" y="220" width="80" height="30" fill="#f5f7fa" stroke="#ebeef5"/>
+  <text x="1070" y="240" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#909399">操作</text>
+
+  <!-- Table Row 1 -->
+  <rect x="210" y="250" width="50" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <rect x="228" y="263" width="14" height="14" fill="#ffffff" stroke="#dcdfe6"/>
+  <rect x="260" y="250" width="120" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="320" y="278" text-anchor="middle" font-family="Arial" font-size="12" fill="#303133">WH001</text>
+  <rect x="380" y="250" width="150" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="455" y="278" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#303133">主仓库</text>
+  <rect x="530" y="250" width="200" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="630" y="278" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#303133">XX市XX区XX路1号</text>
+  <rect x="730" y="250" width="100" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="780" y="278" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#303133">张三</text>
+  <rect x="830" y="250" width="120" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="890" y="278" text-anchor="middle" font-family="Arial" font-size="12" fill="#303133">138****8888</text>
+  <rect x="950" y="250" width="80" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <rect x="978" y="265" width="24" height="14" rx="7" fill="#67c23a"/>
+  <rect x="980" y="267" width="10" height="10" rx="5" fill="#ffffff"/>
+  <rect x="1030" y="250" width="80" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="1050" y="278" font-family="Microsoft YaHei, Arial" font-size="12" fill="#409eff">修改</text>
+  <text x="1080" y="278" font-family="Microsoft YaHei, Arial" font-size="12" fill="#f56c6c">删除</text>
+
+  <!-- Table Row 2 -->
+  <rect x="210" y="295" width="50" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <rect x="228" y="308" width="14" height="14" fill="#ffffff" stroke="#dcdfe6"/>
+  <rect x="260" y="295" width="120" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="320" y="323" text-anchor="middle" font-family="Arial" font-size="12" fill="#303133">WH002</text>
+  <rect x="380" y="295" width="150" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="455" y="323" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#303133">备用仓库</text>
+  <rect x="530" y="295" width="200" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="630" y="323" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#303133">XX市XX区XX路2号</text>
+  <rect x="730" y="295" width="100" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="780" y="323" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#303133">李四</text>
+  <rect x="830" y="295" width="120" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="890" y="323" text-anchor="middle" font-family="Arial" font-size="12" fill="#303133">139****9999</text>
+  <rect x="950" y="295" width="80" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <rect x="978" y="310" width="24" height="14" rx="7" fill="#67c23a"/>
+  <rect x="980" y="312" width="10" height="10" rx="5" fill="#ffffff"/>
+  <rect x="1030" y="295" width="80" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="1050" y="323" font-family="Microsoft YaHei, Arial" font-size="12" fill="#409eff">修改</text>
+  <text x="1080" y="323" font-family="Microsoft YaHei, Arial" font-size="12" fill="#f56c6c">删除</text>
+
+  <!-- Table Row 3 -->
+  <rect x="210" y="340" width="50" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <rect x="228" y="353" width="14" height="14" fill="#ffffff" stroke="#dcdfe6"/>
+  <rect x="260" y="340" width="120" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="320" y="368" text-anchor="middle" font-family="Arial" font-size="12" fill="#303133">WH003</text>
+  <rect x="380" y="340" width="150" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="455" y="368" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#303133">临时仓库</text>
+  <rect x="530" y="340" width="200" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="630" y="368" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#303133">XX市XX区XX路3号</text>
+  <rect x="730" y="340" width="100" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="780" y="368" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#303133">王五</text>
+  <rect x="830" y="340" width="120" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="890" y="368" text-anchor="middle" font-family="Arial" font-size="12" fill="#303133">137****7777</text>
+  <rect x="950" y="340" width="80" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <rect x="978" y="355" width="24" height="14" rx="7" fill="#67c23a"/>
+  <rect x="980" y="357" width="10" height="10" rx="5" fill="#ffffff"/>
+  <rect x="1030" y="340" width="80" height="45" fill="#ffffff" stroke="#ebeef5"/>
+  <text x="1050" y="368" font-family="Microsoft YaHei, Arial" font-size="12" fill="#409eff">修改</text>
+  <text x="1080" y="368" font-family="Microsoft YaHei, Arial" font-size="12" fill="#f56c6c">删除</text>
+
+  <!-- Pagination -->
+  <rect x="210" y="530" width="980" height="35" fill="#ffffff"/>
+  <text x="220" y="552" font-family="Microsoft YaHei, Arial" font-size="12" fill="#606266">共 3 条</text>
+  <rect x="900" y="535" width="30" height="25" rx="4" fill="#409eff"/>
+  <text x="915" y="552" text-anchor="middle" font-family="Arial" font-size="12" fill="#ffffff">1</text>
+</svg>

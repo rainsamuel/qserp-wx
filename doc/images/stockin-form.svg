@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5f7fa"/>
+      <stop offset="100%" style="stop-color:#eef1f5"/>
+    </linearGradient>
+    <linearGradient id="header" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#409EFF"/>
+      <stop offset="100%" style="stop-color:#66b1ff"/>
+    </linearGradient>
+    <linearGradient id="sidebar" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#304156"/>
+      <stop offset="100%" style="stop-color:#263445"/>
+    </linearGradient>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#00000030"/>
+    </filter>
+    <filter id="overlay" x="0" y="0" width="100%" height="100%">
+      <feFlood flood-color="#000" flood-opacity="0.4"/>
+      <feComposite in2="SourceGraphic" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="900" height="560" fill="url(#bg)"/>
+
+  <!-- 顶部导航栏 -->
+  <rect width="900" height="50" fill="url(#header)"/>
+  <text x="20" y="32" fill="#fff" font-size="16" font-weight="bold" font-family="Microsoft YaHei">企业资产与物资管理系统</text>
+
+  <!-- 左侧菜单（半透明遮罩效果） -->
+  <rect x="0" y="50" width="180" height="510" fill="url(#sidebar)" opacity="0.3"/>
+
+  <!-- 遮罩层 -->
+  <rect x="0" y="0" width="900" height="560" fill="#000" opacity="0.3"/>
+
+  <!-- 对话框 -->
+  <rect x="100" y="40" width="700" height="480" rx="6" fill="#fff" filter="url(#shadow)"/>
+
+  <!-- 对话框标题栏 -->
+  <rect x="100" y="40" width="700" height="44" rx="6" fill="#fff"/>
+  <rect x="100" y="78" width="700" height="6" fill="#fff"/>
+  <text x="120" y="68" fill="#303133" font-size="16" font-weight="bold" font-family="Microsoft YaHei">新增入库单</text>
+  <text x="770" y="68" fill="#909399" font-size="18" font-family="Microsoft YaHei">×</text>
+  <line x1="100" y1="84" x2="800" y2="84" stroke="#ebeef5"/>
+
+  <!-- 表单区域 -->
+  <!-- 第一行 -->
+  <text x="120" y="110" fill="#606266" font-size="13" font-family="Microsoft YaHei">入库单号</text>
+  <rect x="200" y="96" width="180" height="30" rx="3" fill="#f5f7fa" stroke="#dcdfe6"/>
+  <text x="215" y="116" fill="#c0c4cc" font-size="12" font-family="Microsoft YaHei">自动生成</text>
+
+  <text x="400" y="110" fill="#606266" font-size="13" font-family="Microsoft YaHei">供应商</text>
+  <rect x="455" y="96" width="160" height="30" rx="3" fill="#fff" stroke="#dcdfe6"/>
+  <text x="470" y="116" fill="#303133" font-size="12" font-family="Microsoft YaHei">华为技术有限公司</text>
+
+  <text x="630" y="110" fill="#606266" font-size="13" font-family="Microsoft YaHei">入库仓库</text>
+  <rect x="700" y="96" width="80" height="30" rx="3" fill="#fff" stroke="#dcdfe6"/>
+  <text x="715" y="116" fill="#303133" font-size="12" font-family="Microsoft YaHei">主仓库 ▾</text>
+
+  <!-- 第二行 -->
+  <text x="120" y="150" fill="#606266" font-size="13" font-family="Microsoft YaHei">入库日期</text>
+  <rect x="200" y="136" width="180" height="30" rx="3" fill="#fff" stroke="#dcdfe6"/>
+  <text x="215" y="156" fill="#303133" font-size="12" font-family="Microsoft YaHei">2026-05-24</text>
+  <text x="365" y="156" fill="#909399" font-size="12" font-family="Microsoft YaHei">📅</text>
+
+  <text x="400" y="150" fill="#606266" font-size="13" font-family="Microsoft YaHei">发票号</text>
+  <rect x="455" y="136" width="160" height="30" rx="3" fill="#fff" stroke="#dcdfe6"/>
+  <text x="470" y="156" fill="#303133" font-size="12" font-family="Microsoft YaHei">INV-2026-0524</text>
+
+  <text x="630" y="150" fill="#606266" font-size="13" font-family="Microsoft YaHei">发票金额</text>
+  <rect x="700" y="136" width="80" height="30" rx="3" fill="#fff" stroke="#dcdfe6"/>
+  <text x="715" y="156" fill="#303133" font-size="12" font-family="Microsoft YaHei">85000</text>
+
+  <!-- 备注 -->
+  <text x="120" y="190" fill="#606266" font-size="13" font-family="Microsoft YaHei">备注</text>
+  <rect x="200" y="176" width="580" height="30" rx="3" fill="#fff" stroke="#dcdfe6"/>
+  <text x="215" y="196" fill="#303133" font-size="12" font-family="Microsoft YaHei">5月份服务器设备采购入库</text>
+
+  <!-- 分割线 -->
+  <line x1="120" y1="220" x2="780" y2="220" stroke="#ebeef5"/>
+  <rect x="380" y="213" width="80" height="14" fill="#fff"/>
+  <text x="380" y="224" fill="#409EFF" font-size="12" font-family="Microsoft YaHei">入库明细</text>
+
+  <!-- 添加物资按钮 -->
+  <rect x="120" y="235" width="90" height="28" rx="3" fill="#409EFF"/>
+  <text x="133" y="254" fill="#fff" font-size="12" font-family="Microsoft YaHei">+ 添加物资</text>
+
+  <!-- 明细表格 -->
+  <rect x="120" y="273" width="660" height="28" fill="#f5f7fa"/>
+  <text x="130" y="292" fill="#909399" font-size="11" font-family="Microsoft YaHei">物资</text>
+  <text x="290" y="292" fill="#909399" font-size="11" font-family="Microsoft YaHei">规格型号</text>
+  <text x="380" y="292" fill="#909399" font-size="11" font-family="Microsoft YaHei">单位</text>
+  <text x="420" y="292" fill="#909399" font-size="11" font-family="Microsoft YaHei">数量</text>
+  <text x="470" y="292" fill="#909399" font-size="11" font-family="Microsoft YaHei">单价</text>
+  <text x="530" y="292" fill="#909399" font-size="11" font-family="Microsoft YaHei">批次号</text>
+  <text x="610" y="292" fill="#909399" font-size="11" font-family="Microsoft YaHei">保修期限</text>
+  <text x="710" y="292" fill="#909399" font-size="11" font-family="Microsoft YaHei">操作</text>
+
+  <!-- 明细行1 -->
+  <rect x="120" y="301" width="660" height="34" fill="#fff"/>
+  <line x1="120" y1="335" x2="780" y2="335" stroke="#ebeef5"/>
+  <text x="130" y="323" fill="#606266" font-size="11" font-family="Microsoft YaHei">M001 - 服务器PowerEdge R740</text>
+  <text x="290" y="323" fill="#606266" font-size="11" font-family="Microsoft YaHei">2U机架式</text>
+  <text x="385" y="323" fill="#606266" font-size="11" font-family="Microsoft YaHei">台</text>
+  <text x="425" y="323" fill="#606266" font-size="11" font-family="Microsoft YaHei">5</text>
+  <text x="465" y="323" fill="#606266" font-size="11" font-family="Microsoft YaHei">12000</text>
+  <text x="535" y="323" fill="#606266" font-size="11" font-family="Microsoft YaHei">B20260524</text>
+  <text x="630" y="323" fill="#606266" font-size="11" font-family="Microsoft YaHei">365天</text>
+  <text x="725" y="323" fill="#f56c6c" font-size="11" font-family="Microsoft YaHei">删除</text>
+
+  <!-- 明细行2 -->
+  <rect x="120" y="335" width="660" height="34" fill="#fafafa"/>
+  <line x1="120" y1="369" x2="780" y2="369" stroke="#ebeef5"/>
+  <text x="130" y="357" fill="#606266" font-size="11" font-family="Microsoft YaHei">M002 - 网络交换机S5735</text>
+  <text x="290" y="357" fill="#606266" font-size="11" font-family="Microsoft YaHei">48口千兆</text>
+  <text x="385" y="357" fill="#606266" font-size="11" font-family="Microsoft YaHei">台</text>
+  <text x="425" y="357" fill="#606266" font-size="11" font-family="Microsoft YaHei">10</text>
+  <text x="465" y="357" fill="#606266" font-size="11" font-family="Microsoft YaHei">3500</text>
+  <text x="535" y="357" fill="#606266" font-size="11" font-family="Microsoft YaHei">B20260524</text>
+  <text x="630" y="357" fill="#606266" font-size="11" font-family="Microsoft YaHei">730天</text>
+  <text x="725" y="357" fill="#f56c6c" font-size="11" font-family="Microsoft YaHei">删除</text>
+
+  <!-- 明细行3 -->
+  <rect x="120" y="369" width="660" height="34" fill="#fff"/>
+  <line x1="120" y1="403" x2="780" y2="403" stroke="#ebeef5"/>
+  <text x="130" y="391" fill="#606266" font-size="11" font-family="Microsoft YaHei">M003 - UPS不间断电源</text>
+  <text x="290" y="391" fill="#606266" font-size="11" font-family="Microsoft YaHei">3KVA在线式</text>
+  <text x="385" y="391" fill="#606266" font-size="11" font-family="Microsoft YaHei">台</text>
+  <text x="425" y="391" fill="#606266" font-size="11" font-family="Microsoft YaHei">10</text>
+  <text x="465" y="391" fill="#606266" font-size="11" font-family="Microsoft YaHei">1500</text>
+  <text x="535" y="391" fill="#606266" font-size="11" font-family="Microsoft YaHei">B20260524</text>
+  <text x="630" y="391" fill="#606266" font-size="11" font-family="Microsoft YaHei">365天</text>
+  <text x="725" y="391" fill="#f56c6c" font-size="11" font-family="Microsoft YaHei">删除</text>
+
+  <!-- 合计 -->
+  <rect x="120" y="403" width="660" height="30" fill="#f5f7fa"/>
+  <text x="300" y="423" fill="#606266" font-size="12" font-weight="bold" font-family="Microsoft YaHei">合计</text>
+  <text x="415" y="423" fill="#409EFF" font-size="12" font-weight="bold" font-family="Microsoft YaHei">25</text>
+  <text x="530" y="423" fill="#409EFF" font-size="12" font-weight="bold" font-family="Microsoft YaHei">¥85,000</text>
+
+  <!-- 按钮区域 -->
+  <line x1="100" y1="470" x2="800" y2="470" stroke="#ebeef5"/>
+  <rect x="600" y="480" width="80" height="32" rx="4" fill="#409EFF"/>
+  <text x="622" y="501" fill="#fff" font-size="13" font-family="Microsoft YaHei">确 定</text>
+  <rect x="695" y="480" width="80" height="32" rx="4" fill="#fff" stroke="#dcdfe6"/>
+  <text x="717" y="501" fill="#606266" font-size="13" font-family="Microsoft YaHei">取 消</text>
+</svg>

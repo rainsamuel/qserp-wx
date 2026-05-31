@@ -58,6 +58,7 @@
       <el-table-column label="使用科室" align="center" prop="useDepartment" show-overflow-tooltip />
       <el-table-column label="位置" align="center" prop="location" show-overflow-tooltip />
       <el-table-column label="管理科室" align="center" prop="manageDepartment" show-overflow-tooltip />
+      <el-table-column label="保修期限(天)" align="center" prop="warrantyPeriod" width="100" />
       <el-table-column label="单价" align="center" prop="unitPrice" width="80">
         <template slot-scope="scope">
           <span>{{ scope.row.unitPrice ? '¥' + scope.row.unitPrice : '-' }}</span>
@@ -126,6 +127,9 @@
         <el-form-item label="单价" prop="unitPrice">
           <el-input-number v-model="form.unitPrice" :min="0" :precision="2" controls-position="right" placeholder="请输入单价" />
         </el-form-item>
+        <el-form-item label="保修期限(天)" prop="warrantyPeriod">
+          <el-input-number v-model="form.warrantyPeriod" :min="0" controls-position="right" placeholder="请输入保修期限" />
+        </el-form-item>
         <el-form-item label="供应商" prop="supplier">
           <el-input v-model="form.supplier" placeholder="请输入供应商" />
         </el-form-item>
@@ -181,6 +185,7 @@
             <el-descriptions-item label="位置">{{ detailData.location || '-' }}</el-descriptions-item>
             <el-descriptions-item label="管理科室">{{ detailData.manageDepartment || '-' }}</el-descriptions-item>
             <el-descriptions-item label="单价">{{ detailData.unitPrice ? '¥' + detailData.unitPrice : '-' }}</el-descriptions-item>
+            <el-descriptions-item label="保修期限">{{ detailData.warrantyPeriod ? detailData.warrantyPeriod + '天' : '-' }}</el-descriptions-item>
             <el-descriptions-item label="供应商">{{ detailData.supplier || '-' }}</el-descriptions-item>
             <el-descriptions-item label="状态">
               <dict-tag :options="dict.type.sys_normal_disable" :value="detailData.status" />
@@ -377,6 +382,7 @@ export default {
         manageDepartment: undefined,
         unitPrice: undefined,
         supplier: undefined,
+        warrantyPeriod: undefined,
         status: "0",
         remark: undefined
       }

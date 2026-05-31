@@ -21,9 +21,6 @@ import com.ruoyi.system.service.IBizManualService;
 @Service
 public class BizManualServiceImpl implements IBizManualService
 {
-    /** 说明书文件上传目录 */
-    private static final String MANUAL_UPLOAD_DIR = RuoYiConfig.getProfile() + "/manual";
-
     @Autowired
     private BizManualMapper manualMapper;
 
@@ -106,7 +103,9 @@ public class BizManualServiceImpl implements IBizManualService
      */
     private void uploadFile(BizManual manual, MultipartFile file) throws Exception
     {
-        String fileName = FileUploadUtils.upload(MANUAL_UPLOAD_DIR, file);
+        // 动态获取上传目录，避免静态初始化时RuoYiConfig未加载的问题
+        String uploadDir = RuoYiConfig.getProfile() + "/manual";
+        String fileName = FileUploadUtils.upload(uploadDir, file);
         manual.setFileName(FileUtils.getName(fileName));
         manual.setOriginalName(file.getOriginalFilename());
         manual.setFilePath(fileName);

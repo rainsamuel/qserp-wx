@@ -4,29 +4,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.BizMaterialMapper">
 
-	<resultMap type="BizMaterial" id="BizMaterialResult">
-		<id     property="materialId"     column="material_id"     />
-		<result property="materialCode"   column="material_code"   />
-		<result property="assetCode"      column="asset_code"      />
-		<result property="materialName"   column="material_name"   />
-		<result property="categoryId"     column="category_id"     />
-		<result property="spec"           column="spec"            />
-		<result property="unit"           column="unit"            />
-		<result property="stockQuantity"  column="stock_quantity"  />
-		<result property="warehouseId"    column="warehouse_id"    />
-		<result property="status"         column="status"          />
-		<result property="createBy"       column="create_by"       />
-		<result property="createTime"     column="create_time"     />
-		<result property="updateBy"       column="update_by"       />
-		<result property="updateTime"     column="update_time"     />
-		<result property="remark"         column="remark"          />
-		<result property="categoryName"   column="category_name"   />
-		<result property="warehouseName"  column="warehouse_name"  />
+	<resultMap type="com.ruoyi.system.domain.BizMaterial" id="BizMaterialResult">
+		<id     property="materialId"      column="material_id"      />
+		<result property="materialCode"    column="material_code"    />
+		<result property="assetCode"       column="asset_code"       />
+		<result property="syncId"          column="sync_id"          />
+		<result property="kpbh"            column="kpbh"             />
+		<result property="syncOrgCode"     column="sync_org_code"    />
+		<result property="dataSource"      column="data_source"      />
+		<result property="materialName"    column="material_name"    />
+		<result property="categoryId"      column="category_id"      />
+		<result property="spec"            column="spec"             />
+		<result property="unit"            column="unit"             />
+		<result property="stockQuantity"   column="stock_quantity"   />
+		<result property="warehouseId"     column="warehouse_id"     />
+		<result property="useDepartment"   column="use_department"   />
+		<result property="location"        column="location"         />
+		<result property="manageDepartment" column="manage_department"/>
+		<result property="unitPrice"       column="unit_price"       />
+		<result property="supplier"        column="supplier"         />
+		<result property="warrantyPeriod"  column="warranty_period"  />
+		<result property="status"          column="status"           />
+		<result property="createBy"        column="create_by"        />
+		<result property="createTime"      column="create_time"      />
+		<result property="updateBy"        column="update_by"        />
+		<result property="updateTime"      column="update_time"      />
+		<result property="remark"          column="remark"           />
+		<result property="categoryName"    column="category_name"    />
+		<result property="warehouseName"   column="warehouse_name"   />
 	</resultMap>
 
 	<sql id="selectMaterialVo">
-        select m.material_id, m.material_code, m.asset_code, m.material_name, m.category_id,
-               m.spec, m.unit, m.stock_quantity, m.warehouse_id, m.status,
+        select m.material_id, m.material_code, m.asset_code, m.sync_id, m.kpbh, m.sync_org_code,
+               m.data_source, m.material_name, m.category_id, m.spec, m.unit, m.stock_quantity,
+               m.warehouse_id, m.warranty_period, m.status, m.use_department, m.location,
+               m.manage_department, m.unit_price, m.supplier,
                m.create_by, m.create_time, m.update_by, m.update_time, m.remark,
                c.category_name, w.warehouse_name
         from biz_material m
@@ -34,11 +46,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join biz_warehouse w on m.warehouse_id = w.warehouse_id
     </sql>
 
-	<select id="selectMaterialList" parameterType="BizMaterial" resultMap="BizMaterialResult">
+	<select id="selectMaterialList" parameterType="com.ruoyi.system.domain.BizMaterial" resultMap="BizMaterialResult">
 	    <include refid="selectMaterialVo"/>
 		<where>
 			<if test="materialCode != null and materialCode != ''">
-				AND m.material_code like concat('%', #{materialCode}, '%')
+				AND (m.material_code like concat('%', #{materialCode}, '%') OR m.kpbh like concat('%', #{materialCode}, '%'))
 			</if>
 			<if test="materialName != null and materialName != ''">
 				AND m.material_name like concat('%', #{materialName}, '%')
@@ -52,30 +64,98 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="status != null and status != ''">
 				AND m.status = #{status}
 			</if>
+			<if test="assetCode != null and assetCode != ''">
+				AND (m.asset_code = #{assetCode} OR m.sync_id = #{assetCode} OR m.kpbh = #{assetCode} OR m.material_code = #{assetCode})
+			</if>
+			<if test="syncId != null and syncId != ''">
+				AND m.sync_id = #{syncId}
+			</if>
+			<if test="kpbh != null and kpbh != ''">
+				AND m.kpbh = #{kpbh}
+			</if>
 		</where>
 		order by m.create_time desc
 	</select>
 
-	<select id="selectMaterialById" parameterType="Long" resultMap="BizMaterialResult">
+	<select id="selectMaterialById" parameterType="java.lang.Long" resultMap="BizMaterialResult">
 		<include refid="selectMaterialVo"/>
 		where m.material_id = #{materialId}
 	</select>
 
-	<select id="selectMaterialByCode" parameterType="String" resultMap="BizMaterialResult">
+	<select id="selectMaterialByCode" parameterType="java.lang.String" resultMap="BizMaterialResult">
 		<include refid="selectMaterialVo"/>
 		where m.material_code = #{materialCode} limit 1
 	</select>
 
-	<insert id="insertMaterial" parameterType="BizMaterial" useGeneratedKeys="true" keyProperty="materialId">
+	<select id="selectMaterialByAssetCode" parameterType="java.lang.String" resultMap="BizMaterialResult">
+		<include refid="selectMaterialVo"/>
+		where m.asset_code = #{assetCode} limit 1
+	</select>
+
+	<select id="selectMaterialBySyncId" parameterType="java.lang.String" resultMap="BizMaterialResult">
+		<include refid="selectMaterialVo"/>
+		where m.sync_id = #{syncId}
+		<if test="orgCode != null and orgCode != ''">
+			and m.sync_org_code = #{orgCode}
+		</if>
+		limit 1
+	</select>
+
+	<select id="selectMaterialBySyncIdOnly" parameterType="java.lang.String" resultMap="BizMaterialResult">
+		<include refid="selectMaterialVo"/>
+		where m.sync_id = #{syncId}
+		limit 1
+	</select>
+
+	<select id="selectMaterialByKpbh" parameterType="java.lang.String" resultMap="BizMaterialResult">
+		<include refid="selectMaterialVo"/>
+		where m.kpbh = #{kpbh} limit 1
+	</select>
+
+	<select id="selectMaterialByQRCode" parameterType="java.lang.String" resultMap="BizMaterialResult">
+		<include refid="selectMaterialVo"/>
+		<where>
+			<choose>
+				<when test="codeType == 'url'">
+					AND m.sync_id = #{syncId}
+					<if test="orgCode != null and orgCode != ''">
+						AND m.sync_org_code = #{orgCode}
+					</if>
+				</when>
+				<when test="codeType == 'asset'">
+					AND m.asset_code = #{code}
+				</when>
+				<when test="codeType == 'kpbh'">
+					AND m.kpbh = #{code}
+				</when>
+				<otherwise>
+					AND (m.material_code = #{code} OR m.asset_code = #{code} OR m.kpbh = #{code})
+				</otherwise>
+			</choose>
+		</where>
+		limit 1
+	</select>
+
+	<insert id="insertMaterial" parameterType="com.ruoyi.system.domain.BizMaterial" useGeneratedKeys="true" keyProperty="materialId">
 		insert into biz_material(
 			<if test="materialCode != null and materialCode != ''">material_code,</if>
 			<if test="assetCode != null and assetCode != ''">asset_code,</if>
+			<if test="syncId != null and syncId != ''">sync_id,</if>
+			<if test="kpbh != null and kpbh != ''">kpbh,</if>
+			<if test="syncOrgCode != null and syncOrgCode != ''">sync_org_code,</if>
+			<if test="dataSource != null and dataSource != ''">data_source,</if>
 			<if test="materialName != null and materialName != ''">material_name,</if>
 			<if test="categoryId != null">category_id,</if>
 			<if test="spec != null and spec != ''">spec,</if>
 			<if test="unit != null and unit != ''">unit,</if>
 			<if test="stockQuantity != null">stock_quantity,</if>
 			<if test="warehouseId != null">warehouse_id,</if>
+			<if test="warrantyPeriod != null">warranty_period,</if>
+			<if test="useDepartment != null and useDepartment != ''">use_department,</if>
+			<if test="location != null and location != ''">location,</if>
+			<if test="manageDepartment != null and manageDepartment != ''">manage_department,</if>
+			<if test="unitPrice != null">unit_price,</if>
+			<if test="supplier != null and supplier != ''">supplier,</if>
 			<if test="status != null and status != ''">status,</if>
 			<if test="remark != null and remark != ''">remark,</if>
 			<if test="createBy != null and createBy != ''">create_by,</if>
@@ -83,12 +163,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)values(
 			<if test="materialCode != null and materialCode != ''">#{materialCode},</if>
 			<if test="assetCode != null and assetCode != ''">#{assetCode},</if>
+			<if test="syncId != null and syncId != ''">#{syncId},</if>
+			<if test="kpbh != null and kpbh != ''">#{kpbh},</if>
+			<if test="syncOrgCode != null and syncOrgCode != ''">#{syncOrgCode},</if>
+			<if test="dataSource != null and dataSource != ''">#{dataSource},</if>
 			<if test="materialName != null and materialName != ''">#{materialName},</if>
 			<if test="categoryId != null">#{categoryId},</if>
 			<if test="spec != null and spec != ''">#{spec},</if>
 			<if test="unit != null and unit != ''">#{unit},</if>
 			<if test="stockQuantity != null">#{stockQuantity},</if>
 			<if test="warehouseId != null">#{warehouseId},</if>
+			<if test="warrantyPeriod != null">#{warrantyPeriod},</if>
+			<if test="useDepartment != null and useDepartment != ''">#{useDepartment},</if>
+			<if test="location != null and location != ''">#{location},</if>
+			<if test="manageDepartment != null and manageDepartment != ''">#{manageDepartment},</if>
+			<if test="unitPrice != null">#{unitPrice},</if>
+			<if test="supplier != null and supplier != ''">#{supplier},</if>
 			<if test="status != null and status != ''">#{status},</if>
 			<if test="remark != null and remark != ''">#{remark},</if>
 			<if test="createBy != null and createBy != ''">#{createBy},</if>
@@ -96,17 +186,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</insert>
 
-	<update id="updateMaterial" parameterType="BizMaterial">
+	<update id="updateMaterial" parameterType="com.ruoyi.system.domain.BizMaterial">
  		update biz_material
  		<set>
  			<if test="materialCode != null and materialCode != ''">material_code = #{materialCode},</if>
  			<if test="assetCode != null">asset_code = #{assetCode},</if>
+ 			<if test="syncId != null">sync_id = #{syncId},</if>
+ 			<if test="kpbh != null">kpbh = #{kpbh},</if>
+ 			<if test="syncOrgCode != null">sync_org_code = #{syncOrgCode},</if>
+ 			<if test="dataSource != null">data_source = #{dataSource},</if>
  			<if test="materialName != null and materialName != ''">material_name = #{materialName},</if>
  			<if test="categoryId != null">category_id = #{categoryId},</if>
  			<if test="spec != null">spec = #{spec},</if>
  			<if test="unit != null">unit = #{unit},</if>
  			<if test="stockQuantity != null">stock_quantity = #{stockQuantity},</if>
  			<if test="warehouseId != null">warehouse_id = #{warehouseId},</if>
+ 			<if test="warrantyPeriod != null">warranty_period = #{warrantyPeriod},</if>
+ 			<if test="useDepartment != null">use_department = #{useDepartment},</if>
+ 			<if test="location != null">location = #{location},</if>
+ 			<if test="manageDepartment != null">manage_department = #{manageDepartment},</if>
+ 			<if test="unitPrice != null">unit_price = #{unitPrice},</if>
+ 			<if test="supplier != null">supplier = #{supplier},</if>
  			<if test="status != null and status != ''">status = #{status},</if>
  			<if test="remark != null">remark = #{remark},</if>
  			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
@@ -115,11 +215,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		where material_id = #{materialId}
 	</update>
 
-	<delete id="deleteMaterialById" parameterType="Long">
+	<delete id="deleteMaterialById" parameterType="java.lang.Long">
 		delete from biz_material where material_id = #{materialId}
 	</delete>
 
-	<delete id="deleteMaterialByIds" parameterType="Long">
+	<delete id="deleteMaterialByIds">
  		delete from biz_material where material_id in
  		<foreach collection="array" item="materialId" open="(" separator="," close=")">
  			#{materialId}

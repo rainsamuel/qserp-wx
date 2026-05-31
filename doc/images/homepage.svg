@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <!-- Background -->
+  <rect width="1200" height="700" fill="#f0f2f5"/>
+
+  <!-- Top Navigation Bar -->
+  <rect width="1200" height="50" fill="#1d1d1d"/>
+  <text x="20" y="32" font-family="Microsoft YaHei, Arial" font-size="16" fill="#ffffff">企业资产与物资管理系统</text>
+
+  <!-- Top Right Icons -->
+  <text x="1050" y="32" font-family="Arial" font-size="14" fill="#ffffff">⛶</text>
+  <text x="1090" y="32" font-family="Arial" font-size="14" fill="#ffffff">⚙</text>
+  <text x="1130" y="32" font-family="Arial" font-size="14" fill="#ffffff">admin</text>
+  <circle cx="1170" cy="28" r="14" fill="#409eff"/>
+  <text x="1170" y="33" text-anchor="middle" font-family="Arial" font-size="11" fill="#ffffff">A</text>
+
+  <!-- Left Sidebar -->
+  <rect y="50" width="200" height="650" fill="#1d1d1d"/>
+
+  <!-- Sidebar Menu Items -->
+  <rect x="0" y="50" width="200" height="45" fill="#409eff"/>
+  <text x="60" y="78" font-family="Microsoft YaHei, Arial" font-size="14" fill="#ffffff">📁 首页</text>
+
+  <text x="20" y="118" font-family="Microsoft YaHei, Arial" font-size="14" fill="#bfcbd9">📋 系统管理</text>
+  <text x="40" y="148" font-family="Microsoft YaHei, Arial" font-size="13" fill="#8b949e">用户管理</text>
+  <text x="40" y="178" font-family="Microsoft YaHei, Arial" font-size="13" fill="#8b949e">部门管理</text>
+  <text x="40" y="208" font-family="Microsoft YaHei, Arial" font-size="13" fill="#8b949e">岗位管理</text>
+  <text x="40" y="238" font-family="Microsoft YaHei, Arial" font-size="13" fill="#8b949e">角色管理</text>
+  <text x="40" y="268" font-family="Microsoft YaHei, Arial" font-size="13" fill="#8b949e">菜单管理</text>
+
+  <text x="20" y="308" font-family="Microsoft YaHei, Arial" font-size="14" fill="#bfcbd9">📦 仓库管理</text>
+  <text x="20" y="348" font-family="Microsoft YaHei, Arial" font-size="14" fill="#bfcbd9">📊 物资管理</text>
+  <text x="20" y="388" font-family="Microsoft YaHei, Arial" font-size="14" fill="#bfcbd9">💰 资产管理</text>
+  <text x="20" y="428" font-family="Microsoft YaHei, Arial" font-size="14" fill="#bfcbd9">🔍 巡检管理</text>
+  <text x="20" y="468" font-family="Microsoft YaHei, Arial" font-size="14" fill="#bfcbd9">🔧 报修管理</text>
+  <text x="20" y="508" font-family="Microsoft YaHei, Arial" font-size="14" fill="#bfcbd9">📊 系统监控</text>
+  <text x="20" y="548" font-family="Microsoft YaHei, Arial" font-size="14" fill="#bfcbd9">🛠 系统工具</text>
+
+  <!-- Tags Navigation -->
+  <rect x="200" y="50" width="1000" height="35" fill="#ffffff"/>
+  <rect x="210" y="55" width="70" height="25" rx="3" fill="#409eff"/>
+  <text x="245" y="72" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#ffffff">首页</text>
+  <rect x="290" y="55" width="80" height="25" rx="3" fill="#ffffff" stroke="#dcdfe6"/>
+  <text x="330" y="72" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="12" fill="#606266">用户管理</text>
+
+  <!-- Main Content Area -->
+  <rect x="210" y="90" width="980" height="600" fill="#ffffff" rx="4"/>
+
+  <!-- Welcome Content -->
+  <text x="690" y="150" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="24" fill="#303133">若依后台管理框架</text>
+  <text x="690" y="180" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="14" fill="#606266">企业资产与物资管理系统 V1.0</text>
+
+  <!-- Version Info -->
+  <text x="690" y="220" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="14" fill="#606266">当前版本: v3.9.2</text>
+
+  <!-- Tech Stack Cards -->
+  <rect x="250" y="260" width="180" height="120" rx="4" fill="#f5f7fa" stroke="#e4e7ed"/>
+  <text x="340" y="290" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="14" fill="#303133">后端技术</text>
+  <text x="260" y="315" font-family="Microsoft YaHei, Arial" font-size="12" fill="#606266">• SpringBoot</text>
+  <text x="260" y="335" font-family="Microsoft YaHei, Arial" font-size="12" fill="#606266">• Spring Security</text>
+  <text x="260" y="355" font-family="Microsoft YaHei, Arial" font-size="12" fill="#606266">• MyBatis</text>
+
+  <rect x="460" y="260" width="180" height="120" rx="4" fill="#f5f7fa" stroke="#e4e7ed"/>
+  <text x="550" y="290" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="14" fill="#303133">前端技术</text>
+  <text x="470" y="315" font-family="Microsoft YaHei, Arial" font-size="12" fill="#606266">• Vue.js</text>
+  <text x="470" y="335" font-family="Microsoft YaHei, Arial" font-size="12" fill="#606266">• Element UI</text>
+  <text x="470" y="355" font-family="Microsoft YaHei, Arial" font-size="12" fill="#606266">• Vuex</text>
+
+  <rect x="670" y="260" width="180" height="120" rx="4" fill="#f5f7fa" stroke="#e4e7ed"/>
+  <text x="760" y="290" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="14" fill="#303133">数据库</text>
+  <text x="680" y="315" font-family="Microsoft YaHei, Arial" font-size="12" fill="#606266">• MySQL 5.7+</text>
+  <text x="680" y="335" font-family="Microsoft YaHei, Arial" font-size="12" fill="#606266">• Redis 3.0+</text>
+
+  <rect x="880" y="260" width="180" height="120" rx="4" fill="#f5f7fa" stroke="#e4e7ed"/>
+  <text x="970" y="290" text-anchor="middle" font-family="Microsoft YaHei, Arial" font-size="14" fill="#303133">移动端</text>
+  <text x="890" y="315" font-family="Microsoft YaHei, Arial" font-size="12" fill="#606266">• 微信小程序</text>
+  <text x="890" y="335" font-family="Microsoft YaHei, Arial" font-size="12" fill="#606266">• 移动办公</text>
+</svg>

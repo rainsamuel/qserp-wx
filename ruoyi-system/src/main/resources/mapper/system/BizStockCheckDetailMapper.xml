@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizStockCheckDetailMapper">
+
+    <resultMap type="com.ruoyi.system.domain.BizStockCheckDetail" id="BizStockCheckDetailResult">
+        <id     property="detailId"        column="detail_id"        />
+        <result property="checkId"         column="check_id"         />
+        <result property="materialId"      column="material_id"      />
+        <result property="materialCode"    column="material_code"    />
+        <result property="materialName"    column="material_name"    />
+        <result property="categoryId"      column="category_id"      />
+        <result property="spec"            column="spec"             />
+        <result property="unit"            column="unit"             />
+        <result property="systemQuantity"  column="system_quantity"  />
+        <result property="actualQuantity"  column="actual_quantity"  />
+        <result property="diffQuantity"    column="diff_quantity"    />
+        <result property="unitPrice"       column="unit_price"       />
+        <result property="diffAmount"      column="diff_amount"      />
+        <result property="diffReason"      column="diff_reason"      />
+        <result property="remark"          column="remark"           />
+        <result property="createBy"        column="create_by"        />
+        <result property="createTime"      column="create_time"      />
+    </resultMap>
+
+    <select id="selectBizStockCheckDetailById" parameterType="Long" resultMap="BizStockCheckDetailResult">
+        select detail_id, check_id, material_id, material_code, material_name, category_id,
+               spec, unit, system_quantity, actual_quantity, diff_quantity, unit_price,
+               diff_amount, diff_reason, remark, create_by, create_time
+        from biz_stock_check_detail
+        where detail_id = #{detailId}
+    </select>
+
+    <select id="selectBizStockCheckDetailList" parameterType="com.ruoyi.system.domain.BizStockCheckDetail" resultMap="BizStockCheckDetailResult">
+        select detail_id, check_id, material_id, material_code, material_name, category_id,
+               spec, unit, system_quantity, actual_quantity, diff_quantity, unit_price,
+               diff_amount, diff_reason, remark, create_by, create_time
+        from biz_stock_check_detail
+        <where>
+            <if test="checkId != null">
+                AND check_id = #{checkId}
+            </if>
+            <if test="materialCode != null and materialCode != ''">
+                AND material_code like concat('%', #{materialCode}, '%')
+            </if>
+            <if test="materialName != null and materialName != ''">
+                AND material_name like concat('%', #{materialName}, '%')
+            </if>
+        </where>
+        order by detail_id
+    </select>
+
+    <select id="selectDetailByCheckId" parameterType="Long" resultMap="BizStockCheckDetailResult">
+        select detail_id, check_id, material_id, material_code, material_name, category_id,
+               spec, unit, system_quantity, actual_quantity, diff_quantity, unit_price,
+               diff_amount, diff_reason, remark, create_by, create_time
+        from biz_stock_check_detail
+        where check_id = #{checkId}
+        order by detail_id
+    </select>
+
+    <insert id="insertBizStockCheckDetail" parameterType="com.ruoyi.system.domain.BizStockCheckDetail" useGeneratedKeys="true" keyProperty="detailId">
+        insert into biz_stock_check_detail(
+            check_id,
+            <if test="materialId != null">material_id,</if>
+            <if test="materialCode != null and materialCode != ''">material_code,</if>
+            <if test="materialName != null and materialName != ''">material_name,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="spec != null and spec != ''">spec,</if>
+            <if test="unit != null and unit != ''">unit,</if>
+            system_quantity,
+            <if test="actualQuantity != null">actual_quantity,</if>
+            diff_quantity,
+            <if test="unitPrice != null">unit_price,</if>
+            diff_amount,
+            <if test="diffReason != null and diffReason != ''">diff_reason,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        )values(
+            #{checkId},
+            <if test="materialId != null">#{materialId},</if>
+            <if test="materialCode != null and materialCode != ''">#{materialCode},</if>
+            <if test="materialName != null and materialName != ''">#{materialName},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="spec != null and spec != ''">#{spec},</if>
+            <if test="unit != null and unit != ''">#{unit},</if>
+            #{systemQuantity},
+            <if test="actualQuantity != null">#{actualQuantity},</if>
+            #{diffQuantity},
+            <if test="unitPrice != null">#{unitPrice},</if>
+            #{diffAmount},
+            <if test="diffReason != null and diffReason != ''">#{diffReason},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        )
+    </insert>
+
+    <update id="updateBizStockCheckDetail" parameterType="com.ruoyi.system.domain.BizStockCheckDetail">
+        update biz_stock_check_detail
+        <set>
+            <if test="actualQuantity != null">actual_quantity = #{actualQuantity},</if>
+            <if test="diffQuantity != null">diff_quantity = #{diffQuantity},</if>
+            <if test="diffAmount != null">diff_amount = #{diffAmount},</if>
+            <if test="diffReason != null">diff_reason = #{diffReason},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where detail_id = #{detailId}
+    </update>
+
+    <delete id="deleteBizStockCheckDetailById" parameterType="Long">
+        delete from biz_stock_check_detail where detail_id = #{detailId}
+    </delete>
+
+    <delete id="deleteDetailByCheckId" parameterType="Long">
+        delete from biz_stock_check_detail where check_id = #{checkId}
+    </delete>
+
+    <delete id="deleteBizStockCheckDetailByIds">
+        delete from biz_stock_check_detail where detail_id in
+        <foreach collection="array" item="detailId" open="(" separator="," close=")">
+            #{detailId}
+        </foreach>
+    </delete>
+
+</mapper>

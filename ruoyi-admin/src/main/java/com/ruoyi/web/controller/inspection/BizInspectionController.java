@@ -88,11 +88,11 @@ public class BizInspectionController extends BaseController
     }
 
     /**
-     * 根据ID获取巡检记录详细信息（含明细）
+     * 根据ID获取巡检记录详细信息（含明细，小程序匿名访问）
      */
     @ApiOperation("获取巡检记录详细信息")
     @ApiImplicitParam(name = "inspectionId", value = "巡检ID", required = true, dataType = "Long", dataTypeClass = Long.class)
-    @PreAuthorize("@ss.hasPermi('inspection:info:query')")
+    @Anonymous
     @GetMapping(value = "/{inspectionId}")
     public AjaxResult getInfo(@PathVariable Long inspectionId)
     {
